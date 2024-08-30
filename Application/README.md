@@ -10,3 +10,4 @@ This application is going to be a GUI.
 Nick Reiss wn4123md@go.minnstate.edu
 Amin Mohamed Aminm246@gmail.com
 Hanad Musse hh9687rw@go.minnstate.edu
+Abdulmajeed Mohamed om4803df@go.minnstate.edu
