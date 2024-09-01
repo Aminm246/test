@@ -1,5 +1,5 @@
 # Recipes
-
+- User can favorite certain recipes for quick access
 ### Pictures
 - Picture of whole dish
 - Pictures for intermediate steps
@@ -10,6 +10,10 @@
 ### Scalability
 - Scales the overall recipe, as well as the individual instructions. Making sure the user
 doesn't have to go back to the beginning of the recipe to check the amounts again.
+
+### Categories
+- Different categories of dishes
+- Allow the user the favorite certain categories, allowing better recommendations at the start of page
 
 ### Calorie calculator
 
