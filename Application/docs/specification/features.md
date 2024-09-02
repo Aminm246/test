@@ -14,6 +14,8 @@ doesn't have to go back to the beginning of the recipe to check the amounts agai
 ### Categories
 - Different categories of dishes
 - Allow the user the favorite certain categories, allowing better recommendations at the start of page
+- Each recipe will belong to different categories or have different tags. (Beef,Pasta,High Carb, Low Carb,Paleo).
+This will allow users to search by tag to find a larger variety of dishes than clicking through categories alone.
 
 ### Calorie calculator
 
