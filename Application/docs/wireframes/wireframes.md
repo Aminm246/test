@@ -10,4 +10,4 @@ This is an example that we might use for our layout.
 
 Describe this screen and how it will be used.
 
-![Wireframe 2](./Nutritional Facts Wireframe.png)
+![Wireframe 2](./NutritionalFactsWireframe.png)
