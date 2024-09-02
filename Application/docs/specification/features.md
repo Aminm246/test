@@ -20,10 +20,7 @@ This will allow users to search by tag to find a larger variety of dishes than c
 ### Calorie calculator
 - The application automatically calculates nutritional information based on the recipe’s ingredients quantities and types.
 - Users can adjust quantities and ingredients to better meet their nutritional goals.
-- The application provides a nutritional breakdown in the following areas:
-      -	 Total calories
-      -	 Macronutrients: Carbohydrates, fat, protein, fiber, sugar, etc.
-      -	 Micronutrients: Vitamin A, B, C, etc.
+- The application provides a nutritional breakdown in the following areas: 1.) Total calories, 2.) Macronutrients: Carbohydrates, fat, protein, fiber, sugar, etc., 3.) Micronutrients: Vitamin A, B, C, etc.
 
 ### meal measurement - in grams
 
