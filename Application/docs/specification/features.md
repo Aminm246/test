@@ -25,6 +25,10 @@ This will allow users to search by tag to find a larger variety of dishes than c
 ### meal measurement - in grams
 
 ### Meal Planner
+-	Users can select recipes to make a meal plan for different meals throughout the week. The recipe provides the number of servings which can be mapped to different meals. 
+-	The application can track whether the meal plan is meeting the user’s dietary goals using the calorie and nutrient tracker. Dietary goals can include areas such as total calorie count or grams of protein for the day. 
+-	After selecting the recipes and making a meal plan, a grocery list is generated for any missing or required items.
+
 
 
 # Ingredient Tracker
