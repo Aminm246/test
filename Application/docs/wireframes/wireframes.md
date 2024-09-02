@@ -1,10 +1,10 @@
 # Wireframes
 
-## Screen Name 1
+## Recipe Website Example
 
-Describe this screen and how it will be used.
+This is an example that we might use for our layout.
 
-![Wireframe 1](./wireframe1.png)
+![Wireframe 1](./wireframeAmin.jpg)
 
 ## Screen Name 2
 
