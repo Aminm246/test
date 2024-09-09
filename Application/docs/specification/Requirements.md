@@ -3,8 +3,6 @@
 abctest
 test2.0
 
-deftest
-test3.0
 
 ## Non-functional requirement 1
 
