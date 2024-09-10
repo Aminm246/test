@@ -4,3 +4,6 @@
 - [Amin Mohamed] Added ideas to features.md, I created a wireframe and added it to wireframes.md, I also updated the readme.md file.
 - 	[Hanad Musse] Added ideas for features for nutrient counter and meal planner and included it into features.md. I also created two wireframes for nutrient counter and meal planner and added them into the wireframe folder. 
 - [Nick Reiss] Added a couple wireframes for layouts related to Recipes. (FullRecipeWireframe.png, EntreesWireframe.png)
+
+# Milestone 2
+- [Hanad Musse] Added two functional and non-functional requirements in Requirements.md. Also provided use cases, actors, preconditions, and flows for those requirements.  
