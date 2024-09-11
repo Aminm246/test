@@ -1,13 +1,14 @@
 # Non-functional Requirements 
 
-abctest
-test2.0
-
 ## Non-functional requirement 1
     The GUI of the application should be easy to use and understand.
 
 ## Non-functional requirement 2
     Page loading should not take longer than 3 seconds. 
+
+## Non-functional requirement 3
+    High modifiability. Through use of high orthogonality the program will be able to add new categories with ease. 
+    So the program can stay up to date with new trends in meals.
 
 # Functional Requirement 1 CRUD Operations for Recipes
     User can create, read, update, and delete recipes. 
@@ -15,6 +16,10 @@ test2.0
 # Functional Requirement 2 Browsing and Search Functions for Recipe
     The user has the ability to browse recipes through categories such as breakfast, low calorie, favorites, etc. In addition,
     user also has the capacity to search using recipe attributes such as name, calorie amount, ingredients, etc.
+
+# Functional Requirement 3 Ingredient Scalability
+    Within  the instructions of the recipe, the prep list, or within the meal planner, the user is able to scale the 
+    meal size/quantity.
 
 ## Actors
     The user of the application
