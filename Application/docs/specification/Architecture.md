@@ -1,7 +1,5 @@
 # Class Diagram 1 Name
 
-abc test1
-
 ## Description
 
 ## Diagram
