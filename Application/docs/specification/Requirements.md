@@ -7,8 +7,8 @@
     Page loading should not take longer than 3 seconds. 
 
 ## Non-functional requirement 3
-    High modifiability. Through use of high orthogonality the program will be able to add new categories with ease. 
-    So the program can stay up to date with new trends in meals.
+    High modifiability. Through use of high orthogonality the program will be able to add new categories and tags
+    with ease. So the program can stay up to date with new trends in meals.
 
 # Functional Requirement 1 CRUD Operations for Recipes
     User can create, read, update, and delete recipes. 
