@@ -21,6 +21,21 @@
     Within  the instructions of the recipe, the prep list, or within the meal planner, the user is able to scale the 
     meal size/quantity.
 
+# Functional Requirement 4 Favorites
+    Users can favorite recipes or categories.
+
+
+# Functional Requirement 5 Recipe Tags
+    Recipes will have tags that can be added and created by the user. They are different ways to categorize meals.
+
+
+# Functional Requirement 6 Grocery List
+    When a user selects recipe(s) they can generate a grocery list from them. It will also compare it to what ingredients 
+    the user has on hand, if the user uses that function of the program.
+
+# Functional Requirement 7 Ingredient Tracker
+    The ingredient tracker allows the user to input what ingredients they currently have to see what they need for certain recipes.
+    
 ## Actors
     The user of the application
     
