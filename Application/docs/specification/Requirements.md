@@ -34,7 +34,8 @@
 
 # Functional Requirement 7 Ingredient Tracker
     The ingredient tracker allows the user to input what ingredients they currently have to see what they need for certain recipes.
-    
+# Functional Requirment 8 Review Functionality
+    Allow the users to make comments and rate the recipe of a dish. 
 ## Actors
     The user of the application
     
