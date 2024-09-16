@@ -7,7 +7,7 @@ their ingredients to giving step-by-step instructions with a calorie breakdown f
 
 ## Group Members
 
-Nick Reiss <wn4123md@go.minnstate.edu> <br />
-Amin Mohamed <Aminm246@gmail.com> <br /> name on github is Aminm246.
+Nick Reiss <wn4123md@go.minnstate.edu> NickReiss <br /> 
+Amin Mohamed <Aminm246@gmail.com> name on github is Aminm246. <br /> 
 Hanad Musse <hh9687rw@go.minnstate.edu> <br />
 Abdulmajeed Mohamed <om4803df@go.minnstate.edu>

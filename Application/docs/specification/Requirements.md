@@ -10,32 +10,8 @@
     Images should be clickable and takes you to page that shows you the details of the recipe.
 
 # Functional Requirement 1 CRUD Operations for Recipes
-    User can create, read, update, and delete recipes. 
+    User can create, read, update, and delete recipes.
 
-# Functional Requirement 2 Browsing and Search Functions for Recipe
-    The user has the ability to browse recipes through categories such as breakfast, low calorie, favorites, etc. In addition,
-    user also has the capacity to search using recipe attributes such as name, calorie amount, ingredients, etc.
-
-# Functional Requirement 3 Ingredient Scalability
-    Within  the instructions of the recipe, the prep list, or within the meal planner, the user is able to scale the 
-    meal size/quantity.
-
-# Functional Requirement 4 Favorites
-    Users can favorite recipes or categories.
-
-
-# Functional Requirement 5 Recipe Tags
-    Recipes will have tags that can be added and created by the user. They are different ways to categorize meals.
-
-
-# Functional Requirement 6 Grocery List
-    When a user selects recipe(s) they can generate a grocery list from them. It will also compare it to what ingredients 
-    the user has on hand, if the user uses that function of the program.
-
-# Functional Requirement 7 Ingredient Tracker
-    The ingredient tracker allows the user to input what ingredients they currently have to see what they need for certain recipes.
-# Functional Requirment 8 Review Functionality
-    Allow the users to make comments and rate the recipe of a dish. 
 ## Actors
     The user of the application
     
@@ -78,6 +54,129 @@
     - Instead of submitting, user can cancel CRUD operations.
     - While user input is invalid, user is presented with an informative message that explains how to correct error.
     - User can exit and switch between pages/features.
+
+### Alternative flow 1
+
+### Alternative flow 2
+
+
+# Functional Requirement 2 Browsing Functions for Recipes
+    The user has the ability to browse recipes through categories such as breakfast, low calorie, favorites, etc. 
+
+## Actors
+    The user of the application
+
+## Use case goal
+    With enhanced browsing and searching functions, the user is able to quickly find a recipe that they are looking for.
+
+## Primary Actor
+    The user of the application
+
+## Preconditions
+    User must follow the correct procedure for browsing by category:
+        1.) User must select the category first.
+        2.) User must enter valid data (similar to the above req.) when using the search function. 
+
+## Basic flow
+    Flow for browsing/search 
+    1.) User selects category for recipe.
+    2.) User is presented with a list of recipes that meet the criteria.
+    3.) User uses the search bar to find the recipe by name.
+    4.) User views the recipe page. 
+
+
+## Alternative flows
+
+### Alternative flow 1
+
+### Alternative flow 2
+
+
+# Functional Requirement 3 Search Functions for Recipe
+    User has the capacity to search using recipe attributes such as name, calorie amount, ingredients, etc.
+
+## Actors
+    The user of the application
+
+## Use case goal
+    With enhanced browsing and searching functions, the user is able to quickly find a recipe that they are looking for.
+
+## Primary Actor
+    The user of the application
+
+## Preconditions
+    User must follow the correct procedure for browsing by category:
+        1.) User must select the category first.
+        2.) User must enter valid data (similar to the above req.) when using the search function. 
+
+## Basic flow
+    Flow for browsing/search 
+    1.) User selects category for recipe.
+    2.) User is presented with a list of recipes that meet the criteria.
+    3.) User uses the search bar to find the recipe by name.
+    4.) User views the recipe page. 
+
+
+## Alternative flows
+
+### Alternative flow 1
+
+### Alternative flow 2
+
+
+# Functional Requirement 4 View Recipes
+    Within  the instructions of the recipe, the prep list, or within the meal planner, the user is able to scale the 
+    meal size/quantity.
+
+## Actors
+    The user of the application
+
+## Use case goal
+    
+
+## Primary Actor
+
+## Preconditions
+
+## Basic flow
+
+## Alternative flows
+    
+### Alternative flow 1
+
+### Alternative flow 2
+
+# Functional Requirement 5 Ingredient Tracker
+    The ingredient tracker allows the user to input what ingredients they currently have to see what they need for certain recipes.
+## Actors
+
+## Use case goal
+
+## Primary Actor
+
+## Preconditions
+
+## Basic flow
+
+## Alternative flows
+
+### Alternative flow 1
+
+### Alternative flow 2
+
+# Functional Requirement 6 Review Functionality
+    Allow the users to make comments and rate the recipe of a dish.
+## Actors
+
+## Use case goal
+
+## Primary Actor
+
+## Preconditions
+
+## Basic flow
+
+## Alternative flows
 
 ### Alternative flow 1
 
