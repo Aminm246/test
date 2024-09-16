@@ -138,11 +138,11 @@
 # Functional Requirement 5 Ingredient Tracker
     The ingredient tracker allows the user to input what ingredients they currently have to see what they need for certain recipes.
 ## Actors
-
+    The user of the application
 ## Use case goal
-
+    Tell the user what ingredients they need to make the recipe at home.
 ## Primary Actor
-
+    The user of the application
 ## Preconditions
 
 ## Basic flow
