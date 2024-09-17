@@ -3,6 +3,7 @@
 ### Pictures
 - Picture of whole dish
 - Pictures for intermediate steps
+-  Images should be clickable and takes you to page that shows you the details of the recipe.
 
 ### Step-by-Step Instructions
 - Each instruction will include the quantity, as well as being listed at the top.

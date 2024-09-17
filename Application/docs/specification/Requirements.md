@@ -7,7 +7,7 @@
     Page loading should not take longer than 3 seconds. 
 
 ## Non-functional requirement 3
-    Images should be clickable and takes you to page that shows you the details of the recipe.
+   
 
 # Functional Requirement 1 CRUD Operations for Recipes
     User can create, read, update, and delete recipes.
