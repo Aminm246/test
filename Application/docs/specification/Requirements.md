@@ -39,11 +39,9 @@
     - Instead of submitting, user can cancel CRUD operations.
     - While user input is invalid, user is presented with an informative message that explains how to correct error.
     - User can exit and switch between pages/features.
-
 ### Alternative flow 1
 
 ### Alternative flow 2
-
 
 # Functional Requirement 2 Browsing Functions for Recipes
     The user has the ability to browse recipes through categories such as breakfast, low calorie, favorites, etc. 
@@ -60,18 +58,13 @@
 ## Preconditions
     User must follow the correct procedure for browsing by category:
         1.) User must select the category first.
-        2.) User must enter valid data (similar to the above req.) when using the search function. 
 
 ## Basic flow
-    Flow for browsing/search 
-    1.) User selects category for recipe.
-    2.) User is presented with a list of recipes that meet the criteria.
-    3.) User uses the search bar to find the recipe by name.
-    4.) User views the recipe page. 
+    1.) User uses the search bar to find the recipe by name.
+    2.) User views the recipe page. 
 
 
 ## Alternative flows
-
 ### Alternative flow 1
 
 ### Alternative flow 2
@@ -90,20 +83,13 @@
     The user of the application
 
 ## Preconditions
-    User must follow the correct procedure for browsing by category:
-        1.) User must select the category first.
-        2.) User must enter valid data (similar to the above req.) when using the search function. 
+    User must enter valid data (similar to the above req.) when using the search function. 
 
 ## Basic flow
-    Flow for browsing/search 
     1.) User selects category for recipe.
     2.) User is presented with a list of recipes that meet the criteria.
-    3.) User uses the search bar to find the recipe by name.
-    4.) User views the recipe page. 
-
 
 ## Alternative flows
-
 ### Alternative flow 1
 
 ### Alternative flow 2
@@ -120,23 +106,25 @@
     When the user clicks a recipe, either from browsing or searching, 
 
 ## Primary Actor
-
+    The user
 ## Preconditions
-
+    
 ## Basic flow
     1.) User clicks on a image to take them to the recipe page.
     2.) The system checks to see if the User has a global scale modifier on and adjusts accordingly.
     3.) The system displays the ingredients and recipe, along with the sidebar.
+    4.) User scrolls through recipe while cooking. 
+    5.) User shuts down program.
 
 ## Alternative flows
-    
 ### Alternative flow 1
     Favorite
 ### Alternative flow 2
     Scale the meal size/quantity.
 
-# Functional Requirement 5 Ingredient Tracker
-    The ingredient tracker allows the user to input what ingredients they currently have to see what they need for certain recipes.
+# Functional Requirement 5 Grocery List
+    The ingredient tracker allows the user to input what ingredients they currently have to see what they need
+    to buy for certain recipes.
 ## Actors
     The user of the application
 ## Use case goal
@@ -144,14 +132,25 @@
 ## Primary Actor
     The user of the application
 ## Preconditions
-
+    1.) The user must be using the ingredient tracker to be given the list
 ## Basic flow
+    1.) The user selects a recipe or recipes.
+    2.) The user checks grocery list
+    3.) The system asks the user if the global scale modifier is correct
+    4.) The user clicks yes
+    5.) The system gathers the list of ingredients, scales them up or down to the desired number.
+    6.) The system then subtracts from the list, the ingredients in the ingredient tracker.
+    7.) The system displays this list. With options [Print, Remove Used Ingredients from tracker,Exit]
+    8.) The user selects Print.
+    9.) The system sends the list to a pdf file.
+    10.) The user selects Exit.
+    11.) The system exits Grocery List into the home page.
 
 ## Alternative flows
-
 ### Alternative flow 1
-
+    Global Scale Modifier not set
 ### Alternative flow 2
+    Remove Used ingredients from tracker.
 
 # Functional Requirement 6 Review Functionality
     Allow the users to make comments and rate the recipe of a dish.
