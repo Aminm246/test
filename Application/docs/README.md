@@ -9,5 +9,5 @@ their ingredients to giving step-by-step instructions with a calorie breakdown f
 
 Nick Reiss <wn4123md@go.minnstate.edu> <br />
 Amin Mohamed <Aminm246@gmail.com> <br />
-Hanad Musse <hh9687rw@go.minnstate.edu> <br />
+Hanad Musse <hh9687rw@go.minnstate.edu> <hanadmse@gmail.com> <github username: hanadmse> <br />
 Abdulmajeed Mohamed <om4803df@go.minnstate.edu>
