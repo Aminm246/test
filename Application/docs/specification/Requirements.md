@@ -194,3 +194,6 @@
     8.) User selects to remove ingredients from list.
     9.) System finds the listed ingredients that are going to be consumed in the selected recipes.
     10.) System then removes them from the inventory tracker
+## Use Case Diagram
+![image](https://github.com/user-attachments/assets/5f6ef702-5b58-44cd-bc83-c7a88eae7b28)
+
