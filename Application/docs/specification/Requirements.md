@@ -133,7 +133,31 @@
 ### Alternative flow 1
     1.) System displays error message indicating that the recipe was not found.
     2.) User is sent to previous page.
-    
+
+# Functional Requirement 5 Search Functions for Recipe
+    User has the capacity to search using recipe attributes such as name, calorie amount, ingredients, etc.
+
+## Actors
+    The user of the application
+
+## Use case goal
+    With enhanced browsing and searching functions, the user is able to quickly find a recipe that they are looking for.
+
+## Primary Actor
+    The user of the application
+
+## Preconditions
+    User must enter valid data (similar to the above req.) when using the search function. 
+
+## Basic flow
+    1.) User selects category for recipe.
+    2.) User is presented with a list of recipes that meet the criteria.
+
+## Alternative flows
+### Alternative flow 1
+
+### Alternative flow 2
+
 # Functional Requirement 6 Grocery List
     The ingredient tracker allows the user to input what ingredients they currently have to see what they need
     to buy for certain recipes.
