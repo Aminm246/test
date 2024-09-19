@@ -7,122 +7,134 @@
     Page loading should not take longer than 3 seconds. 
 
 ## Non-functional requirement 3
-   
+    High modifiability. Through use of high orthogonality the program will be able to add new categories with ease. 
+    So the program can stay up to date with new trends in meals.
 
-# Functional Requirement 1 CRUD Operations for Recipes
-    User can create, read, update, and delete recipes.
-
-## Actors
-    The user of the application
-    
-## Use case goal
-    User is able to view, manage, and track their recipes through the use of CRUD operations.
-
-## Primary Actor
-    The user of the application
-
-## Preconditions
-    User must enter valid data that meets requirements for recipe creation:
-        1.) Valid ingredients (valid name, quantity, etc.)
-        2.) Valid recipe steps (String format, step number included)
-        3.) Input data matches expected type (User enters string for ingredient name or int for number of servings)
-        4.) Input data matches expected format (requirements such as non-empty data, no-spacing, etc.)
-
-## Basic flow
-    Flow for creating recipe
-    1.) User clicks button to create recipe
-    2.) User is prompted to enter recipe data such as ingredients, steps, and serving sizes.
-    3.) If input is valid, recipe is succesfully created and stored. 
-    4.) User proceeds to other parts of the program or performs additional CRUD operations.
-
-## Alternative flows
-    - Instead of submitting, user can cancel CRUD operations.
-    - While user input is invalid, user is presented with an informative message that explains how to correct error.
-    - User can exit and switch between pages/features.
-### Alternative flow 1
-
-### Alternative flow 2
-
-# Functional Requirement 2 Browsing Functions for Recipes
-    The user has the ability to browse recipes through categories such as breakfast, low calorie, favorites, etc. 
+# Functional Requirement 1 Create Recipe
 
 ## Actors
-    The user of the application
+    User 
+    System
 
 ## Use case goal
-    With enhanced browsing and searching functions, the user is able to quickly find a recipe that they are looking for.
+    Allows the user to create their own recipe. 
 
 ## Primary Actor
-    The user of the application
+    User
 
 ## Preconditions
-    User must follow the correct procedure for browsing by category:
-        1.) User must select the category first.
-
-## Basic flow
-    1.) User uses the search bar to find the recipe by name.
-    2.) User views the recipe page. 
-
-
-## Alternative flows
-### Alternative flow 1
-
-### Alternative flow 2
-
-
-# Functional Requirement 3 Search Functions for Recipe
-    User has the capacity to search using recipe attributes such as name, calorie amount, ingredients, etc.
-
-## Actors
-    The user of the application
-
-## Use case goal
-    With enhanced browsing and searching functions, the user is able to quickly find a recipe that they are looking for.
-
-## Primary Actor
-    The user of the application
-
-## Preconditions
-    User must enter valid data (similar to the above req.) when using the search function. 
-
-## Basic flow
-    1.) User selects category for recipe.
-    2.) User is presented with a list of recipes that meet the criteria.
-
-## Alternative flows
-### Alternative flow 1
-
-### Alternative flow 2
-
-
-# Functional Requirement 4 View Recipes
-    Within  the instructions of the recipe, the prep list, or within the meal planner, the user is able to scale the 
-    meal size/quantity.
-
-## Actors
-    The user of the application
-
-## Use case goal
-    When the user clicks a recipe, either from browsing or searching, 
-
-## Primary Actor
-    The user
-## Preconditions
+    User must be on the recipe page.
     
 ## Basic flow
-    1.) User clicks on a image to take them to the recipe page.
-    2.) The system checks to see if the User has a global scale modifier on and adjusts accordingly.
-    3.) The system displays the ingredients and recipe, along with the sidebar.
-    4.) User scrolls through recipe while cooking. 
-    5.) User shuts down program.
+    1.) User clicks on the create button to create the recipe.
+    2.) User inputs the recipe details.
+    3.) User submits the recipe.
+    4.) System performs input validation.
+    5.) Recipe is succesfully created and stored in the system.
+    6.) Recipe details are shown to the user.
 
 ## Alternative flows
-### Alternative flow 1
-    Favorite
-### Alternative flow 2
-    Scale the meal size/quantity.
 
-# Functional Requirement 5 Grocery List
+### Alternative flow 1
+    1.) System fails input validation for the recipe and provides the user an error message stating that the creation of the recipe failed.
+    2.) User is prompted to re-enter the details for the recipe to try again. 
+### Alternative flow 2
+    User has the ability to cancel instead of submitting the new recipe.
+# Functional Requirement 2 Read Recipe
+
+## Actors
+    -User
+    -System
+
+## Use case goal
+    -Allows the user to view the details for a particular recipe
+
+## Primary Actor
+    -User
+
+## Preconditions
+    -There is at least one recipe stored in the system.
+    -User is on the recipe page.
+    -Recipe exists within the system.
+
+## Basic flow
+    1.) User is on the recipe page.
+    2.) User selects a recipe.
+    3.) System retrieves the details for the recipe.
+    4.) The recipe page shows the details for the recipe to the user.
+
+## Alternative flows
+
+### Alternative flow 1
+    1.) System displays error message to user indicating that the recipe does not exist.
+    2.) User is sent to previous page.
+
+# Functional Requirement 3 Update Recipe
+
+## Actors
+    -User
+    -System
+
+## Use case goal
+    -Allows to user to update an existing recipe.
+
+## Primary Actor
+    -User
+
+## Preconditions
+    -There is at least one recipe stored in the system.
+    -Recipe exists in the system.
+    -User is on the recipe page.
+
+## Basic flow
+    1.) User selects the edit button
+    2.) User provides modifications to the recipe details
+    3.) User submits the changes.
+    4.) System performs input validation.
+    5.) Recipe is succesfully updated and changes are stored in the system.
+    6.) System displays recipe changes on the recipe page.
+
+## Alternative flows
+
+### Alternative flow 1
+    1.) System provides error message indicating that user provided invalid input.
+    2.) User is prompted to re-enter the details and try again.
+### Alternative flow 2
+    1.) System provides error message indicating that the recipe is not found.
+    2.) User is sent to the previous page.
+# Functional Requirement 4 Delete Recipe
+
+## Actors
+    -User
+    -System 
+
+## Use case goal
+    -Allows the user to delete an existing recipe.
+
+## Primary Actor
+    -User
+
+## Preconditions
+    -Recipe exists within the system
+    -There is at least one recipe within the system.
+    -User is on the recipe page 
+
+## Basic flow
+    1.) User selects the delete button
+    2.) User is prompted with a confirmation message.
+    3.) User confirms the deletion.
+    4.) System deletes the recipe. 
+    5.) Recipe is succesfully deleted and changes are stored in the system.
+    6.) System displays success message to the user.
+    7.) User is sent to the previous page.
+
+## Alternative flows
+
+### Alternative flow 1
+    1.) System displays error message indicating that the recipe was not found.
+    2.) User is sent to previous page.
+    
+# Functional Requirement 6 Grocery List
     The ingredient tracker allows the user to input what ingredients they currently have to see what they need
     to buy for certain recipes.
 ## Actors
@@ -151,21 +163,27 @@
     Global Scale Modifier not set
 ### Alternative flow 2
     Remove Used ingredients from tracker.
+    
+    # Functional Requirement 3 Search Functions for Recipe
+    User has the capacity to search using recipe attributes such as name, calorie amount, ingredients, etc.
 
-# Functional Requirement 6 Review Functionality
-    Allow the users to make comments and rate the recipe of a dish.
 ## Actors
+    The user of the application
 
 ## Use case goal
+    With enhanced browsing and searching functions, the user is able to quickly find a recipe that they are looking for.
 
 ## Primary Actor
+    The user of the application
 
 ## Preconditions
+    User must enter valid data (similar to the above req.) when using the search function. 
 
 ## Basic flow
+    1.) User selects category for recipe.
+    2.) User is presented with a list of recipes that meet the criteria.
 
 ## Alternative flows
-
 ### Alternative flow 1
 
 ### Alternative flow 2
