@@ -7,7 +7,7 @@
     Page loading should not take longer than 3 seconds. 
 
 ## Non-functional requirement 3
-    High modifiability. Through use of high orthogonality the program will be able to add new categories with ease. 
+    High modifiability. Through use of high orthogonality the program will be able to add new categories and tags with ease. 
     So the program can stay up to date with new trends in meals.
 
 # Functional Requirement 1 Create Recipe
@@ -141,22 +141,26 @@
     The user of the application
 
 ## Use case goal
-    With enhanced browsing and searching functions, the user is able to quickly find a recipe that they are looking for.
+    With enhanced searching functions, the user is able to quickly find a recipe that they are looking for.
 
 ## Primary Actor
     The user of the application
 
 ## Preconditions
-    User must enter valid data (similar to the above req.) when using the search function. 
+    User must enter valid data when using the search function. 
 
 ## Basic flow
-    1.) User selects category for recipe.
-    2.) User is presented with a list of recipes that meet the criteria.
+    1.) User clicks the search button
+    2.) System displays a search bar
+    3.) User inputs text into search bar
+    4.) System displays similar results to input. Prioritises recipe name results over categories or tags.
+    5.) User selects a recipe or grouping.
+    6.) The system displays that content.
 
 ## Alternative flows
-### Alternative flow 1
-
-### Alternative flow 2
+### Alternative flow 1 
+    4.) Text inputted is invalid.
+    5.) System displays the error and asks the user to try again.
 
 # Functional Requirement 6 Grocery List
     The ingredient tracker allows the user to input what ingredients they currently have to see what they need
@@ -184,30 +188,9 @@
 
 ## Alternative flows
 ### Alternative flow 1
-    Global Scale Modifier not set
+    3.) Global Scale Modifier not set.
+    4.) System asks user how many meals they would prefer to make.
 ### Alternative flow 2
-    Remove Used ingredients from tracker.
-    
-    # Functional Requirement 3 Search Functions for Recipe
-    User has the capacity to search using recipe attributes such as name, calorie amount, ingredients, etc.
-
-## Actors
-    The user of the application
-
-## Use case goal
-    With enhanced browsing and searching functions, the user is able to quickly find a recipe that they are looking for.
-
-## Primary Actor
-    The user of the application
-
-## Preconditions
-    User must enter valid data (similar to the above req.) when using the search function. 
-
-## Basic flow
-    1.) User selects category for recipe.
-    2.) User is presented with a list of recipes that meet the criteria.
-
-## Alternative flows
-### Alternative flow 1
-
-### Alternative flow 2
+    8.) User selects to remove ingredients from list.
+    9.) System finds the listed ingredients that are going to be consumed in the selected recipes.
+    10.) System then removes them from the inventory tracker
