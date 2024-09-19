@@ -134,3 +134,56 @@
     1.) System displays error message indicating that the recipe was not found.
     2.) User is sent to previous page.
     
+# Functional Requirement 6 Grocery List
+    The ingredient tracker allows the user to input what ingredients they currently have to see what they need
+    to buy for certain recipes.
+## Actors
+    The user of the application
+## Use case goal
+    Tell the user what ingredients they need to make the recipe at home.
+## Primary Actor
+    The user of the application
+## Preconditions
+    1.) The user must be using the ingredient tracker to be given the list
+## Basic flow
+    1.) The user selects a recipe or recipes.
+    2.) The user checks grocery list
+    3.) The system asks the user if the global scale modifier is correct
+    4.) The user clicks yes
+    5.) The system gathers the list of ingredients, scales them up or down to the desired number.
+    6.) The system then subtracts from the list, the ingredients in the ingredient tracker.
+    7.) The system displays this list. With options [Print, Remove Used Ingredients from tracker,Exit]
+    8.) The user selects Print.
+    9.) The system sends the list to a pdf file.
+    10.) The user selects Exit.
+    11.) The system exits Grocery List into the home page.
+
+## Alternative flows
+### Alternative flow 1
+    Global Scale Modifier not set
+### Alternative flow 2
+    Remove Used ingredients from tracker.
+    
+    # Functional Requirement 3 Search Functions for Recipe
+    User has the capacity to search using recipe attributes such as name, calorie amount, ingredients, etc.
+
+## Actors
+    The user of the application
+
+## Use case goal
+    With enhanced browsing and searching functions, the user is able to quickly find a recipe that they are looking for.
+
+## Primary Actor
+    The user of the application
+
+## Preconditions
+    User must enter valid data (similar to the above req.) when using the search function. 
+
+## Basic flow
+    1.) User selects category for recipe.
+    2.) User is presented with a list of recipes that meet the criteria.
+
+## Alternative flows
+### Alternative flow 1
+
+### Alternative flow 2

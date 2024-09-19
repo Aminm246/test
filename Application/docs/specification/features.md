@@ -3,6 +3,7 @@
 ### Pictures
 - Picture of whole dish
 - Pictures for intermediate steps
+-  Images should be clickable and takes you to page that shows you the details of the recipe.
 
 ### Step-by-Step Instructions
 - Each instruction will include the quantity, as well as being listed at the top.
@@ -17,6 +18,9 @@ doesn't have to go back to the beginning of the recipe to check the amounts agai
 - Each recipe will belong to different categories or have different tags. (Beef,Pasta,High Carb, Low Carb,Paleo).
 This will allow users to search by tag to find a larger variety of dishes than clicking through categories alone.
 
+### Tags
+- Similar to Categories but allows more customization by the user. Allowing tags like High Fat. Low Sodium.
+
 ### Calorie calculator
 - The application automatically calculates nutritional information based on the recipe’s ingredients quantities and types.
 - Users can adjust quantities and ingredients to better meet their nutritional goals.
@@ -29,7 +33,9 @@ This will allow users to search by tag to find a larger variety of dishes than c
 -	The application can track whether the meal plan is meeting the user’s dietary goals using the calorie and nutrient tracker. Dietary goals can include areas such as total calorie count or grams of protein for the day. 
 -	After selecting the recipes and making a meal plan, a grocery list is generated for any missing or required items.
 
-
+# Grocery List
+-   When a user selects recipe(s) they can generate a grocery list from them. It will also compare it to what ingredients 
+    the user has on hand, if the user uses that function of the program.
 
 # Ingredient Tracker
 
