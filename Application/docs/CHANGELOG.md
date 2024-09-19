@@ -6,4 +6,5 @@
 - [Nick Reiss] Added a couple wireframes for layouts related to Recipes. (FullRecipeWireframe.png, EntreesWireframe.png)
 
 # Milestone 2
-- [Hanad Musse] Added #1-4 functional and #1-2 non-functional requirements in Requirements.md. Also provided use cases, actors, preconditions, and flows for those requirements. Worked with team to create entities and added that information in entities.md. Created and added the class diagram in architecture.md. 
+- [Hanad Musse] Added #1-4 functional and #1-2 non-functional requirements in Requirements.md. Also provided use cases, actors, preconditions, and flows for those requirements. Worked with team to create entities and added that information in entities.md. Created and added the class diagram in architecture.md.
+- [Amin Mohamed] Created functional and non-functional requirment with the team in the Requirement.md. Created and added the use case diagram. Contributed to the entities.md file by writing entity description.
