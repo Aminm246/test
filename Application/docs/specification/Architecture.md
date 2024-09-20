@@ -5,4 +5,6 @@
 ## Diagram
 
 ![Class Diagram](../images/classDiagram.jpeg)
-# Class Diagram 2 Name
+
+## Use Case Diagram
+![Use Case](../images/useCaseDiagram.png)
