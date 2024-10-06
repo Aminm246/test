@@ -1,4 +1,4 @@
-package recipe;
+package recipe.classes;
 
 public class InstructionStep {
     private int recipeID;

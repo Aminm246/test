@@ -1,4 +1,4 @@
-package recipe;
+package recipe.classes;
 
 import java.util.ArrayList;
 import java.util.List;

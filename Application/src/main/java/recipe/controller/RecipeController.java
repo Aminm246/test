@@ -1,6 +1,10 @@
-package recipe;
+package recipe.controller;
 
 import javafx.event.ActionEvent;
+import recipe.model.RecipeManager;
+import recipe.view.RecipeView;
+import recipe.classes.InstructionStep;
+import recipe.classes.Recipe;
 
 import java.util.List;
 
@@ -18,6 +22,7 @@ class RecipeController {
         return null;
     }
 
+    public void updateView(){}
     public Recipe createRecipe(ActionEvent event) {
         return null;
     }
