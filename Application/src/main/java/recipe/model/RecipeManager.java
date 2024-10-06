@@ -68,4 +68,8 @@ public class RecipeManager {
     public List<String> removeTag(String tag) {
         return new ArrayList<>();
     }
+
+    public List<String> generateGroceryList(int recipeID){
+        return null;
+    }
 }

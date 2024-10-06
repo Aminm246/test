@@ -8,3 +8,6 @@
 
 ## Use Case Diagram
 ![Use Case](../images/useCaseDiagram.png)
+
+## Sequence Diagram of Generate Grocery List
+![GroceryList](../images/sequenceDiagramGenGroceryList.jpg)

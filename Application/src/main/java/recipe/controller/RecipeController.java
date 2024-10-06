@@ -18,7 +18,6 @@ class RecipeController {
     }
 
     public Recipe getRecipe(ActionEvent event) {
-
         return null;
     }
 
@@ -75,6 +74,10 @@ class RecipeController {
     }
 
     public String setRecipeName(ActionEvent event) {
+        return null;
+    }
+
+    public List<String> generateGroceryList(int recipeID){
         return null;
     }
 }
