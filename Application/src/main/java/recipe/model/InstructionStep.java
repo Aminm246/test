@@ -1,4 +1,4 @@
-package recipe.classes;
+package recipe.model;
 
 public class InstructionStep {
     private int recipeID;
