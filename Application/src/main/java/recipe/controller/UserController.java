@@ -1,8 +1,8 @@
-package controller;
+package user.controller;
 
-import model.UserModel;
-import view.UserView;
-import model.User;
+import user.model.UserModel;
+import user.model.User;
+import user.view.UserView;
 import java.util.List;
 
 public class UserController {
