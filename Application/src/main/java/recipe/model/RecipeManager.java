@@ -4,19 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import ingredient.model.IngredientsInventory;
 
-
-// Main class to manage recipes
 public class RecipeManager {
     private Map<Integer, Recipe> recipeList;
     private IngredientsInventory ingredientsInventory;
     private int nextRecipeId;
 
-    // Constructor
     public RecipeManager() {
         this.recipeList = new HashMap<>();
-//        this.ingredientsInventory = new IngredientsInventory();
-        this.nextRecipeId = 1; // Start ID from 1
+        this.nextRecipeId = 1;
     }
 
     public Recipe getRecipe(int recipeID) {
