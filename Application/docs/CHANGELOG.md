@@ -9,3 +9,6 @@
 - [Hanad Musse] Added #1-4 functional and #1-2 non-functional requirements in Requirements.md. Also provided use cases, actors, preconditions, and flows for those requirements. Worked with team to create entities and added that information in entities.md. Created and added the class diagram in architecture.md.
 - [Amin Mohamed] Created functional and non-functional requirment with the team in the Requirement.md. Created and added the use case diagram. Contributed to the entities.md file by writing entity description.
 - [Nick Reiss] Added the functional requirements, Search Functions and Grocery List. Added the Inventory class into the class Diagram. 
+
+# Milestone 3
+- [Hanad Musse] Created MVC design for the features related to ingredients and implemented java code for those parts of the application. 
