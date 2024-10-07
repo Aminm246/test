@@ -2,8 +2,8 @@ package recipe.classes;
 
 import java.util.ArrayList;
 import java.util.List;
-import ingredient.Ingredient;
-import ingredient.NutritionalFacts;
+import ingredient.model.Ingredient;
+import ingredient.model.NutritionalFacts;
 
 public class Recipe {
     private int recipeId;

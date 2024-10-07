@@ -1,4 +1,4 @@
-package ingredient;
+package ingredient.model;
 
 public enum MeasurementUnit {
     GRAM,

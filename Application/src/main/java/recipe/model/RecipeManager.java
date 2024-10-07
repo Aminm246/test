@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
-import ingredient.IngredientsInventory;
+import ingredient.model.IngredientsInventory;
 import recipe.classes.InstructionStep;
 import recipe.classes.Recipe;
 
@@ -17,7 +17,7 @@ public class RecipeManager {
     // Constructor
     public RecipeManager() {
         this.recipeList = new HashMap<>();
-        this.ingredientsInventory = new IngredientsInventory();
+//        this.ingredientsInventory = new IngredientsInventory();
         this.nextRecipeId = 1; // Start ID from 1
     }
 
