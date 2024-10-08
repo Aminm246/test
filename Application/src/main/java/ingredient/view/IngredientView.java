@@ -1,5 +1,7 @@
 package ingredient.view;
 
+import ingredient.model.Ingredient;
+import ingredient.model.IngredientsInventory;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -25,6 +27,8 @@ public class IngredientView {
     @FXML
     private ComboBox<String> measurementUnits;
 
+    private IngredientsInventory inventory;
+
     public String getIngredientName() {
         return ingredientName.getText();
     }
@@ -40,5 +44,19 @@ public class IngredientView {
     public String getMeasurementUnit() {
         return measurementUnits.getValue();
     }
+
+    public void updateInventory(IngredientsInventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public void displayIngredient(Ingredient Ingredient) {
+        //Implement Later
+    }
+
+    public void displayInventory(IngredientsInventory inventory) {
+        //Implement Later
+    }
+
+
 
 }
