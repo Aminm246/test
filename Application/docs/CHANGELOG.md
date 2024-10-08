@@ -13,4 +13,5 @@
 # Milestone 3
 - [Hanad Musse] Created MVC design for the features related to ingredients and implemented java code for those parts of the application.
 - [Nick Reiss] Expanded Recipe's design 
-- [Nick Reiss] Created MVC design for the features related to Recipe and implemented java code for those parts of the application. 
+- [Nick Reiss] Created MVC design for the features related to Recipe and implemented java code for those parts of the application.
+- [Nick Reiss] Created sequence diagram for Generate Grocery List
