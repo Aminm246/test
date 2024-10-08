@@ -1,4 +1,4 @@
-package recipe.classes;
+package recipe.model;
 
 import java.util.ArrayList;
 import java.util.List;

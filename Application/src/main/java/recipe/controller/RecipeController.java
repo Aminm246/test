@@ -3,8 +3,8 @@ package recipe.controller;
 import javafx.event.ActionEvent;
 import recipe.model.RecipeManager;
 import recipe.view.RecipeView;
-import recipe.classes.InstructionStep;
-import recipe.classes.Recipe;
+import recipe.model.InstructionStep;
+import recipe.model.Recipe;
 
 import java.util.List;
 
