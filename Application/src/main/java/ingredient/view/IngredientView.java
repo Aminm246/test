@@ -29,6 +29,10 @@ public class IngredientView {
 
     private IngredientsInventory inventory;
 
+    public IngredientView(IngredientsInventory inventory) {
+        this.inventory = inventory;
+    }
+
     public String getIngredientName() {
         return ingredientName.getText();
     }
