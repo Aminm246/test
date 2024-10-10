@@ -15,3 +15,4 @@
 - [Nick Reiss] Expanded Recipe's design 
 - [Nick Reiss] Created MVC design for the features related to Recipe and implemented java code for those parts of the application.
 - [Nick Reiss] Created sequence diagram for Generate Grocery List
+- [Amin Mohamed] Created MVC design for the features related to User management and implemented initial Java code structure for User, UserModel, UserView, and UserController classes. Wroked with the team to fix and implement the User-related classes into the existing project structure.
