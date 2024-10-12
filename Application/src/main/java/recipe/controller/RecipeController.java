@@ -8,7 +8,7 @@ import recipe.model.Recipe;
 
 import java.util.List;
 
-class RecipeController {
+public class RecipeController {
     private RecipeManager model;
     private RecipeView view;
 
