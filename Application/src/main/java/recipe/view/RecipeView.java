@@ -5,6 +5,8 @@ public class RecipeView {
     RecipeView (){
 
     }
+
+
     public void updateView(){
 
     }
