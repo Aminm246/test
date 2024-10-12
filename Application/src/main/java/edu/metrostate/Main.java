@@ -5,11 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 public class Main extends Application {
 
@@ -33,6 +35,9 @@ public class Main extends Application {
         Pane appContent = loader.load();
         root.setCenter(appContent);
 
+        //String x = Image.class.getResource("temp_photo.jpg").toString();
+        //ImageView imageView = new ImageView(x);
+        //root.setLeft(imageView);
 
         stage.setScene(scene);
         stage.show();

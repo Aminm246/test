@@ -10,14 +10,13 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="edu.metrostate.MainController"
             prefHeight="400.0" prefWidth="600.0">
-    <VBox alignment="CENTER"
+    <VBox
           AnchorPane.rightAnchor="0.0"
           AnchorPane.leftAnchor="0.0"
           AnchorPane.topAnchor="0.0"
           AnchorPane.bottomAnchor="0.0">
-        <Label fx:id="label" text="Application Content"/>
-        <Label fx:id="value"/>
-        <Button fx:id="clickMeButton" text="Click me!" />
-        <Button fx:id="incrementValueButton" text="Increment value" />
+        <Label fx:id="label" text="Recipe Name"/>
+        <Label fx:id="value" text="Ingredients"/>
+        <Label text="Instruction Steps"/>
     </VBox>
 </AnchorPane>
