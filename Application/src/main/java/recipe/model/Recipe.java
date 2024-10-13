@@ -33,6 +33,7 @@ public class Recipe {
         this.servingSize = servingSize;
         this.description = description;
         this.imagePath = imagePath;
+        calculateNutrition();
     }
 
     public void addIngredient(Ingredient ingredient, BigDecimal quantity) {
@@ -54,6 +55,7 @@ public class Recipe {
         this.instructions = instructions;
     }
 
+    public List<BigDecimal> getIngredientQtyList(){ return ingredientQtyList;}
     public List<Ingredient> getIngredientList() {
         return ingredientList;
     }
