@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class MainController {
+public class viewRecipeController {
     @FXML
     private ImageView imageView;
 

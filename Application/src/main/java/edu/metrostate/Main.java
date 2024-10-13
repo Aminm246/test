@@ -10,20 +10,37 @@ import javafx.scene.image.Image;
 public class Main extends Application {
 
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Cookbook v0.1");
 
         //Setup main content
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipe.fxml"));
+//        Parent root = loader.load();
+//
+//        Image image = new Image(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg"));
+//        viewRecipeController controller = loader.getController();
+//        controller.setImage(image);
+//
+//        Scene scene = new Scene(root);
+//        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+//        stage.setScene(scene);
+//        stage.show();
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipe.fxml"));
         Parent root = loader.load();
 
-        Image image = new Image(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg"));
-        MainController controller = loader.getController();
-        controller.setImage(image);
+//        Image image = new Image(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg"));
+        createRecipeController controller = loader.getController();
+//        controller.setImage(image);
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+//        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
