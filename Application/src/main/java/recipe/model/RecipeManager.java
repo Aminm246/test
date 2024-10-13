@@ -20,12 +20,15 @@ public class RecipeManager {
         return recipeList.get(recipeID);
     }
 
-    public Recipe addRecipe(String recipeName) {
-        return null;
+    public Recipe addRecipe(Recipe recipe){
+        recipeList.put(nextRecipeId,recipe);
+        nextRecipeId++;
+        return recipe;
     }
 
-    public Recipe updateRecipe(int recipeID, Recipe updatedRecipe) {
-        return null;
+    public Recipe updateRecipe(Recipe updatedRecipe) {
+        recipeList.put(updatedRecipe.getRecipeID(), updatedRecipe);
+        return updatedRecipe;
     }
 
     public void deleteRecipe(int recipeID) {
@@ -46,14 +49,6 @@ public class RecipeManager {
 
     public List<InstructionStep> editInstruction(int recipeID, int stepNumber, String newInstruction) {
         return null;
-    }
-
-    public List<String> addCategory(String category) {
-        return new ArrayList<>();
-    }
-
-    public List<String> removeCategory(String category) {
-        return new ArrayList<>();
     }
 
     public List<String> addTag(String tag) {
