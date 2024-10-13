@@ -1,15 +1,16 @@
 package edu.metrostate;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class MainController {
+    @FXML
+    private ImageView imageView;
 
-    public Label label;
-    public Button clickMeButton;
-    public Label value;
-    public Button incrementValueButton;
-    MainToolbar toolbar = new MainToolbar();
+    public void setImage(Image image) {
+        imageView.setImage(image);
+    }
 
     public void viewRecipe(){
 

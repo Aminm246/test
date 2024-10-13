@@ -2,43 +2,28 @@ package edu.metrostate;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
 public class Main extends Application {
 
+
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Cookbook v0.1");
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("scene.fxml"));
-        BorderPane root = loader.load();
-
-        //Toolbar setup
-        MainToolbar toolbar = new MainToolbar();
-        root.setTop(toolbar);
-        Scene scene = new Scene(root, 1920, 1080);
-        //Add css to scene
-        //Expand later to deal with null exception
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-
         //Setup main content
-        loader = new FXMLLoader(getClass().getResource("recipe.fxml"));
-        Pane appContent = loader.load();
-        root.setCenter(appContent);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
+        Parent root = loader.load();
 
-        //String x = Image.class.getResource("temp_photo.jpg").toString();
-        //ImageView imageView = new ImageView(x);
-        //root.setLeft(imageView);
+        Image image = new Image(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg"));
+        MainController controller = loader.getController();
+        controller.setImage(image);
 
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
