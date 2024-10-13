@@ -21,6 +21,6 @@ public class recipeListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        recipeListView.getItems().addAll(food);
+        //recipeListView.getItems().addAll(food);
     }
 }
