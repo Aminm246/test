@@ -6,7 +6,6 @@ public class Ingredient {
     int ingredientId;
     String ingredientName;
     NutritionalFacts nutrition;
-    BigDecimal quantity;
     MeasurementUnit measurementUnit;
 
 
@@ -19,7 +18,6 @@ public class Ingredient {
         this.ingredientName = ingredientName;
         this.nutrition = nutrition;
         this.measurementUnit = measurementUnit;
-        this.quantity = quantity;
     }
 
     public String getIngredientName() {
@@ -46,14 +44,6 @@ public class Ingredient {
         this.nutrition = nutrition;
     }
 
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
-    }
-
     public MeasurementUnit getMeasurementUnit() {
         return measurementUnit;
     }
@@ -62,4 +52,13 @@ public class Ingredient {
         this.measurementUnit = measurementUnit;
     }
 
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "ingredientId=" + ingredientId +
+                ", ingredientName='" + ingredientName + '\'' +
+                ", nutrition=" + nutrition +
+                ", measurementUnit=" + measurementUnit +
+                '}';
+    }
 }
