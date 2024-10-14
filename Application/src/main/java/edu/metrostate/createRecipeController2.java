@@ -1,7 +1,6 @@
 package edu.metrostate;
 
 import ingredient.model.Ingredient;
-import ingredient.model.IngredientsInventory;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
@@ -23,12 +22,11 @@ public class createRecipeController2 {
 
 
     @FXML
-    private Button ingredient1Submit, ingredient2Submit, ingredient3Submit, ingredient4Submit,
-            ingredient5Submit, ingredient6Submit, recipeNameSubmit, descriptionSubmit, tag1Submit, tag2Submit, tag3Submit, tag4Submit,
+    private Button ingredientSubmit, recipeNameSubmit, descriptionSubmit, tag1Submit, tag2Submit, tag3Submit, tag4Submit,
             tag5Submit, instruction1SubmitButton, instruction2SubmitButton, instruction3SubmitButton,
             instruction4SubmitButton, instruction5SubmitButton, ingredient5NameSubmit, ingredient6NameSubmit,
             durationSubmit, servingSizeSubmit, imagePathSubmit,
-            ingredientsSubmit, instructionsSubmit, tagsSubmit, recipeSubmit, cancelRecipe;
+            allIngredientsSubmit, instructionsSubmit, tagsSubmit, recipeSubmit, cancelRecipe;
 
     @FXML
     private Text recipeNameLabel, recipeTagsLabel, ingredientNameLabel1, ingredientNameLabel2, ingredientNameLabel3,
@@ -37,27 +35,46 @@ public class createRecipeController2 {
             instructionsLabel, durationLabel, servingSizeLabel, imagePathLabel;
 
     String recipeName;
-    IngredientsInventory ingredientsInventory;
     List<Ingredient> ingredientList;
     List<BigDecimal> ingredientQtyList;
+    List<TextField> ingredientNameInputs;
+    List<TextField> ingredientQtyInputs;
+    List<Button> ingredientSubmitButtons;
+    int ingredientCount;
 
     @FXML
     public void initialize() {
+        ingredientCount = 0;
         ingredientList = new ArrayList<Ingredient>();
         ingredientQtyList = new ArrayList<BigDecimal>();
-        recipeNameSubmit.setOnAction(event -> onRecipeNameSubmitClicked());
-        ingredient1Submit.setOnAction(event -> onIngredient1SubmitClicked());
-        ingredientsSubmit.setOnAction(event -> onIngredientsSubmitClicked());
+        ingredientNameInputs = List.of(ingredient1NameInput, ingredient2NameInput, ingredient3NameInput, ingredient4NameInput, ingredient5NameInput, ingredient6NameInput);
+        ingredientQtyInputs = List.of(ingredient1QtyInput, ingredient2QtyInput, ingredient3QtyInput, ingredient4QtyInput, ingredient5QtyInput, ingredient6QtyInput);
+        recipeNameSubmit.setOnAction(event -> addRecipeNameClick());
+        ingredientSubmit.setOnAction(event -> addSingleIngredientClick());
+        allIngredientsSubmit.setOnAction(event -> addAllIngredientsClick());
     }
 
-    private void onIngredientsSubmitClicked() {
+    private void addAllIngredientsClick() {
+        if (ingredientCount < 6) {
+            if (!ingredientNameInputs.get(ingredientCount).getText().isEmpty() && !ingredientQtyInputs.get(ingredientCount).getText().isEmpty()) {
+                addSingleIngredientClick();
+            }
+            else {
+                ingredientNameInputs.get(ingredientCount).clear();
+                ingredientQtyInputs.get(ingredientCount).clear();
+                ingredientQtyInputs.get(ingredientCount).setDisable(true);
+                ingredientQtyInputs.get(ingredientCount).setDisable(true);
+            }
+        }
+        ingredientSubmit.setDisable(true);
+        allIngredientsSubmit.setDisable(true);
         System.out.println(ingredientList.toString());
         System.out.println(ingredientQtyList.toString());
     }
 
-    private void onIngredient1SubmitClicked() {
-        String ingredientName = ingredient1NameInput.getText().trim();
-        String ingredientQty = ingredient1QtyInput.getText().trim();
+    private void addSingleIngredientClick() {
+        String ingredientName = ingredientNameInputs.get(ingredientCount).getText().trim();
+        String ingredientQty = ingredientQtyInputs.get(ingredientCount).getText().trim();
 
         if (ingredientName.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -74,35 +91,34 @@ public class createRecipeController2 {
 
         try {
             BigDecimal qty = new BigDecimal(ingredientQty);
-            System.out.println("Ingredient Name: " + ingredientName);
-            System.out.println("Ingredient Quantity: " + qty);
+            System.out.println("Ingredient Name: " + ingredientName + " Ingredient qty: " + qty);
 
         } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Ingredient quantity must be a valid integer.");
             alert.showAndWait();
-            ingredient1QtyInput.clear();
+            ingredientQtyInputs.get(ingredientCount).clear();
             return;
         }
-        ingredient1NameInput.setDisable(true);
-        ingredient1QtyInput.setDisable(true);
-        ingredient1Submit.setDisable(true);
-        ingredientsSubmit.setDisable(false);
-        ingredient2NameInput.setDisable(false);
-        ingredient2QtyInput.setDisable(false);
-        ingredient2Submit.setDisable(false);
-        //if the search for ingredient doesn't exist, then we need to make that ingredient.
-        //and pull the ingredient from ingredientsInventory. If we make a separate ingredient here then we
-        //are creating a new Ingredient that the ingredientsInventory doesn't know about
-        //ingredientsInventory.addIngredient(ingredientName);
-        //ingredientList.add(new Ingredient())
-        ingredientQtyList.add(new BigDecimal(ingredientQty));
 
+        ingredientNameInputs.get(ingredientCount).setDisable(true);
+        ingredientQtyInputs.get(ingredientCount).setDisable(true);
+        ingredientList.add(new Ingredient(ingredientName));
+        ingredientQtyList.add(new BigDecimal(ingredientQty));
+        ingredientCount++;
+
+        if (ingredientCount > 0 && ingredientCount < 6) {
+            openIngredientField();
+            allIngredientsSubmit.setDisable(false);
+        }
+        else {
+            ingredientSubmit.setDisable(true);
+        }
     }
 
 
     @FXML
-    private void onRecipeNameSubmitClicked() {
+    private void addRecipeNameClick() {
         String recipeName = recipeNameInput.getText().trim();
 
         if (recipeName.isEmpty()) {
@@ -115,10 +131,14 @@ public class createRecipeController2 {
             this.recipeName = recipeName;
             recipeNameInput.setDisable(true);
             recipeNameSubmit.setDisable(true);
-            ingredient1NameInput.setDisable(false);
-            ingredient1QtyInput.setDisable(false);
-            ingredient1Submit.setDisable(false);
+            ingredientSubmit.setDisable(false);
+            openIngredientField();
         }
+    }
+
+    private void openIngredientField() {
+        ingredientNameInputs.get(ingredientCount).setDisable(false);
+        ingredientQtyInputs.get(ingredientCount).setDisable(false);
     }
 
 }
