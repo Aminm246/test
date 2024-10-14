@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="1000.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.createRecipeController2">
+   <children>
+      <Text layoutX="21.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name:" wrappingWidth="120.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="802.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Tags:" wrappingWidth="120.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="21.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name: " wrappingWidth="120.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="-6.0" layoutY="-65.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="196.13671875" />
+      <Text layoutX="797.0" layoutY="481.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Description:" wrappingWidth="130.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="503.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="503.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="503.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="21.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name: " wrappingWidth="120.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="21.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name: " wrappingWidth="120.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="21.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name: " wrappingWidth="120.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="503.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Button fx:id="ingredient1Submit" disable="true" layoutX="875.0" layoutY="97.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="ingredient2Submit" disable="true" layoutX="875.0" layoutY="141.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="ingredient3Submit" disable="true" layoutX="875.0" layoutY="183.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="ingredient4Submit" disable="true" layoutX="875.0" layoutY="226.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="recipeNameSubmit" layoutX="474.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit name" />
+      <Button fx:id="descriptionSubmit" layoutX="1366.0" layoutY="472.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit description" />
+      <Button fx:id="tag3Submit" layoutX="1144.0" layoutY="660.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="tag4Submit" layoutX="1144.0" layoutY="712.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="tag1Submit" layoutX="1144.0" layoutY="564.0" mnemonicParsing="false" text="+" />
+      <Text layoutX="21.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructions:" wrappingWidth="120.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Button fx:id="instruction1SubmitButton" layoutX="629.0" layoutY="426.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="instruction2SubmitButton" layoutX="629.0" layoutY="506.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="instruction3SubmitButton" layoutX="629.0" layoutY="587.0" mnemonicParsing="false" text="+" />
+      <Text layoutX="21.0" layoutY="847.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration:" wrappingWidth="120.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Button fx:id="tag2Submit" layoutX="1144.0" layoutY="615.0" mnemonicParsing="false" text="+" />
+      <Text layoutX="664.0" layoutY="846.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Serving size:" wrappingWidth="86.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="1079.0" layoutY="843.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Image path:" wrappingWidth="77.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Button fx:id="recipeSubmit" layoutX="1148.0" layoutY="909.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: CYAN;" text="Create " />
+      <Button fx:id="cancelRecipe" layoutX="1302.0" layoutY="909.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: PINK;" text="Cancel" />
+      <Text layoutX="21.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name: " wrappingWidth="120.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="21.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name: " wrappingWidth="120.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Button fx:id="tag5Submit" layoutX="1144.0" layoutY="750.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="instruction4SubmitButton" layoutX="629.0" layoutY="672.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="instruction5SubmitButton" layoutX="629.0" layoutY="735.0" mnemonicParsing="false" text="+" />
+      <Text layoutX="503.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Button fx:id="ingredient5Submit" disable="true" layoutX="875.0" layoutY="270.0" mnemonicParsing="false" text="+" />
+      <Text layoutX="503.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Button fx:id="ingredient6Submit" disable="true" layoutX="875.0" layoutY="312.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="durationSubmit" layoutX="410.0" layoutY="830.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Submit duration" />
+      <Button fx:id="servingSizeSubmit" layoutX="943.0" layoutY="828.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Submit servings" />
+      <Button fx:id="imagePathSubmit" layoutX="1396.0" layoutY="828.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Submit path" />
+      <Button fx:id="ingredientsSubmit" disable="true" layoutX="943.0" layoutY="102.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit ingredients" />
+      <Button fx:id="instructionsSubmit" layoutX="662.0" layoutY="426.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit instructions" />
+      <Button fx:id="tagsSubmit" layoutX="1200.0" layoutY="563.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit tags" />
+      <TextField fx:id="recipeNameInput" layoutX="183.0" layoutY="52.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredient1NameInput" disable="true" layoutX="183.0" layoutY="98.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredient2NameInput" disable="true" layoutX="183.0" layoutY="145.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredient3NameInput" disable="true" layoutX="183.0" layoutY="191.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredient4NameInput" disable="true" layoutX="183.0" layoutY="235.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredient5NameInput" disable="true" layoutX="183.0" layoutY="279.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredient6NameInput" disable="true" layoutX="183.0" layoutY="321.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredient1QtyInput" disable="true" layoutX="660.0" layoutY="98.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredient2QtyInput" disable="true" layoutX="660.0" layoutY="142.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredient3QtyInput" disable="true" layoutX="660.0" layoutY="186.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredient4QtyInput" disable="true" layoutX="660.0" layoutY="229.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredient5QtyInput" disable="true" layoutX="660.0" layoutY="270.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredient6QtyInput" disable="true" layoutX="660.0" layoutY="311.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextArea fx:id="instruction1Input" layoutX="187.0" layoutY="412.0" prefHeight="67.0" prefWidth="426.0" />
+      <TextArea fx:id="instruction2Input" layoutX="190.0" layoutY="498.0" prefHeight="67.0" prefWidth="426.0" />
+      <TextArea fx:id="instruction3Input" layoutX="190.0" layoutY="579.0" prefHeight="67.0" prefWidth="426.0" />
+      <TextArea fx:id="instruction4Input" layoutX="190.0" layoutY="654.0" prefHeight="67.0" prefWidth="426.0" />
+      <TextArea fx:id="instruction5Input" layoutX="190.0" layoutY="729.0" prefHeight="67.0" prefWidth="426.0" />
+      <TextArea fx:id="recipeDescriptionInput" layoutX="931.0" layoutY="451.0" prefHeight="67.0" prefWidth="426.0" />
+      <TextField fx:id="tag1Input" layoutX="927.0" layoutY="563.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="tag2input" layoutX="927.0" layoutY="615.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="tag3Input" layoutX="927.0" layoutY="660.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="tag4Input" layoutX="927.0" layoutY="712.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="tag5Input" layoutX="927.0" layoutY="750.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="durationInput" layoutX="190.0" layoutY="830.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="servingSizeInput" layoutX="769.0" layoutY="830.0" prefHeight="25.0" prefWidth="162.0" />
+      <TextField fx:id="imagePathInput" layoutX="1169.0" layoutY="828.0" prefHeight="25.0" prefWidth="210.0" />
+   </children>
+</AnchorPane>

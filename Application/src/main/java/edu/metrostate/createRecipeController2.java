@@ -1,6 +1,7 @@
 package edu.metrostate;
 
 import ingredient.model.Ingredient;
+import ingredient.model.IngredientsInventory;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
@@ -36,6 +37,7 @@ public class createRecipeController2 {
             instructionsLabel, durationLabel, servingSizeLabel, imagePathLabel;
 
     String recipeName;
+    IngredientsInventory ingredientsInventory;
     List<Ingredient> ingredientList;
     List<BigDecimal> ingredientQtyList;
 
@@ -89,7 +91,11 @@ public class createRecipeController2 {
         ingredient2NameInput.setDisable(false);
         ingredient2QtyInput.setDisable(false);
         ingredient2Submit.setDisable(false);
-        ingredientList.add(new Ingredient(ingredientName));
+        //if the search for ingredient doesn't exist, then we need to make that ingredient.
+        //and pull the ingredient from ingredientsInventory. If we make a separate ingredient here then we
+        //are creating a new Ingredient that the ingredientsInventory doesn't know about
+        //ingredientsInventory.addIngredient(ingredientName);
+        //ingredientList.add(new Ingredient())
         ingredientQtyList.add(new BigDecimal(ingredientQty));
 
     }

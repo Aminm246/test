@@ -18,8 +18,8 @@ public class IngredientsInventory {
         this.inventory = inventory;
     }
 
-    public void addIngredient(Ingredient ingredient) {
-        this.inventory.add(ingredient);
+    public void addIngredient(String ingredientName) {
+        //this.inventory.add(ingredient);
     }
 
     public void deleteIngredient(Ingredient ingredient) {

@@ -9,8 +9,9 @@ public class Ingredient {
     MeasurementUnit measurementUnit;
 
 
-    public Ingredient(String ingredientName) {
+    public Ingredient(String ingredientName, int ingredientId) {
         this.ingredientName = ingredientName;
+        this.ingredientId = ingredientId;
     }
 
     public Ingredient(int ingredientId, String ingredientName, NutritionalFacts nutrition, MeasurementUnit measurementUnit, BigDecimal quantity) {
