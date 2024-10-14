@@ -62,4 +62,13 @@ public class RecipeManager {
     public List<String> generateGroceryList(int recipeID){
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "RecipeManager{" +
+                "recipeList=" + recipeList +
+                ", ingredientsInventory=" + ingredientsInventory +
+                ", nextRecipeId=" + nextRecipeId +
+                '}';
+    }
 }

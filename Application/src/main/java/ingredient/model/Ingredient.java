@@ -9,6 +9,11 @@ public class Ingredient {
     BigDecimal quantity;
     MeasurementUnit measurementUnit;
 
+
+    public Ingredient(String ingredientName) {
+        this.ingredientName = ingredientName;
+    }
+
     public Ingredient(int ingredientId, String ingredientName, NutritionalFacts nutrition, MeasurementUnit measurementUnit, BigDecimal quantity) {
         this.ingredientId = ingredientId;
         this.ingredientName = ingredientName;

@@ -80,4 +80,12 @@ public class RecipeController {
     public List<String> generateGroceryList(int recipeID){
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "RecipeController{" +
+                "model=" + model +
+                ", view=" + view +
+                '}';
+    }
 }

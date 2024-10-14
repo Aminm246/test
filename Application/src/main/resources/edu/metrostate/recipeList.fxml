@@ -30,8 +30,8 @@
       <VBox />
       <AnchorPane prefHeight="580.0" prefWidth="900.0">
          <children>
-            <ListView fx:id="recipeListView" layoutX="132.0" layoutY="51.0" prefHeight="493.0" prefWidth="648.0" />
-            <Label alignment="CENTER" prefHeight="50.0" prefWidth="900.0" text="Select a recipe">
+            <ListView fx:id="recipeListView" layoutX="126.0" layoutY="50.0" prefHeight="493.0" prefWidth="648.0" />
+            <Label fx:id="myLabel" alignment="CENTER" prefHeight="50.0" prefWidth="900.0" text="Select a recipe">
                <font>
                   <Font size="24.0" />
                </font>
