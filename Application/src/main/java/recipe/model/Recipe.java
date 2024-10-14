@@ -56,7 +56,7 @@ public class Recipe {
     }
 
     public List<BigDecimal> getIngredientQtyList(){ return ingredientQtyList;}
-    public List<Ingredient> getIngredientList() {
+    public List<Ingredient>  getIngredientList() {
         return ingredientList;
     }
 
@@ -128,11 +128,37 @@ public class Recipe {
         return recipeId;
     }
 
+    public String getRecipeName() {
+        return recipeName;
+    }
+
+    public List<String> getTagList() {
+        return tagList;
+    }
+
     public int getServingSize() {
         return servingSize;
     }
 
     public void setServingSize(int servingSize) {
         this.servingSize = servingSize;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "recipeId=" + recipeId +
+                ", recipeName='" + recipeName + '\'' +
+                ", tagList=" + tagList +
+                ", ingredientList=" + ingredientList +
+                ", ingredientQtyList=" + ingredientQtyList +
+                ", instructions=" + instructions +
+                ", nutrition=" + nutrition +
+                ", createdBy=" + createdBy +
+                ", servingSize=" + servingSize +
+                ", imagePath='" + imagePath + '\'' +
+                ", description='" + description + '\'' +
+                ", duration=" + duration +
+                '}';
     }
 }
