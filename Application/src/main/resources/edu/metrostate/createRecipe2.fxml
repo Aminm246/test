@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="1000.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.createRecipeController2">
+   <children>
+      <Text layoutX="21.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name:" wrappingWidth="120.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="704.0" layoutY="524.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Tags:" wrappingWidth="120.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="21.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name: " wrappingWidth="120.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="-6.0" layoutY="-65.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="196.13671875" />
+      <Text layoutX="695.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Description:" wrappingWidth="138.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="183.0" layoutY="50.0" prefHeight="28.0" prefWidth="273.0" style="-fx-background-color: WHITE;" />
+      <Label layoutX="183.0" layoutY="96.0" prefHeight="28.0" prefWidth="204.0" style="-fx-background-color: WHITE;" />
+      <Label layoutX="838.0" layoutY="401.0" prefHeight="76.0" prefWidth="426.0" style="-fx-background-color: WHITE;" />
+      <Text layoutX="503.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="686.0" layoutY="100.0" prefHeight="28.0" prefWidth="176.0" style="-fx-background-color: WHITE;" />
+      <Label layoutX="183.0" layoutY="143.0" prefHeight="28.0" prefWidth="204.0" style="-fx-background-color: WHITE;" />
+      <Label layoutX="183.0" layoutY="186.0" prefHeight="28.0" prefWidth="204.0" style="-fx-background-color: WHITE;" />
+      <Label layoutX="686.0" layoutY="139.0" prefHeight="28.0" prefWidth="176.0" style="-fx-background-color: WHITE;" />
+      <Text layoutX="503.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="503.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="686.0" layoutY="180.0" prefHeight="28.0" prefWidth="176.0" style="-fx-background-color: WHITE;" />
+      <Text layoutX="21.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name: " wrappingWidth="120.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="21.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name: " wrappingWidth="120.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="21.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name: " wrappingWidth="120.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="183.0" layoutY="228.0" prefHeight="28.0" prefWidth="204.0" style="-fx-background-color: WHITE;" />
+      <Text layoutX="503.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="686.0" layoutY="227.0" prefHeight="28.0" prefWidth="176.0" style="-fx-background-color: WHITE;" />
+      <Button layoutX="410.0" layoutY="98.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="410.0" layoutY="145.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="410.0" layoutY="186.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="410.0" layoutY="226.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="875.0" layoutY="102.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="875.0" layoutY="141.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="875.0" layoutY="182.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="875.0" layoutY="226.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="474.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Submit" />
+      <Button layoutX="1282.0" layoutY="422.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Submit" />
+      <Label layoutX="838.0" layoutY="635.0" prefHeight="28.0" prefWidth="210.0" style="-fx-background-color: WHITE;" />
+      <Label layoutX="838.0" layoutY="546.0" prefHeight="28.0" prefWidth="210.0" style="-fx-background-color: WHITE;" />
+      <Label layoutX="838.0" layoutY="505.0" prefHeight="28.0" prefWidth="210.0" style="-fx-background-color: WHITE;" />
+      <Button layoutX="1066.0" layoutY="587.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="1066.0" layoutY="637.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="1066.0" layoutY="506.0" mnemonicParsing="false" text="+" />
+      <Text layoutX="14.0" layoutY="434.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructions:" wrappingWidth="120.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="190.0" layoutY="409.0" prefHeight="54.0" prefWidth="426.0" style="-fx-background-color: WHITE;" />
+      <Button layoutX="629.0" layoutY="426.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="629.0" layoutY="506.0" mnemonicParsing="false" text="+" />
+      <Label layoutX="190.0" layoutY="491.0" prefHeight="54.0" prefWidth="426.0" style="-fx-background-color: WHITE;" />
+      <Label layoutX="190.0" layoutY="573.0" prefHeight="54.0" prefWidth="426.0" style="-fx-background-color: WHITE;" />
+      <Button layoutX="629.0" layoutY="587.0" mnemonicParsing="false" text="+" />
+      <Label layoutX="190.0" layoutY="659.0" prefHeight="54.0" prefWidth="426.0" style="-fx-background-color: WHITE;" />
+      <Text layoutX="21.0" layoutY="847.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration:" wrappingWidth="120.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="838.0" layoutY="586.0" prefHeight="28.0" prefWidth="210.0" style="-fx-background-color: WHITE;" />
+      <Button layoutX="1066.0" layoutY="548.0" mnemonicParsing="false" text="+" />
+      <Text layoutX="695.0" layoutY="845.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Serving size:" wrappingWidth="120.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="190.0" layoutY="827.0" prefHeight="28.0" prefWidth="204.0" style="-fx-background-color: WHITE;" />
+      <Label layoutX="847.0" layoutY="827.0" prefHeight="28.0" prefWidth="204.0" style="-fx-background-color: WHITE;" />
+      <Text layoutX="1109.0" layoutY="846.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Image path:" wrappingWidth="120.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="1238.0" layoutY="827.0" prefHeight="28.0" prefWidth="218.0" style="-fx-background-color: WHITE;" />
+      <Button layoutX="1148.0" layoutY="909.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: CYAN;" text="Create " />
+      <Button layoutX="1302.0" layoutY="909.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: PINK;" text="Cancel" />
+      <Text layoutX="21.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name: " wrappingWidth="120.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="183.0" layoutY="277.0" prefHeight="28.0" prefWidth="204.0" style="-fx-background-color: WHITE;" />
+      <Button layoutX="410.0" layoutY="279.0" mnemonicParsing="false" text="+" />
+      <Text layoutX="21.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name: " wrappingWidth="120.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="183.0" layoutY="319.0" prefHeight="28.0" prefWidth="204.0" style="-fx-background-color: WHITE;" />
+      <Button layoutX="410.0" layoutY="317.0" mnemonicParsing="false" text="+" />
+      <Label layoutX="838.0" layoutY="684.0" prefHeight="28.0" prefWidth="210.0" style="-fx-background-color: WHITE;" />
+      <Button layoutX="1066.0" layoutY="686.0" mnemonicParsing="false" text="+" />
+      <Label layoutX="190.0" layoutY="735.0" prefHeight="54.0" prefWidth="426.0" style="-fx-background-color: WHITE;" />
+      <Button layoutX="629.0" layoutY="672.0" mnemonicParsing="false" text="+" />
+      <Button layoutX="629.0" layoutY="735.0" mnemonicParsing="false" text="+" />
+      <Text layoutX="503.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="686.0" layoutY="269.0" prefHeight="28.0" prefWidth="176.0" style="-fx-background-color: WHITE;" />
+      <Button layoutX="875.0" layoutY="270.0" mnemonicParsing="false" text="+" />
+      <Text layoutX="503.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label layoutX="686.0" layoutY="315.0" prefHeight="28.0" prefWidth="176.0" style="-fx-background-color: WHITE;" />
+      <Button layoutX="875.0" layoutY="312.0" mnemonicParsing="false" text="+" />
+   </children>
+</AnchorPane>
