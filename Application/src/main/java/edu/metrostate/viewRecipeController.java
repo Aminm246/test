@@ -57,10 +57,12 @@ public class viewRecipeController {
                 recipeImageView.setImage(image);
             } catch (NullPointerException e) {
                 System.out.println("Image not found: " + recipe.getImagePath());
-                recipeImageView.setImage(null);
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg")));
+                recipeImageView.setImage(image);
             }
         } else {
-            recipeImageView.setImage(null);
+            Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg")));
+            recipeImageView.setImage(image);
         }
     }
 }
