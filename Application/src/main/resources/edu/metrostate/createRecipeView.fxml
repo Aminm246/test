@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="1000.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.createRecipeController2">
+<AnchorPane prefHeight="1000.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.createRecipeViewController">
    <children>
       <Text layoutX="21.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name:" wrappingWidth="120.13671875">
          <font>
@@ -138,7 +138,7 @@
       <TextArea fx:id="instruction1Input" layoutX="187.0" layoutY="412.0" prefHeight="67.0" prefWidth="426.0" />
       <TextArea fx:id="instruction2Input" layoutX="190.0" layoutY="498.0" prefHeight="67.0" prefWidth="426.0" />
       <TextArea fx:id="instruction3Input" layoutX="190.0" layoutY="579.0" prefHeight="67.0" prefWidth="426.0" />
-      <TextArea fx:id="instruction4Input" layoutX="190.0" layoutY="654.0" prefHeight="67.0" prefWidth="426.0" />
+      <TextArea fx:id="instruction4Input" layoutX="190.0" layoutY="652.0" prefHeight="67.0" prefWidth="426.0" />
       <TextArea fx:id="instruction5Input" layoutX="190.0" layoutY="729.0" prefHeight="67.0" prefWidth="426.0" />
       <TextArea fx:id="recipeDescriptionInput" layoutX="931.0" layoutY="451.0" prefHeight="67.0" prefWidth="426.0" />
       <TextField fx:id="tag1Input" layoutX="927.0" layoutY="563.0" prefHeight="25.0" prefWidth="210.0" />
