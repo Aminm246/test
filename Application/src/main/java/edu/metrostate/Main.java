@@ -25,17 +25,5 @@ public class Main extends Application {
         stage.show();
 
     }
-    public void viewPage(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
-        try {
-            Parent root = loader.load();
-            createRecipeController2 controller = loader.getController();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-    }
 }

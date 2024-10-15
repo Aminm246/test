@@ -65,9 +65,6 @@ public class createRecipeViewController {
 
     List<TextArea> instructionStepsInputs;
 
-
-
-    int ingredientCount;
     int instructionCount;
 
     @FXML

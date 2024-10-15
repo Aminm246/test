@@ -52,7 +52,8 @@ public class IngredientsInventory {
     }
 
     public void createIngredient(String name) {
-        Ingredient ingredient = new Ingredient(name);
+        Ingredient ingredient = new Ingredient(name,ingredientID);
+        ingredientID++;
 
     }
 }
