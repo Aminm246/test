@@ -5,6 +5,9 @@ import ingredient.model.IngredientsInventory;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import recipe.controller.RecipeController;
+import recipe.model.InstructionStep;
+import recipe.model.Recipe;
 import recipe.model.RecipeManager;
 
 import java.math.BigDecimal;
@@ -42,6 +45,7 @@ public class createRecipeController2 {
     List<TextField> ingredientNameInputs;
     List<TextField> ingredientQtyInputs;
     List<Button> ingredientSubmitButtons;
+    viewRecipeController viewRecipeControl = new viewRecipeController();
     int ingredientCount;
     String description;
     int duration;
@@ -49,10 +53,13 @@ public class createRecipeController2 {
     String imagePath;
     IngredientsInventory ingredientInventory = new IngredientsInventory();
     RecipeManager recipeManager = new RecipeManager();
+    //submitCounter counts the submits of each section to make sure it's all submitted before creating recipe.
+    int submitCounter;
 
     @FXML
     public void initialize() {
         ingredientCount = 0;
+        submitCounter = 0;
         ingredientList = new ArrayList<Ingredient>();
         ingredientQtyList = new ArrayList<BigDecimal>();
         ingredientNameInputs = List.of(ingredient1NameInput, ingredient2NameInput, ingredient3NameInput, ingredient4NameInput, ingredient5NameInput, ingredient6NameInput);
@@ -64,6 +71,7 @@ public class createRecipeController2 {
         descriptionSubmit.setOnAction(event -> addRecipeDescription());
         servingSizeSubmit.setOnAction(event -> addRecipeServingSize());
         imagePathSubmit.setOnAction(event -> addRecipeImagePath());
+        recipeSubmit.setOnAction(event -> createRecipe());
     }
 
     private void addAllIngredientsClick() {
@@ -82,6 +90,7 @@ public class createRecipeController2 {
         allIngredientsSubmit.setDisable(true);
         System.out.println(ingredientList.toString());
         System.out.println(ingredientQtyList.toString());
+        submitCounter++;
     }
 
     private void addSingleIngredientClick() {
@@ -145,6 +154,7 @@ public class createRecipeController2 {
             recipeNameSubmit.setDisable(true);
             ingredientSubmit.setDisable(false);
             openIngredientField();
+            submitCounter++;
         }
     }
 
@@ -165,6 +175,7 @@ public class createRecipeController2 {
             this.description = description;
             recipeDescriptionInput.setDisable(true);
             descriptionSubmit.setDisable(true);
+            submitCounter++;
         }
     }
 
@@ -188,6 +199,7 @@ public class createRecipeController2 {
                 System.out.println("Duration is: " + this.duration);
                 durationInput.setDisable(true);
                 durationSubmit.setDisable(true);
+                submitCounter++;
 
             } catch (NumberFormatException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -218,6 +230,7 @@ public class createRecipeController2 {
                 System.out.println("Serving size is: " + this.duration);
                 servingSizeInput.setDisable(true);
                 servingSizeSubmit.setDisable(true);
+                submitCounter++;
 
             } catch (NumberFormatException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -246,5 +259,22 @@ public class createRecipeController2 {
         this.imagePath = imagePath;
         imagePathInput.setDisable(true);
         imagePathSubmit.setDisable(true);
+        submitCounter++;
+    }
+
+    private void createRecipe(){
+        submitCounter = submitCounter + 2;//This is only temp until instructions and tags is implemented.
+        System.out.println(submitCounter);
+        if(submitCounter == 8){
+            List<InstructionStep> instructions = new ArrayList<InstructionStep>();
+            List<String> tagList = new ArrayList<String>();
+            Recipe recipe = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
+                    imagePath,ingredientList,ingredientQtyList,instructions);
+            System.out.println(recipe.toString());
+
+
+            new viewRecipeController().setRecipe(recipe);
+        }
+
     }
 }

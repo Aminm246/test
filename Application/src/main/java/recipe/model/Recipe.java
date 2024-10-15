@@ -20,7 +20,7 @@ public class Recipe {
     private String description;
     private int duration;
 
-    public Recipe(int recipeId, String recipeName, int createdBy,ArrayList<String> tagList, int duration, int servingSize, String description,
+    public Recipe(int recipeId, String recipeName, int createdBy,List<String> tagList, int duration, int servingSize, String description,
                   String imagePath, List<Ingredient> ingredientList, List<BigDecimal> ingredientQtyList, List<InstructionStep> instructions) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
@@ -77,6 +77,7 @@ public class Recipe {
     }
 
     public NutritionalFacts calculateNutrition() {
+        nutrition = new NutritionalFacts();
         return nutrition;
     }
 

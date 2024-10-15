@@ -2,17 +2,24 @@ package edu.metrostate;
 
 import ingredient.model.Ingredient;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import recipe.model.InstructionStep;
 import recipe.model.Recipe;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import recipe.model.Recipe;
+import recipe.model.RecipeManager;
 
 public class viewRecipeController {
 
@@ -35,6 +42,20 @@ public class viewRecipeController {
     private ImageView recipeImageView;
 
     public void setRecipe(Recipe recipe) {
+        System.out.println("TEST");
+        Stage stage = (Stage) recipeNameInput.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
         recipeNameLabel.setText(recipe.getRecipeName());
         List<String> ingredientNames = new ArrayList<>();
         for (Ingredient ingredient : recipe.getIngredientList()) {

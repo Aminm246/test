@@ -12,6 +12,7 @@ import recipe.model.InstructionStep;
 import recipe.model.Recipe;
 import recipe.model.RecipeManager;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-
+    private Stage stage;
     public static void main(String[] args) {
         launch(args);
     }
@@ -27,8 +28,6 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Cookbook v0.1");
-
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipe2.fxml"));
         Parent root = loader.load();
 
@@ -75,6 +74,19 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
+    }
+    public void viewPage(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
+        try {
+            Parent root = loader.load();
+            createRecipeController2 controller = loader.getController();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
