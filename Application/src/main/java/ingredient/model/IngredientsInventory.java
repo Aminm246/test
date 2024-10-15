@@ -41,4 +41,9 @@ public class IngredientsInventory {
     public void createIngredient(String name, NutritionalFacts nutritionalFacts, BigDecimal quantity, MeasurementUnit measurementUnit) {
         //Implement later
     }
+
+    public void createIngredient(String name) {
+        Ingredient ingredient = new Ingredient(name);
+
+    }
 }
