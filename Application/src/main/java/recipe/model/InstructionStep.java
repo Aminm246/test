@@ -8,6 +8,10 @@ public class InstructionStep {
         this.stepNum = stepNum;
         this.stepDescription = stepDescription;
     }
+    public InstructionStep(int stepNum, String stepDescription) {
+        this.stepNum = stepNum;
+        this.stepDescription = stepDescription;
+    }
 
     public int getStepNum() {
         return stepNum;
@@ -25,4 +29,11 @@ public class InstructionStep {
         this.stepDescription = stepDescription;
     }
 
+    @Override
+    public String toString() {
+        return "InstructionStep{" +
+                "stepNum=" + stepNum +
+                ", stepDescription='" + stepDescription + '\'' +
+                '}';
+    }
 }
