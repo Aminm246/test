@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class createRecipeController {
     @FXML private Stage stage;
@@ -29,7 +31,10 @@ public class createRecipeController {
     @FXML private TextField instructionStepNum;
     @FXML private TextArea recipeDescription;
 
+    @FXML private TextField tag1Input, tag2Input, tag3Input, tag4Input, tag5Input;
+    @FXML private Button tag1Submit, tag2Submit, tag3Submit, tag4Submit, tag5Submit, tagsSubmit;
 
+    private List<String> tagList = new ArrayList<>();
 
     public void switchToViewRecipeList(javafx.event.ActionEvent e) throws IOException {
         /*Parent root = FXMLLoader.load(getClass().getResource("recipeList.fxml"));
@@ -45,17 +50,27 @@ public class createRecipeController {
         stage.show();
     }
 
-    public void createButton(){
-        if(recipeName.getCharacters().toString() ==""){
+    public void createButton() {
+        if(recipeName.getCharacters().toString() =="") {
             System.out.println("empty");
-        }
-        else{
+        } else {
             System.out.println(recipeName.getCharacters().toString());
+            // Print tags
+            if (!tagList.isEmpty()) {
+                System.out.println("Tags: " + String.join(", ", tagList));
+            } else {
+                System.out.println("No tags added");
+            }
         }
     }
 
     public void cancelButton(){
-
+        tag1Input.clear();
+        tag2Input.clear();
+        tag3Input.clear();
+        tag4Input.clear();
+        tag5Input.clear();
+        tagList.clear();
     }
 
     public void ingredientAddButton(){
@@ -65,7 +80,42 @@ public class createRecipeController {
     public void instructionStepAddButton(){
 
     }
+    @FXML
+    public void tag1Submit() {
+        addTag(tag1Input);
+    }
+    @FXML
+    public void tag2Submit() {
+        addTag(tag2Input);
+    }
+    @FXML
+    public void tag3Submit() {
+        addTag(tag3Input);
+    }
+    @FXML
+    public void tag4Submit() {
+        addTag(tag4Input);
+    }
+    @FXML
+    public void tag5Submit() {
+        addTag(tag5Input);
+    }
+    @FXML
+    public void tagsSubmit() {
+        for (TextField tagInput : List.of(tag1Input, tag2Input, tag3Input, tag4Input, tag5Input)) {
+            if (!tagInput.isDisabled() && !tagInput.getText().trim().isEmpty()) {
+                addTag(tagInput);
+            }
+        }
+        System.out.println("All tags submitted: " + tagList);
+    }
 
-
-
+    private void addTag(TextField tagInput) {
+        String tag = tagInput.getText().trim();
+        if (!tag.isEmpty() && !tagList.contains(tag)) {
+            tagList.add(tag);
+            tagInput.setDisable(true);
+            System.out.println("Added tag: " + tag);
+        }
+    }
 }
