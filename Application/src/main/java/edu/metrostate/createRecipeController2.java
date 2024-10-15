@@ -43,6 +43,10 @@ public class createRecipeController2 {
     List<TextField> ingredientQtyInputs;
     List<Button> ingredientSubmitButtons;
     int ingredientCount;
+    String description;
+    int duration;
+    int servingSize;
+    String imagePath;
     IngredientsInventory ingredientInventory = new IngredientsInventory();
     RecipeManager recipeManager = new RecipeManager();
 
@@ -56,6 +60,10 @@ public class createRecipeController2 {
         recipeNameSubmit.setOnAction(event -> addRecipeNameClick());
         ingredientSubmit.setOnAction(event -> addSingleIngredientClick());
         allIngredientsSubmit.setOnAction(event -> addAllIngredientsClick());
+        durationSubmit.setOnAction(event -> addRecipeDuration());
+        descriptionSubmit.setOnAction(event -> addRecipeDescription());
+        servingSizeSubmit.setOnAction(event -> addRecipeServingSize());
+        imagePathSubmit.setOnAction(event -> addRecipeImagePath());
     }
 
     private void addAllIngredientsClick() {
@@ -121,7 +129,6 @@ public class createRecipeController2 {
         }
     }
 
-
     @FXML
     private void addRecipeNameClick() {
         String recipeName = recipeNameInput.getText().trim();
@@ -146,4 +153,98 @@ public class createRecipeController2 {
         ingredientQtyInputs.get(ingredientCount).setDisable(false);
     }
 
+    private void addRecipeDescription(){
+        String description = recipeDescriptionInput.getText().trim();
+        if(description.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Description cannot be empty, please enter a valid description.");
+            alert.showAndWait();
+        }
+        else{
+            System.out.println("Description: " + description);
+            this.description = description;
+            recipeDescriptionInput.setDisable(true);
+            descriptionSubmit.setDisable(true);
+        }
+    }
+
+    private void addRecipeDuration(){
+        String duration = durationInput.getText().trim();
+        if(duration.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Description cannot be empty, please enter a valid description.");
+            alert.showAndWait();
+        }
+        else{
+            try {
+                this.duration = Integer.parseInt(duration);
+                if(this.duration < 0){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Duration must be a positive integer.");
+                    alert.showAndWait();
+                    durationInput.clear();
+                    return;
+                }
+                System.out.println("Duration is: " + this.duration);
+                durationInput.setDisable(true);
+                durationSubmit.setDisable(true);
+
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Duration must be a valid integer.");
+                alert.showAndWait();
+                durationInput.clear();
+            }
+        }
+    }
+
+    private void addRecipeServingSize(){
+        String servingSize = servingSizeInput.getText().trim();
+        if(servingSize.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Serving size cannot be empty, please enter a valid quantity.");
+            alert.showAndWait();
+        }
+        else{
+            try {
+                this.servingSize = Integer.parseInt(servingSize);
+                if(this.servingSize < 0){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Serving size must be a positive integer.");
+                    alert.showAndWait();
+                    servingSizeInput.clear();
+                    return;
+                }
+                System.out.println("Serving size is: " + this.duration);
+                servingSizeInput.setDisable(true);
+                servingSizeSubmit.setDisable(true);
+
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Serving size must be a valid integer.");
+                alert.showAndWait();
+                servingSizeInput.clear();
+            }
+        }
+    }
+
+    private void addRecipeImagePath(){
+        String imagePath = imagePathInput.getText().trim();
+        if(imagePath.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure you want to leave image path empty?.");
+            alert.showAndWait()
+                    .filter(response -> response == ButtonType.OK)
+                    .ifPresent(response -> imagePathHelper(imagePath));
+        }
+        else{
+            imagePathHelper(imagePath);
+        }
+    }
+
+    private void imagePathHelper(String imagePath){
+        System.out.println("Image path: " + imagePath);
+        this.imagePath = imagePath;
+        imagePathInput.setDisable(true);
+        imagePathSubmit.setDisable(true);
+    }
 }
