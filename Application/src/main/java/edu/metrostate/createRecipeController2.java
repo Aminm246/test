@@ -3,13 +3,18 @@ package edu.metrostate;
 import ingredient.model.Ingredient;
 import ingredient.model.IngredientsInventory;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import recipe.controller.RecipeController;
 import recipe.model.InstructionStep;
 import recipe.model.Recipe;
 import recipe.model.RecipeManager;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -263,15 +268,28 @@ public class createRecipeController2 {
     }
 
     private void createRecipe(){
-        submitCounter = submitCounter + 2;//This is only temp until instructions and tags is implemented.
         System.out.println(submitCounter);
-        if(submitCounter == 8){
+        //This is only temp until instructions and tags is implemented. !!!!!!!!!!!!!!!!!!
+        //Change to 8 when done
+        if(submitCounter == 6){
             List<InstructionStep> instructions = new ArrayList<InstructionStep>();
             List<String> tagList = new ArrayList<String>();
             Recipe recipe = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
                     imagePath,ingredientList,ingredientQtyList,instructions);
             System.out.println(recipe.toString());
 
+
+            Stage stage = (Stage) recipeNameInput.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             new viewRecipeController().setRecipe(recipe);
         }
