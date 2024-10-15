@@ -1,21 +1,10 @@
 package edu.metrostate;
 
-import ingredient.model.Ingredient;
-import ingredient.model.IngredientsInventory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
-import recipe.model.InstructionStep;
-import recipe.model.Recipe;
-import recipe.model.RecipeManager;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class Main extends Application {
 
@@ -29,7 +18,7 @@ public class Main extends Application {
         stage.setTitle("Cookbook v0.1");
 
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipe2.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
         Parent root = loader.load();
 
 //        FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
@@ -71,7 +60,7 @@ public class Main extends Application {
 //        stage.setScene(scene);
 //        stage.show();
 
-        createRecipeController2 controller = loader.getController();
+        createRecipeViewController controller = loader.getController();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

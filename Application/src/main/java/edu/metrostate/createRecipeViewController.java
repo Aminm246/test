@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class createRecipeController2 {
+public class createRecipeViewController {
 
     @FXML
     private TextField recipeNameInput, ingredient1NameInput, ingredient2NameInput, ingredient3NameInput,
