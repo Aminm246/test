@@ -1,9 +1,11 @@
 package edu.metrostate;
 
 import ingredient.model.Ingredient;
+import ingredient.model.IngredientsInventory;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import recipe.model.RecipeManager;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -41,6 +43,8 @@ public class createRecipeController2 {
     List<TextField> ingredientQtyInputs;
     List<Button> ingredientSubmitButtons;
     int ingredientCount;
+    IngredientsInventory ingredientInventory = new IngredientsInventory();
+    RecipeManager recipeManager = new RecipeManager();
 
     @FXML
     public void initialize() {
@@ -80,7 +84,6 @@ public class createRecipeController2 {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Ingredient name must not be empty, please enter a valid value.");
             alert.showAndWait();
-
         }
 
         if (ingredientQty.isEmpty()) {
@@ -103,7 +106,9 @@ public class createRecipeController2 {
 
         ingredientNameInputs.get(ingredientCount).setDisable(true);
         ingredientQtyInputs.get(ingredientCount).setDisable(true);
-        ingredientList.add(new Ingredient(ingredientName));
+        //ingredientList.add(new Ingredient(ingredientName));
+        //need to add implementation for if the ingredient is already added to the inventory. if add just return the existing object.
+        ingredientList.add(ingredientInventory.addIngredient(ingredientName));
         ingredientQtyList.add(new BigDecimal(ingredientQty));
         ingredientCount++;
 
