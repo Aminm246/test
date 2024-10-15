@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.viewRecipeController">
    <children>
-      <Text layoutX="205.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name" wrappingWidth="91.13672637939453" />
+      <Text fx:id="recipeNameTag" layoutX="205.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name" wrappingWidth="91.13672637939453" />
       <Text layoutX="201.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags" wrappingWidth="73.13671875" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
       <Text layoutX="205.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredients" wrappingWidth="79.13672065734863" />

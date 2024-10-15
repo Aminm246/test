@@ -1,9 +1,12 @@
 package recipe.model;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+
+import ingredient.model.Ingredient;
 import ingredient.model.IngredientsInventory;
 
 public class RecipeManager {
@@ -20,7 +23,9 @@ public class RecipeManager {
         return recipeList.get(recipeID);
     }
 
-    public Recipe addRecipe(Recipe recipe){
+    public Recipe addRecipe(String recipeName, int createdBy, List<String> tagList, int duration, int servingSize, String description,
+                            String imagePath, List<Ingredient> ingredientList, List<BigDecimal> ingredientQtyList, List<InstructionStep> instructions){
+        Recipe recipe = new Recipe(nextRecipeId,recipeName,createdBy,tagList,duration,servingSize,description,imagePath,ingredientList,ingredientQtyList,instructions);
         recipeList.put(nextRecipeId,recipe);
         nextRecipeId++;
         return recipe;

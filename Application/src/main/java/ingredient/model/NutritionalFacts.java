@@ -12,6 +12,9 @@ public class NutritionalFacts {
     BigDecimal fiber;
     BigDecimal sugar;
 
+    public NutritionalFacts(){
+
+    }
     public NutritionalFacts(BigDecimal calories, int nutritionId, BigDecimal fat, BigDecimal carbohydrates, BigDecimal protein, BigDecimal sodium, BigDecimal fiber, BigDecimal sugar) {
         this.calories = calories;
         this.nutritionId = nutritionId;

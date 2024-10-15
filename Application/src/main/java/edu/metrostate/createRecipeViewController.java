@@ -1,10 +1,20 @@
 package edu.metrostate;
 
 import ingredient.model.Ingredient;
+import ingredient.model.IngredientsInventory;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import recipe.controller.RecipeController;
+import recipe.model.InstructionStep;
+import recipe.model.Recipe;
+import recipe.model.RecipeManager;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +50,21 @@ public class createRecipeViewController {
     List<TextField> ingredientNameInputs;
     List<TextField> ingredientQtyInputs;
     List<Button> ingredientSubmitButtons;
+    viewRecipeController viewRecipeControl = new viewRecipeController();
     int ingredientCount;
+    String description;
+    int duration;
+    int servingSize;
+    String imagePath;
+    IngredientsInventory ingredientInventory = new IngredientsInventory();
+    RecipeManager recipeManager = new RecipeManager();
+    //submitCounter counts the submits of each section to make sure it's all submitted before creating recipe.
+    int submitCounter;
 
     @FXML
     public void initialize() {
         ingredientCount = 0;
+        submitCounter = 0;
         ingredientList = new ArrayList<Ingredient>();
         ingredientQtyList = new ArrayList<BigDecimal>();
         ingredientNameInputs = List.of(ingredient1NameInput, ingredient2NameInput, ingredient3NameInput, ingredient4NameInput, ingredient5NameInput, ingredient6NameInput);
@@ -52,6 +72,11 @@ public class createRecipeViewController {
         recipeNameSubmit.setOnAction(event -> addRecipeNameClick());
         ingredientSubmit.setOnAction(event -> addSingleIngredientClick());
         allIngredientsSubmit.setOnAction(event -> addAllIngredientsClick());
+        durationSubmit.setOnAction(event -> addRecipeDuration());
+        descriptionSubmit.setOnAction(event -> addRecipeDescription());
+        servingSizeSubmit.setOnAction(event -> addRecipeServingSize());
+        imagePathSubmit.setOnAction(event -> addRecipeImagePath());
+        recipeSubmit.setOnAction(event -> createRecipe());
     }
 
     private void addAllIngredientsClick() {
@@ -70,6 +95,7 @@ public class createRecipeViewController {
         allIngredientsSubmit.setDisable(true);
         System.out.println(ingredientList.toString());
         System.out.println(ingredientQtyList.toString());
+        submitCounter++;
     }
 
     private void addSingleIngredientClick() {
@@ -80,7 +106,6 @@ public class createRecipeViewController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Ingredient name must not be empty, please enter a valid value.");
             alert.showAndWait();
-
         }
 
         if (ingredientQty.isEmpty()) {
@@ -103,7 +128,9 @@ public class createRecipeViewController {
 
         ingredientNameInputs.get(ingredientCount).setDisable(true);
         ingredientQtyInputs.get(ingredientCount).setDisable(true);
-        ingredientList.add(new Ingredient(ingredientName));
+        //ingredientList.add(new Ingredient(ingredientName));
+        //need to add implementation for if the ingredient is already added to the inventory. if add just return the existing object.
+        ingredientList.add(ingredientInventory.addIngredient(ingredientName));
         ingredientQtyList.add(new BigDecimal(ingredientQty));
         ingredientCount++;
 
@@ -115,7 +142,6 @@ public class createRecipeViewController {
             ingredientSubmit.setDisable(true);
         }
     }
-
 
     @FXML
     private void addRecipeNameClick() {
@@ -133,6 +159,7 @@ public class createRecipeViewController {
             recipeNameSubmit.setDisable(true);
             ingredientSubmit.setDisable(false);
             openIngredientField();
+            submitCounter++;
         }
     }
 
@@ -141,4 +168,131 @@ public class createRecipeViewController {
         ingredientQtyInputs.get(ingredientCount).setDisable(false);
     }
 
+    private void addRecipeDescription(){
+        String description = recipeDescriptionInput.getText().trim();
+        if(description.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Description cannot be empty, please enter a valid description.");
+            alert.showAndWait();
+        }
+        else{
+            System.out.println("Description: " + description);
+            this.description = description;
+            recipeDescriptionInput.setDisable(true);
+            descriptionSubmit.setDisable(true);
+            submitCounter++;
+        }
+    }
+
+    private void addRecipeDuration(){
+        String duration = durationInput.getText().trim();
+        if(duration.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Description cannot be empty, please enter a valid description.");
+            alert.showAndWait();
+        }
+        else{
+            try {
+                this.duration = Integer.parseInt(duration);
+                if(this.duration < 0){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Duration must be a positive integer.");
+                    alert.showAndWait();
+                    durationInput.clear();
+                    return;
+                }
+                System.out.println("Duration is: " + this.duration);
+                durationInput.setDisable(true);
+                durationSubmit.setDisable(true);
+                submitCounter++;
+
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Duration must be a valid integer.");
+                alert.showAndWait();
+                durationInput.clear();
+            }
+        }
+    }
+
+    private void addRecipeServingSize(){
+        String servingSize = servingSizeInput.getText().trim();
+        if(servingSize.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Serving size cannot be empty, please enter a valid quantity.");
+            alert.showAndWait();
+        }
+        else{
+            try {
+                this.servingSize = Integer.parseInt(servingSize);
+                if(this.servingSize < 0){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Serving size must be a positive integer.");
+                    alert.showAndWait();
+                    servingSizeInput.clear();
+                    return;
+                }
+                System.out.println("Serving size is: " + this.duration);
+                servingSizeInput.setDisable(true);
+                servingSizeSubmit.setDisable(true);
+                submitCounter++;
+
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Serving size must be a valid integer.");
+                alert.showAndWait();
+                servingSizeInput.clear();
+            }
+        }
+    }
+
+    private void addRecipeImagePath(){
+        String imagePath = imagePathInput.getText().trim();
+        if(imagePath.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure you want to leave image path empty?.");
+            alert.showAndWait()
+                    .filter(response -> response == ButtonType.OK)
+                    .ifPresent(response -> imagePathHelper(imagePath));
+        }
+        else{
+            imagePathHelper(imagePath);
+        }
+    }
+
+    private void imagePathHelper(String imagePath){
+        System.out.println("Image path: " + imagePath);
+        this.imagePath = imagePath;
+        imagePathInput.setDisable(true);
+        imagePathSubmit.setDisable(true);
+        submitCounter++;
+    }
+
+    private void createRecipe(){
+        System.out.println(submitCounter);
+        //This is only temp until instructions and tags is implemented. !!!!!!!!!!!!!!!!!!
+        //Change to 8 when done
+        if(submitCounter == 6){
+            List<InstructionStep> instructions = new ArrayList<InstructionStep>();
+            List<String> tagList = new ArrayList<String>();
+            Recipe recipe = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
+                    imagePath,ingredientList,ingredientQtyList,instructions);
+            System.out.println(recipe.toString());
+
+
+            Stage stage = (Stage) recipeNameInput.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            new viewRecipeController().setRecipe(recipe);
+        }
+
+    }
 }

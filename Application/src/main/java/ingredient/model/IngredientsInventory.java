@@ -1,11 +1,17 @@
 package ingredient.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientsInventory {
     List<Ingredient> inventory;
+    int ingredientID;
 
+    public IngredientsInventory(){
+        inventory = new ArrayList<Ingredient>();
+        ingredientID = 1;
+    }
     public IngredientsInventory(List<Ingredient> inventory) {
         this.inventory = inventory;
     }
@@ -18,8 +24,11 @@ public class IngredientsInventory {
         this.inventory = inventory;
     }
 
-    public void addIngredient(String ingredientName) {
-        //this.inventory.add(ingredient);
+    public Ingredient addIngredient(String ingredientName) {
+        Ingredient x = new Ingredient(ingredientName,ingredientID);
+        inventory.add(x);
+        ingredientID++;
+        return x;
     }
 
     public void deleteIngredient(Ingredient ingredient) {
