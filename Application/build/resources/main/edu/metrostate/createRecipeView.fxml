@@ -6,6 +6,27 @@
 
 <AnchorPane prefHeight="1000.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.createRecipeViewController">
    <children>
+      <MenuBar VBox.vgrow="NEVER">
+         <menus>
+            <Menu mnemonicParsing="false" text="Recipes">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Create Recipe" />
+                  <!--<MenuItem mnemonicParsing="false" text="View Recipes" />
+                  <MenuItem mnemonicParsing="false" text="View Suggestions" />
+                  <MenuItem mnemonicParsing="false" text="Open Calorie Tracker" />-->
+               </items></Menu>
+            <Menu mnemonicParsing="false" text="Ingredients">
+               <items>
+                  <!--<MenuItem mnemonicParsing="false" text="View Ingredients" />
+                  <MenuItem mnemonicParsing="false" text="Create Ingredient" />-->
+               </items></Menu>
+            <Menu mnemonicParsing="false" text="Favorites">
+               <items>
+                  <!--<MenuItem mnemonicParsing="false" text="Add Favorite" />
+                  <MenuItem mnemonicParsing="false" text="View Favorites" />-->
+               </items></Menu>
+         </menus>
+      </MenuBar>
       <Text layoutX="21.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name:" wrappingWidth="120.13671875">
          <font>
             <Font size="14.0" />

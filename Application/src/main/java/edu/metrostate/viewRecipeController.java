@@ -93,4 +93,16 @@ public class viewRecipeController{
             recipeImageView.setImage(image);
         }
     }
+
+    @FXML
+    private void switchToCreateRecipe(){
+        try {
+            Stage stage = (Stage) recipeNameLabel.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
+            Parent root = loader.load();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

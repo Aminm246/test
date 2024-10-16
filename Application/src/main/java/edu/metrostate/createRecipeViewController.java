@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class createRecipeViewController {
 
@@ -335,28 +336,40 @@ public class createRecipeViewController {
     private void createRecipe(){
         System.out.println(submitCounter);
         if(submitCounter == 7){
-            List<String> tagList = new ArrayList<String>();
-            Recipe recipe = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
-                    imagePath,ingredientList,ingredientQtyList,instructionSteps);
-            System.out.println(recipe.toString());
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Do you want to view the recipe?",ButtonType.YES,ButtonType.NO);
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.get() == ButtonType.YES){
+                List<String> tagList = new ArrayList<>();
+                Recipe recipe = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
+                        imagePath,ingredientList,ingredientQtyList,instructionSteps);
+                System.out.println(recipe.toString());
 
+                try {
+                    Stage stage = (Stage) recipeNameInput.getScene().getWindow();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
+                    Parent root = loader.load();
+                    viewRecipeController controller = loader.getController();
 
+                    stage.setScene(new Scene(root));
+                    controller.setRecipe(recipe);
+                    controller.setRecipe();
 
-            try {
-                Stage stage = (Stage) recipeNameInput.getScene().getWindow();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
-                Parent root = loader.load();
-                viewRecipeController controller = loader.getController();
-
-                stage.setScene(new Scene(root));
-                controller.setRecipe(recipe);
-                controller.setRecipe();
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
+            else{
+                Stage stage = (Stage) ingredientSubmit.getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
 
-
+                try {
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
     }
