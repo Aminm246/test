@@ -204,7 +204,7 @@ public class createRecipeViewController {
         System.out.println(instructionSteps.toString());
         recipeDescriptionInput.setDisable(false);
         descriptionSubmit.setDisable(false);
-
+        submitCounter++;
     }
 
 
@@ -334,9 +334,7 @@ public class createRecipeViewController {
 
     private void createRecipe(){
         System.out.println(submitCounter);
-        //This is only temp until instructions and tags is implemented. !!!!!!!!!!!!!!!!!!
-        //Change to 8 when done
-        if(submitCounter == 6){
+        if(submitCounter == 7){
             List<InstructionStep> instructions = new ArrayList<InstructionStep>();
             List<String> tagList = new ArrayList<String>();
             Recipe recipe = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
@@ -344,19 +342,22 @@ public class createRecipeViewController {
             System.out.println(recipe.toString());
 
 
-            Stage stage = (Stage) recipeNameInput.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
-            Parent root = null;
+
             try {
-                root = loader.load();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
+                Stage stage = (Stage) recipeNameInput.getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
+                Parent root = loader.load();
+                viewRecipeController controller = loader.getController();
+
+                stage.setScene(new Scene(root));
+                controller.setRecipe(recipe);
+                controller.setRecipe();
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
-            new viewRecipeController().setRecipe(recipe);
+
         }
 
     }

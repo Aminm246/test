@@ -2,20 +2,15 @@ package edu.metrostate;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class createRecipeController {
+public class retiredCreateRecipeController {
     @FXML private Stage stage;
     private Scene scene;
     private Parent root;
@@ -31,10 +26,12 @@ public class createRecipeController {
     @FXML private TextField instructionStepNum;
     @FXML private TextArea recipeDescription;
 
+    /*
     @FXML private TextField tag1Input, tag2Input, tag3Input, tag4Input, tag5Input;
     @FXML private Button tag1Submit, tag2Submit, tag3Submit, tag4Submit, tag5Submit, tagsSubmit;
 
     private List<String> tagList = new ArrayList<>();
+    */
 
     public void switchToViewRecipeList(javafx.event.ActionEvent e) throws IOException {
         /*Parent root = FXMLLoader.load(getClass().getResource("recipeList.fxml"));
@@ -50,6 +47,9 @@ public class createRecipeController {
         stage.show();
     }
 
+
+
+    /*
     public void createButton() {
         if(recipeName.getCharacters().toString() =="") {
             System.out.println("empty");
@@ -63,6 +63,7 @@ public class createRecipeController {
             }
         }
     }
+
 
     public void cancelButton(){
         tag1Input.clear();
@@ -118,4 +119,6 @@ public class createRecipeController {
             System.out.println("Added tag: " + tag);
         }
     }
+
+     */
 }

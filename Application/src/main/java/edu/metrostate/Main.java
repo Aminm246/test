@@ -19,7 +19,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
         Parent root = loader.load();
 
-        createRecipeViewController controller = loader.getController();
+        //createRecipeViewController controller = loader.getController();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

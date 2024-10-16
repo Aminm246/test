@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import recipe.model.Recipe;
 import recipe.model.RecipeManager;
 
-public class viewRecipeController {
+public class viewRecipeController{
 
     @FXML
     private Text recipeNameTag;
@@ -45,9 +45,22 @@ public class viewRecipeController {
     @FXML
     private ImageView recipeImageView;
 
-    public void setRecipe(Recipe recipe) {
-        System.out.println("TEST");
-        System.out.println(recipeNameTag.getText());
+    private Recipe recipe;
+
+    @FXML
+    public void initialize() {
+        System.out.println("HELLO???");
+        //setRecipe();
+    }
+
+    public void setRecipe(Recipe recipe){
+        //System.out.println("RECIPE NOT SET" + recipe.toString());
+        this.recipe = recipe;
+        //System.out.println("RECIPE SET" + this.recipe.toString());
+    }
+
+    public void setRecipe() {
+
         recipeNameLabel.setText(recipe.getRecipeName());
         List<String> ingredientNames = new ArrayList<>();
         for (Ingredient ingredient : recipe.getIngredientList()) {
