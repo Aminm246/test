@@ -335,10 +335,9 @@ public class createRecipeViewController {
     private void createRecipe(){
         System.out.println(submitCounter);
         if(submitCounter == 7){
-            List<InstructionStep> instructions = new ArrayList<InstructionStep>();
             List<String> tagList = new ArrayList<String>();
             Recipe recipe = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
-                    imagePath,ingredientList,ingredientQtyList,instructions);
+                    imagePath,ingredientList,ingredientQtyList,instructionSteps);
             System.out.println(recipe.toString());
 
 

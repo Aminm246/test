@@ -15,6 +15,7 @@ import recipe.model.InstructionStep;
 import recipe.model.Recipe;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,12 +48,6 @@ public class viewRecipeController{
 
     private Recipe recipe;
 
-    @FXML
-    public void initialize() {
-        System.out.println("HELLO???");
-        //setRecipe();
-    }
-
     public void setRecipe(Recipe recipe){
         //System.out.println("RECIPE NOT SET" + recipe.toString());
         this.recipe = recipe;
@@ -62,16 +57,23 @@ public class viewRecipeController{
     public void setRecipe() {
 
         recipeNameLabel.setText(recipe.getRecipeName());
-        List<String> ingredientNames = new ArrayList<>();
-        for (Ingredient ingredient : recipe.getIngredientList()) {
-            ingredientNames.add(ingredient.getIngredientName());
+        List<String> ingredients = new ArrayList<>();
+        List<BigDecimal> ingredientQty = recipe.getIngredientQtyList();
+        List<Ingredient> ingredientList = recipe.getIngredientList();
+
+        for (int i = 0; i < ingredientList.size();i++){
+            ingredients.add(ingredientList.get(i).getIngredientName().concat(ingredientQty.get(i).toString()));
         }
+        /*for (Ingredient ingredient : recipe.getIngredientList()) {
+            ingredients.add(ingredient.getIngredientName());
+        }*/
+
         List<String> instructions = new ArrayList<>();
         for (InstructionStep instructionStep : recipe.getInstructions()) {
             String instruction = instructionStep.getStepNum() + " " + instructionStep.getStepDescription();
             instructions.add(instruction);
         }
-        ingredientsTextArea.setText(String.join("\n", ingredientNames));
+        ingredientsTextArea.setText(String.join("\n", ingredients));
         instructionsTextArea.setText(String.join("\n", instructions));
         tagsLabel.setText(String.join(", ", recipe.getTags()));
         descriptionLabel.setText(recipe.getDescription());
