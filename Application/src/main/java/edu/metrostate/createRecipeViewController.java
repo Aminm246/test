@@ -348,7 +348,6 @@ public class createRecipeViewController {
 
                     stage.setScene(new Scene(root));
                     controller.setRecipe(recipe);
-                    controller.setRecipe();
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);

@@ -43,15 +43,7 @@ public class viewRecipeController {
     @FXML
     private ImageView recipeImageView;
 
-    private Recipe recipe;
-
-    public void setRecipe(Recipe recipe){
-        //System.out.println("RECIPE NOT SET" + recipe.toString());
-        this.recipe = recipe;
-        //System.out.println("RECIPE SET" + this.recipe.toString());
-    }
-
-    public void setRecipe() {
+    public void setRecipe(Recipe recipe) {
 
         recipeNameLabel.setText(recipe.getRecipeName());
         List<String> ingredients = new ArrayList<>();
@@ -61,9 +53,6 @@ public class viewRecipeController {
         for (int i = 0; i < ingredientList.size();i++){
             ingredients.add(ingredientList.get(i).getIngredientName().concat(ingredientQty.get(i).toString()));
         }
-        /*for (Ingredient ingredient : recipe.getIngredientList()) {
-            ingredients.add(ingredient.getIngredientName());
-        }*/
 
         List<String> instructions = new ArrayList<>();
         for (InstructionStep instructionStep : recipe.getInstructions()) {
