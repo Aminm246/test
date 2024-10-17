@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class retiredCreateRecipeController {
+public class retiredToBeDeletedCreateRecipeController {
     @FXML private Stage stage;
     private Scene scene;
     private Parent root;
@@ -34,13 +34,13 @@ public class retiredCreateRecipeController {
     */
 
     public void switchToViewRecipeList(javafx.event.ActionEvent e) throws IOException {
-        /*Parent root = FXMLLoader.load(getClass().getResource("recipeList.fxml"));
+        /*Parent root = FXMLLoader.load(getClass().getResource("recipeListView.fxml"));
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();*/
         stage = (Stage) recipeName.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("recipeList.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("recipeListView.fxml"));
         Parent root = loader.load();
         scene = new Scene(root);
         stage.setScene(scene);

@@ -19,11 +19,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import recipe.model.Recipe;
-import recipe.model.RecipeManager;
 
-public class viewRecipeController{
+public class viewRecipeController {
 
     @FXML
     private Text recipeNameTag;

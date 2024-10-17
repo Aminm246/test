@@ -9,13 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import recipe.controller.RecipeController;
 import recipe.model.InstructionStep;
 import recipe.model.Recipe;
 import recipe.model.RecipeManager;
-import recipe.model.InstructionStep;
-
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
