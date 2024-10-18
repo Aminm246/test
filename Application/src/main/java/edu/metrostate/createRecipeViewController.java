@@ -21,13 +21,10 @@ import java.util.Optional;
 public class createRecipeViewController {
 
     @FXML
-    private TextField recipeNameInput, ingredient1NameInput, ingredient2NameInput, ingredient3NameInput,
-            ingredient4NameInput, ingredient5NameInput, ingredient6NameInput, ingredient1QtyInput,
-            ingredient2QtyInput, ingredient3QtyInput, ingredient4QtyInput, ingredient5QtyInput,
-            ingredient6QtyInput, tag1Input, tag2Input, tag3Input, tag4Input, tag5Input, durationInput, servingSizeInput, imagePathInput;
+    private TextField recipeNameInput, ingredientNameInput, ingredientQtyInput,
+            tag1Input, tag2Input, tag3Input, tag4Input, tag5Input, durationInput, servingSizeInput, imagePathInput;
     @FXML
-    private TextArea instruction1Input, instruction2Input, instruction3Input, instruction4Input,
-            instruction5Input, recipeDescriptionInput;
+    private TextArea instructionInput, recipeDescriptionInput,instructionFxList,ingredientFxList;
 
 
     @FXML
@@ -36,9 +33,7 @@ public class createRecipeViewController {
             allIngredientsSubmit, instructionsSubmit, tagsSubmit, recipeSubmit, cancelRecipe;
 
     @FXML
-    private Text recipeNameLabel, recipeTagsLabel, ingredientNameLabel1, ingredientNameLabel2, ingredientNameLabel3,
-            ingredientQtyLabel1, ingredientQtyLabel2, ingredientQtyLabel3, recipeDescriptionLabel,
-            ingredientNameLabel4, ingredientNameLabel5, ingredientQtyLabel4, ingredientQtyLabel5,
+    private Text recipeNameLabel, recipeTagsLabel, ingredientNameLabel1, ingredientQtyLabel1,recipeDescriptionLabel,
             instructionsLabel, durationLabel, servingSizeLabel, imagePathLabel;
 
     String recipeName;
@@ -74,11 +69,6 @@ public class createRecipeViewController {
         ingredientQtyList = new ArrayList<BigDecimal>();
         instructionSteps = new ArrayList<InstructionStep>();
 
-        ingredientNameInputs = List.of(ingredient1NameInput, ingredient2NameInput, ingredient3NameInput, ingredient4NameInput, ingredient5NameInput, ingredient6NameInput);
-        ingredientQtyInputs = List.of(ingredient1QtyInput, ingredient2QtyInput, ingredient3QtyInput, ingredient4QtyInput, ingredient5QtyInput, ingredient6QtyInput);
-        instructionStepsInputs = List.of(instruction1Input, instruction2Input, instruction3Input, instruction4Input, instruction5Input);
-
-
 
         recipeNameSubmit.setOnAction(event -> addRecipeNameClick());
         ingredientSubmit.setOnAction(event -> addSingleIngredientClick());
@@ -92,16 +82,10 @@ public class createRecipeViewController {
         allInstructionsSubmit.setOnAction(event -> addAllInstructionsClick());
     }
 
-
-
     private void addAllIngredientsClick() {
         if (ingredientCount < 6) {
-            if (!ingredientNameInputs.get(ingredientCount).getText().isEmpty() && !ingredientQtyInputs.get(ingredientCount).getText().isEmpty()) {
+            if (!ingredientNameInput.getText().isEmpty() && !ingredientQtyInput.getText().isEmpty()) {
                 addSingleIngredientClick();
-            }
-            else {
-                ingredientNameInputs.get(ingredientCount).setDisable(true);
-                ingredientQtyInputs.get(ingredientCount).setDisable(true);
             }
         }
         ingredientSubmit.setDisable(true);
@@ -109,14 +93,11 @@ public class createRecipeViewController {
         System.out.println(ingredientList.toString());
         System.out.println(ingredientQtyList.toString());
         submitCounter++;
-        instruction1Input.setDisable(false);
-        instructionSubmit.setDisable(false);
-
     }
 
     private void addSingleIngredientClick() {
-        String ingredientName = ingredientNameInputs.get(ingredientCount).getText().trim();
-        String ingredientQty = ingredientQtyInputs.get(ingredientCount).getText().trim();
+        String ingredientName = ingredientNameInput.getText().trim();
+        String ingredientQty = ingredientQtyInput.getText().trim();
 
         if (ingredientName.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -138,30 +119,24 @@ public class createRecipeViewController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Ingredient quantity must be a valid integer.");
             alert.showAndWait();
-            ingredientQtyInputs.get(ingredientCount).clear();
+            ingredientQtyInput.clear();
             return;
         }
 
-        ingredientNameInputs.get(ingredientCount).setDisable(true);
-        ingredientQtyInputs.get(ingredientCount).setDisable(true);
         //ingredientList.add(new Ingredient(ingredientName));
         //need to add implementation for if the ingredient is already added to the inventory. if add just return the existing object.
-        ingredientList.add(ingredientInventory.addIngredient(ingredientName));
+        Ingredient ingredient = ingredientInventory.addIngredient(ingredientName);
+        ingredientList.add(ingredient);
         ingredientQtyList.add(new BigDecimal(ingredientQty));
+        ingredientNameInput.clear();
+        ingredientQtyInput.clear();
+        allIngredientsSubmit.setDisable(false);
+        ingredientFxList.setText(ingredientFxList.getText() + ingredient.getIngredientName() + " " + ingredientQty + "\n");
         ingredientCount++;
-
-        if (ingredientCount > 0 && ingredientCount < 6) {
-            openIngredientField();
-            allIngredientsSubmit.setDisable(false);
-        }
-        else {
-            ingredientSubmit.setDisable(true);
-        }
     }
 
-
     private void addSingleInstructionClick() {
-        String instructionStepString = instructionStepsInputs.get(instructionCount).getText().trim();
+        String instructionStepString = instructionInput.getText().trim();
 
         if (instructionStepString.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -173,29 +148,21 @@ public class createRecipeViewController {
             InstructionStep instructionStep = new InstructionStep(instructionCount + 1, instructionStepString);
             System.out.println(instructionStep.toString());
             instructionSteps.add(instructionStep);
-            instructionStepsInputs.get(instructionCount).setDisable(true);
+            instructionFxList.setText(instructionFxList.getText() + instructionStep.getStepNum() + " " + instructionStep.getStepDescription() + "\n");
+            instructionInput.clear();
             instructionCount++;
             allInstructionsSubmit.setDisable(false);
-            if (instructionCount > 0 && instructionCount < 5) {
-                openInstructionField();
-            }
-            else {
-                instructionSubmit.setDisable(true);
-            }
+
         }
 
     }
 
     private void addAllInstructionsClick() {
-        if (instructionCount < 5) {
-            if (!instructionStepsInputs.get(instructionCount).getText().isEmpty()) {
-                System.out.println("Inside");
-                addSingleInstructionClick();
-            }
-            else {
-                instructionStepsInputs.get(instructionCount).setDisable(true);
-            }
+        if (!instructionInput.getText().isEmpty()) {
+            System.out.println("Inside");
+            addSingleInstructionClick();
         }
+
         allInstructionsSubmit.setDisable(true);
         instructionSubmit.setDisable(true);
         System.out.println(instructionSteps.toString());
@@ -220,14 +187,8 @@ public class createRecipeViewController {
             recipeNameInput.setDisable(true);
             recipeNameSubmit.setDisable(true);
             ingredientSubmit.setDisable(false);
-            openIngredientField();
             submitCounter++;
         }
-    }
-
-    private void openIngredientField() {
-        ingredientNameInputs.get(ingredientCount).setDisable(false);
-        ingredientQtyInputs.get(ingredientCount).setDisable(false);
     }
 
     private void addRecipeDescription(){
