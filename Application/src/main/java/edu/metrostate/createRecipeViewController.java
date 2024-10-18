@@ -170,9 +170,7 @@ public class createRecipeViewController {
         descriptionSubmit.setDisable(false);
         submitCounter++;
     }
-
-
-    @FXML
+    
     private void addRecipeNameClick() {
         String recipeName = recipeNameInput.getText().trim();
 

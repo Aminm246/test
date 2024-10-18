@@ -51,12 +51,12 @@ public class viewRecipeController {
         List<Ingredient> ingredientList = recipe.getIngredientList();
 
         for (int i = 0; i < ingredientList.size();i++){
-            ingredients.add(ingredientList.get(i).getIngredientName().concat(ingredientQty.get(i).toString()));
+            ingredients.add(ingredientQty.get(i).toString() + "g " + ingredientList.get(i).getIngredientName());
         }
 
         List<String> instructions = new ArrayList<>();
         for (InstructionStep instructionStep : recipe.getInstructions()) {
-            String instruction = instructionStep.getStepNum() + " " + instructionStep.getStepDescription();
+            String instruction = "Instruction " + instructionStep.getStepNum() + ": " + instructionStep.getStepDescription();
             instructions.add(instruction);
         }
         ingredientsTextArea.setText(String.join("\n", ingredients));
