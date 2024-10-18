@@ -131,7 +131,7 @@ public class createRecipeViewController {
         ingredientNameInput.clear();
         ingredientQtyInput.clear();
         allIngredientsSubmit.setDisable(false);
-        ingredientFxList.setText(ingredientFxList.getText() + ingredient.getIngredientName() + " " + ingredientQty + "\n");
+        ingredientFxList.setText(ingredientFxList.getText() + ingredientQty + "g " + ingredient.getIngredientName() + "\n");
         ingredientCount++;
     }
 
@@ -148,7 +148,7 @@ public class createRecipeViewController {
             InstructionStep instructionStep = new InstructionStep(instructionCount + 1, instructionStepString);
             System.out.println(instructionStep.toString());
             instructionSteps.add(instructionStep);
-            instructionFxList.setText(instructionFxList.getText() + instructionStep.getStepNum() + " " + instructionStep.getStepDescription() + "\n");
+            instructionFxList.setText(instructionFxList.getText() + "Instruction " + instructionStep.getStepNum() + ": " + instructionStep.getStepDescription() + "\n");
             instructionInput.clear();
             instructionCount++;
             allInstructionsSubmit.setDisable(false);

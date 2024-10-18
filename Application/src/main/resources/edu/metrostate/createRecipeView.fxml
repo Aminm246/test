@@ -113,7 +113,7 @@
             <ColorAdjust contrast="-0.15" />
          </effect>
       </TextArea>
-      <TextArea editable="false" layoutX="704.0" layoutY="353.0" prefHeight="45.0" prefWidth="652.0">
+      <TextArea editable="false" layoutX="704.0" layoutY="353.0" prefHeight="55.0" prefWidth="652.0">
          <effect>
             <ColorAdjust contrast="-0.15" />
          </effect>
