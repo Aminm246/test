@@ -146,7 +146,7 @@ public class createRecipeViewController {
 
         else {
             InstructionStep instructionStep = new InstructionStep(instructionCount + 1, instructionStepString);
-            System.out.println(instructionStep.toString());
+            System.out.println(instructionStep);
             instructionSteps.add(instructionStep);
             instructionFxList.setText(instructionFxList.getText() + "Instruction " + instructionStep.getStepNum() + ": " + instructionStep.getStepDescription() + "\n");
             instructionInput.clear();

@@ -40,7 +40,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="704.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Tags:" wrappingWidth="120.13671875">
+      <Text layoutX="719.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Tags:" wrappingWidth="120.13671875">
          <font>
             <Font size="14.0" />
          </font>
@@ -51,25 +51,25 @@
          </font>
       </Text>
       <Text layoutX="-6.0" layoutY="-65.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="196.13671875" />
-      <Text layoutX="704.0" layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Description:" wrappingWidth="130.13671875">
+      <Text layoutX="714.0" layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Description:" wrappingWidth="130.13671875">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="260.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity:" wrappingWidth="146.13671874999994">
+      <Text layoutX="260.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Quantity (grams):" wrappingWidth="196.13671875000006">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
       <Button fx:id="recipeNameSubmit" layoutX="333.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit name" />
-      <Button fx:id="descriptionSubmit" layoutX="1197.0" layoutY="453.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit description" />
-      <Button fx:id="tag1Submit" layoutX="1005.0" layoutY="320.0" mnemonicParsing="false" text="+" />
-      <Text layoutX="704.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructions:" wrappingWidth="120.13671875">
+      <Button fx:id="descriptionSubmit" layoutX="1207.0" layoutY="459.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit description" />
+      <Button fx:id="tag1Submit" layoutX="1020.0" layoutY="314.0" mnemonicParsing="false" text="+" />
+      <Text layoutX="719.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructions:" wrappingWidth="120.13671875">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="389.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration:" wrappingWidth="69.13671875">
+      <Text layoutX="383.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration (min):" wrappingWidth="97.0">
          <font>
             <Font size="14.0" />
          </font>
@@ -86,34 +86,34 @@
       </Text>
       <Button fx:id="recipeSubmit" layoutX="22.0" layoutY="443.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: CYAN;" text="Create " />
       <Button fx:id="cancelRecipe" layoutX="128.0" layoutY="443.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: PINK;" text="Cancel" />
-      <Button fx:id="durationSubmit" layoutX="590.0" layoutY="168.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Submit duration" />
-      <Button fx:id="servingSizeSubmit" layoutX="590.0" layoutY="203.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Submit servings" />
+      <Button fx:id="durationSubmit" layoutX="600.0" layoutY="171.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Submit duration" />
+      <Button fx:id="servingSizeSubmit" layoutX="600.0" layoutY="206.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Submit servings" />
       <Button fx:id="imagePathSubmit" layoutX="470.0" layoutY="402.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Submit path" />
       <Button fx:id="allIngredientsSubmit" disable="true" layoutX="507.0" layoutY="131.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" text="Complete ingredients" />
-      <Button fx:id="allInstructionsSubmit" disable="true" layoutX="1075.0" layoutY="120.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="227.0" text="Complete and submit all instructions" />
-      <Button fx:id="tagsSubmit" layoutX="1038.0" layoutY="320.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit tags" />
+      <Button fx:id="allInstructionsSubmit" disable="true" layoutX="1090.0" layoutY="114.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="227.0" text="Complete and submit all instructions" />
+      <Button fx:id="tagsSubmit" layoutX="1053.0" layoutY="314.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit tags" />
       <TextField fx:id="recipeNameInput" layoutX="112.0" layoutY="40.0" prefHeight="25.0" prefWidth="210.0" />
       <TextField fx:id="ingredientNameInput" layoutX="22.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
       <TextField fx:id="ingredientQtyInput" layoutX="260.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
-      <TextArea fx:id="instructionInput" layoutX="704.0" layoutY="86.0" prefHeight="67.0" prefWidth="355.0" />
-      <TextArea fx:id="recipeDescriptionInput" layoutX="704.0" layoutY="432.0" prefHeight="67.0" prefWidth="439.0" />
-      <TextField fx:id="tag1Input" layoutX="787.0" layoutY="320.0" prefHeight="25.0" prefWidth="210.0" />
-      <TextField fx:id="durationInput" layoutX="470.0" layoutY="168.0" prefHeight="25.0" prefWidth="104.0" />
-      <TextField fx:id="servingSizeInput" layoutX="470.0" layoutY="203.0" prefHeight="25.0" prefWidth="104.0" />
+      <TextArea fx:id="instructionInput" layoutX="719.0" layoutY="80.0" prefHeight="67.0" prefWidth="355.0" />
+      <TextArea fx:id="recipeDescriptionInput" layoutX="714.0" layoutY="432.0" prefHeight="67.0" prefWidth="439.0" />
+      <TextField fx:id="tag1Input" layoutX="802.0" layoutY="314.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="durationInput" layoutX="480.0" layoutY="171.0" prefHeight="25.0" prefWidth="104.0" />
+      <TextField fx:id="servingSizeInput" layoutX="480.0" layoutY="206.0" prefHeight="25.0" prefWidth="104.0" />
       <TextField fx:id="imagePathInput" layoutX="106.0" layoutY="402.0" prefHeight="25.0" prefWidth="355.0" />
       <Button fx:id="ingredientSubmit" layoutX="507.0" layoutY="89.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" text="Submit ingredient" />
-      <Button fx:id="instructionSubmit" layoutX="1120.0" layoutY="86.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit instruction" />
+      <Button fx:id="instructionSubmit" layoutX="1135.0" layoutY="80.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit instruction" />
       <TextArea fx:id="ingredientFxList" editable="false" layoutX="24.0" layoutY="162.0" prefHeight="148.0" prefWidth="355.0" wrapText="true">
          <effect>
             <ColorAdjust contrast="-0.15" />
          </effect>
       </TextArea>
-      <TextArea fx:id="instructionFxList" editable="false" layoutX="704.0" layoutY="159.0" prefHeight="148.0" prefWidth="652.0" wrapText="true">
+      <TextArea fx:id="instructionFxList" editable="false" layoutX="719.0" layoutY="153.0" prefHeight="148.0" prefWidth="652.0" wrapText="true">
          <effect>
             <ColorAdjust contrast="-0.15" />
          </effect>
       </TextArea>
-      <TextArea editable="false" layoutX="704.0" layoutY="353.0" prefHeight="55.0" prefWidth="652.0">
+      <TextArea editable="false" layoutX="719.0" layoutY="347.0" prefHeight="55.0" prefWidth="652.0">
          <effect>
             <ColorAdjust contrast="-0.15" />
          </effect>
