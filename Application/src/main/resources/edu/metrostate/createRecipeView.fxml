@@ -6,6 +6,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -61,7 +62,7 @@
          </font>
       </Text>
       <Button fx:id="recipeNameSubmit" layoutX="333.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit name" />
-      <Button fx:id="descriptionSubmit" disable="true" layoutX="1197.0" layoutY="453.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit description" />
+      <Button fx:id="descriptionSubmit" layoutX="1197.0" layoutY="453.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit description" />
       <Button fx:id="tag1Submit" layoutX="1005.0" layoutY="320.0" mnemonicParsing="false" text="+" />
       <Text layoutX="704.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructions:" wrappingWidth="120.13671875">
          <font>
@@ -95,15 +96,27 @@
       <TextField fx:id="ingredientNameInput" layoutX="22.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
       <TextField fx:id="ingredientQtyInput" layoutX="260.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
       <TextArea fx:id="instructionInput" layoutX="704.0" layoutY="86.0" prefHeight="67.0" prefWidth="355.0" />
-      <TextArea fx:id="recipeDescriptionInput" disable="true" layoutX="704.0" layoutY="432.0" prefHeight="67.0" prefWidth="439.0" />
+      <TextArea fx:id="recipeDescriptionInput" layoutX="704.0" layoutY="432.0" prefHeight="67.0" prefWidth="439.0" />
       <TextField fx:id="tag1Input" layoutX="787.0" layoutY="320.0" prefHeight="25.0" prefWidth="210.0" />
       <TextField fx:id="durationInput" layoutX="470.0" layoutY="168.0" prefHeight="25.0" prefWidth="104.0" />
       <TextField fx:id="servingSizeInput" layoutX="470.0" layoutY="203.0" prefHeight="25.0" prefWidth="104.0" />
       <TextField fx:id="imagePathInput" layoutX="106.0" layoutY="402.0" prefHeight="25.0" prefWidth="355.0" />
       <Button fx:id="ingredientSubmit" layoutX="507.0" layoutY="89.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" text="Submit ingredient" />
       <Button fx:id="instructionSubmit" layoutX="1120.0" layoutY="86.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit instruction" />
-      <TextArea fx:id="ingredientFxList" editable="false" layoutX="24.0" layoutY="162.0" prefHeight="148.0" prefWidth="355.0" wrapText="true" />
-      <TextArea fx:id="instructionFxList" editable="false" layoutX="704.0" layoutY="159.0" prefHeight="148.0" prefWidth="652.0" wrapText="true" />
-      <TextArea editable="false" layoutX="704.0" layoutY="353.0" prefHeight="45.0" prefWidth="652.0" />
+      <TextArea fx:id="ingredientFxList" editable="false" layoutX="24.0" layoutY="162.0" prefHeight="148.0" prefWidth="355.0" wrapText="true">
+         <effect>
+            <ColorAdjust contrast="-0.15" />
+         </effect>
+      </TextArea>
+      <TextArea fx:id="instructionFxList" editable="false" layoutX="704.0" layoutY="159.0" prefHeight="148.0" prefWidth="652.0" wrapText="true">
+         <effect>
+            <ColorAdjust contrast="-0.15" />
+         </effect>
+      </TextArea>
+      <TextArea editable="false" layoutX="704.0" layoutY="353.0" prefHeight="45.0" prefWidth="652.0">
+         <effect>
+            <ColorAdjust contrast="-0.15" />
+         </effect>
+      </TextArea>
    </children>
 </AnchorPane>
