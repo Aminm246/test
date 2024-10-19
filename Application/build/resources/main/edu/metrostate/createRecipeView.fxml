@@ -85,7 +85,7 @@
          </font>
       </Text>
       <Button fx:id="recipeSubmit" layoutX="22.0" layoutY="443.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: CYAN;" text="Create " />
-      <Button fx:id="cancelRecipe" layoutX="128.0" layoutY="443.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: PINK;" text="Cancel" />
+      <Button fx:id="clearRecipeButton" layoutX="128.0" layoutY="443.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: PINK;" text="Clear Page" />
       <Button fx:id="durationSubmit" layoutX="600.0" layoutY="171.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Submit duration" />
       <Button fx:id="servingSizeSubmit" layoutX="600.0" layoutY="206.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Submit servings" />
       <Button fx:id="imagePathSubmit" layoutX="470.0" layoutY="402.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Submit path" />
@@ -97,7 +97,7 @@
       <TextField fx:id="ingredientQtyInput" layoutX="260.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
       <TextArea fx:id="instructionInput" layoutX="719.0" layoutY="80.0" prefHeight="67.0" prefWidth="355.0" />
       <TextArea fx:id="recipeDescriptionInput" layoutX="714.0" layoutY="432.0" prefHeight="67.0" prefWidth="439.0" />
-      <TextField fx:id="tag1Input" layoutX="802.0" layoutY="314.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="tagInput" layoutX="802.0" layoutY="314.0" prefHeight="25.0" prefWidth="210.0" />
       <TextField fx:id="durationInput" layoutX="480.0" layoutY="171.0" prefHeight="25.0" prefWidth="104.0" />
       <TextField fx:id="servingSizeInput" layoutX="480.0" layoutY="206.0" prefHeight="25.0" prefWidth="104.0" />
       <TextField fx:id="imagePathInput" layoutX="106.0" layoutY="402.0" prefHeight="25.0" prefWidth="355.0" />

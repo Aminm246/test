@@ -22,29 +22,21 @@ public class createRecipeViewController {
 
     @FXML
     private TextField recipeNameInput, ingredientNameInput, ingredientQtyInput,
-            tag1Input, tag2Input, tag3Input, tag4Input, tag5Input, durationInput, servingSizeInput, imagePathInput;
+            tagInput, durationInput, servingSizeInput, imagePathInput;
     @FXML
     private TextArea instructionInput, recipeDescriptionInput,instructionFxList,ingredientFxList;
 
 
     @FXML
-    private Button ingredientSubmit, recipeNameSubmit, descriptionSubmit, tag1Submit, tag2Submit, tag3Submit, tag4Submit,
-            tag5Submit, instructionSubmit, allInstructionsSubmit, durationSubmit, servingSizeSubmit, imagePathSubmit,
-            allIngredientsSubmit, instructionsSubmit, tagsSubmit, recipeSubmit, cancelRecipe;
-
-    @FXML
-    private Text recipeNameLabel, recipeTagsLabel, ingredientNameLabel1, ingredientQtyLabel1,recipeDescriptionLabel,
-            instructionsLabel, durationLabel, servingSizeLabel, imagePathLabel;
+    private Button ingredientSubmit, recipeNameSubmit, descriptionSubmit, tagSubmit, instructionSubmit,
+            allInstructionsSubmit, durationSubmit, servingSizeSubmit, imagePathSubmit,
+            allIngredientsSubmit, tagsSubmit, recipeSubmit, clearRecipeButton;
 
     String recipeName;
     List<Ingredient> ingredientList;
     List<BigDecimal> ingredientQtyList;
     List<InstructionStep> instructionSteps;
 
-    List<TextField> ingredientNameInputs;
-    List<TextField> ingredientQtyInputs;
-    List<Button> ingredientSubmitButtons;
-    viewRecipeController viewRecipeControl = new viewRecipeController();
     int ingredientCount;
     String description;
     int duration;
@@ -80,6 +72,7 @@ public class createRecipeViewController {
         recipeSubmit.setOnAction(event -> createRecipe());
         instructionSubmit.setOnAction(event -> addSingleInstructionClick());
         allInstructionsSubmit.setOnAction(event -> addAllInstructionsClick());
+        clearRecipeButton.setOnAction(event -> clearRecipe());
     }
 
     private void addAllIngredientsClick() {
@@ -159,15 +152,12 @@ public class createRecipeViewController {
 
     private void addAllInstructionsClick() {
         if (!instructionInput.getText().isEmpty()) {
-            System.out.println("Inside");
             addSingleInstructionClick();
         }
 
         allInstructionsSubmit.setDisable(true);
         instructionSubmit.setDisable(true);
         System.out.println(instructionSteps.toString());
-        recipeDescriptionInput.setDisable(false);
-        descriptionSubmit.setDisable(false);
         submitCounter++;
     }
     
@@ -313,22 +303,24 @@ public class createRecipeViewController {
                 }
             }
             else{
-                Stage stage = (Stage) ingredientSubmit.getScene().getWindow();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
-
-                try {
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                clearRecipe();
             }
         }
 
     }
-    private void openInstructionField() {
-        instructionStepsInputs.get(instructionCount).setDisable(false);
+
+    private void clearRecipe(){
+        Stage stage = (Stage) ingredientSubmit.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
+
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 
 }
