@@ -12,8 +12,12 @@ import javafx.stage.Stage;
 import recipe.model.InstructionStep;
 import recipe.model.Recipe;
 import recipe.model.RecipeManager;
-import java.io.IOException;
+
+import java.io.*;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -266,13 +270,36 @@ public class createRecipeViewController {
                     .ifPresent(response -> imagePathHelper(imagePath));
         }
         else{
+
             imagePathHelper(imagePath);
         }
     }
 
     private void imagePathHelper(String imagePath){
         System.out.println("Image path: " + imagePath);
-        this.imagePath = imagePath;
+        imagePath = imagePath.replace("\"","");
+        imagePath = imagePath.replace("\\","/");
+
+        int index = imagePath.indexOf("/");
+        String recipeName;
+        while(imagePath.indexOf("/",index + 1) != -1){
+            index = imagePath.indexOf("/",index + 1);
+        }
+        recipeName = imagePath.substring(index + 1);
+
+        File imageFile = new File(imagePath);
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //Need to add functionality to check if the file already exists with that name and handle it
+        File output = new File("src/main/resources/edu/metrostate/images/" + recipeName);
+        try {
+            Files.copy(imageFile.toPath(),output.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        imagePath = output.toPath().toString().replace("\\","/");
+        this.imagePath = imagePath.substring(imagePath.indexOf("edu")-1);
         imagePathInput.setDisable(true);
         imagePathSubmit.setDisable(true);
         submitCounter++;
@@ -321,6 +348,5 @@ public class createRecipeViewController {
             throw new RuntimeException(e);
         }
     }
-
 
 }

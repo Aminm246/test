@@ -67,7 +67,7 @@ public class viewRecipeController {
 
         if (recipe.getImagePath() != null && !recipe.getImagePath().isEmpty()) {
             try {
-                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/" + recipe.getImagePath())));
+                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(recipe.getImagePath())));
                 recipeImageView.setImage(image);
             } catch (NullPointerException e) {
                 System.out.println("Image not found: " + recipe.getImagePath());
