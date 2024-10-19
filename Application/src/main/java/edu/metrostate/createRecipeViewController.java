@@ -90,18 +90,6 @@ public class createRecipeViewController {
         clearRecipeButton.setOnAction(event -> clearRecipe());
     }
 
-    private void addAllIngredientsClick() {
-        if (ingredientCount < 6) {
-            if (!ingredientNameInput.getText().isEmpty() && !ingredientQtyInput.getText().isEmpty()) {
-                addSingleIngredientClick();
-            }
-        }
-        ingredientSubmit.setDisable(true);
-        allIngredientsSubmit.setDisable(true);
-        System.out.println(ingredientList.toString());
-        System.out.println(ingredientQtyList.toString());
-        submitCounter++;
-    }
     private void addSingleTagClick() {
         String tag = tagInput.getText().trim();
         if (tag.isEmpty()) {
@@ -141,10 +129,10 @@ public class createRecipeViewController {
     private void submitTags() {
         tagSubmit.setDisable(true);
         tagsSubmit.setDisable(true);
+        tagInput.setDisable(true);
         submitCounter++;
         System.out.println("All tags: " + tagFxList.getText());
     }
-
 
     private void addSingleIngredientClick() {
         String ingredientName = ingredientNameInput.getText().trim();
@@ -186,6 +174,21 @@ public class createRecipeViewController {
         ingredientCount++;
     }
 
+    private void addAllIngredientsClick() {
+        if (ingredientCount < 6) {
+            if (!ingredientNameInput.getText().isEmpty() && !ingredientQtyInput.getText().isEmpty()) {
+                addSingleIngredientClick();
+            }
+        }
+        ingredientNameInput.setDisable(true);
+        ingredientQtyInput.setDisable(true);
+        ingredientSubmit.setDisable(true);
+        allIngredientsSubmit.setDisable(true);
+        System.out.println(ingredientList.toString());
+        System.out.println(ingredientQtyList.toString());
+        submitCounter++;
+    }
+
     private void addSingleInstructionClick() {
         String instructionStepString = instructionInput.getText().trim();
 
@@ -212,7 +215,7 @@ public class createRecipeViewController {
         if (!instructionInput.getText().isEmpty()) {
             addSingleInstructionClick();
         }
-
+        instructionInput.setDisable(true);
         allInstructionsSubmit.setDisable(true);
         instructionSubmit.setDisable(true);
         System.out.println(instructionSteps.toString());
