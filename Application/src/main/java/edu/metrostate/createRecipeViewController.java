@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import recipe.model.InstructionStep;
 import recipe.model.Recipe;
@@ -16,7 +15,6 @@ import recipe.model.RecipeManager;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +54,6 @@ public class createRecipeViewController {
     int instructionCount;
 
     List<String> tagList;
-    List<TextField> tagInputs;
-    List<Button> tagSubmitButtons;
-    int tagCount;
     boolean tagsPlusClicked;
 
     @FXML
@@ -72,7 +67,6 @@ public class createRecipeViewController {
         instructionSteps = new ArrayList<InstructionStep>();
 
         tagList = new ArrayList<>();
-        tagCount = 0;
         tagsPlusClicked = false;
 
         tagSubmit.setOnAction(event -> addSingleTagClick());
