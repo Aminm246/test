@@ -28,7 +28,7 @@ public class createRecipeViewController {
     private TextField recipeNameInput, ingredientNameInput, ingredientQtyInput,
             tagInput, durationInput, servingSizeInput, imagePathInput;
     @FXML
-    private TextArea instructionInput, recipeDescriptionInput,instructionFxList,ingredientFxList;
+    private TextArea instructionInput, recipeDescriptionInput,instructionFxList,ingredientFxList,tagFxList;
 
 
     @FXML
@@ -55,6 +55,12 @@ public class createRecipeViewController {
 
     int instructionCount;
 
+    List<String> tagList;
+    List<TextField> tagInputs;
+    List<Button> tagSubmitButtons;
+    int tagCount;
+    boolean tagsPlusClicked;
+
     @FXML
     public void initialize() {
         ingredientCount = 0;
@@ -65,7 +71,12 @@ public class createRecipeViewController {
         ingredientQtyList = new ArrayList<BigDecimal>();
         instructionSteps = new ArrayList<InstructionStep>();
 
+        tagList = new ArrayList<>();
+        tagCount = 0;
+        tagsPlusClicked = false;
 
+        tagSubmit.setOnAction(event -> addSingleTagClick());
+        tagsSubmit.setOnAction(event -> addAllTagsClick());
         recipeNameSubmit.setOnAction(event -> addRecipeNameClick());
         ingredientSubmit.setOnAction(event -> addSingleIngredientClick());
         allIngredientsSubmit.setOnAction(event -> addAllIngredientsClick());
@@ -91,6 +102,49 @@ public class createRecipeViewController {
         System.out.println(ingredientQtyList.toString());
         submitCounter++;
     }
+    private void addSingleTagClick() {
+        String tag = tagInput.getText().trim();
+        if (tag.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Tag cannot be empty. Please enter a valid tag.");
+            alert.showAndWait();
+        } else {
+            System.out.println("Tag: " + tag);
+            tagList.add(tag);
+            if(tagFxList.getText().isEmpty()){
+                tagFxList.setText(tag);
+            }
+            else{
+                tagFxList.setText(tagFxList.getText() + ", " + tag );
+            }
+
+            tagInput.clear();
+            tagsPlusClicked = true;
+            tagsSubmit.setDisable(false);
+        }
+    }
+
+    private void addAllTagsClick() {
+        if (!tagsPlusClicked) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("You didn't click the '+' button to add any tags. Are you sure you want to submit without tags?");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    submitTags();
+                }
+            });
+        } else {
+            submitTags();
+        }
+    }
+
+    private void submitTags() {
+        tagSubmit.setDisable(true);
+        tagsSubmit.setDisable(true);
+        submitCounter++;
+        System.out.println("All tags: " + tagFxList.getText());
+    }
+
 
     private void addSingleIngredientClick() {
         String ingredientName = ingredientNameInput.getText().trim();
@@ -276,42 +330,60 @@ public class createRecipeViewController {
     }
 
     private void imagePathHelper(String imagePath){
-        System.out.println("Image path: " + imagePath);
-        imagePath = imagePath.replace("\"","");
-        imagePath = imagePath.replace("\\","/");
 
-        int index = imagePath.indexOf("/");
-        String recipeName;
-        while(imagePath.indexOf("/",index + 1) != -1){
-            index = imagePath.indexOf("/",index + 1);
+        if(imagePath.isEmpty()){
+
         }
-        recipeName = imagePath.substring(index + 1);
+        else{
+            System.out.println("Image path: " + imagePath);
+            imagePath = imagePath.replace("\"","");
+            imagePath = imagePath.replace("\\","/");
 
-        File imageFile = new File(imagePath);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //Need to add functionality to check if the file already exists with that name and handle it
-        File output = new File("src/main/resources/edu/metrostate/images/" + recipeName);
-        try {
-            Files.copy(imageFile.toPath(),output.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            int index = imagePath.indexOf("/");
+            String recipeName;
+            while(imagePath.indexOf("/",index + 1) != -1){
+                index = imagePath.indexOf("/",index + 1);
+            }
+            recipeName = imagePath.substring(index + 1);
+
+            File imageFile = new File(imagePath);
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //Need to add functionality to check if the file already exists with that name and handle it
+            File output = new File("src/main/resources/edu/metrostate/images/" + recipeName);
+            try {
+                Files.copy(imageFile.toPath(),output.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            imagePath = output.toPath().toString().replace("\\","/");
+            imagePath = imagePath.substring(imagePath.indexOf("edu")-1);
         }
 
-        imagePath = output.toPath().toString().replace("\\","/");
-        this.imagePath = imagePath.substring(imagePath.indexOf("edu")-1);
+        this.imagePath = imagePath;
         imagePathInput.setDisable(true);
         imagePathSubmit.setDisable(true);
         submitCounter++;
     }
 
     private void createRecipe(){
-        System.out.println(submitCounter);
-        if(submitCounter == 7){
+        if(submitCounter == 8){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Do you want to view the recipe?",ButtonType.YES,ButtonType.NO);
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == ButtonType.YES){
-                List<String> tagList = new ArrayList<>();
+
+                /* //This should be implemented in the tag functions
+                String lastTag = tagInputs.get(tagInputs.size() - 1).getText().trim();
+                if (!lastTag.isEmpty() && !tagList.contains(lastTag)) {
+                    alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setContentText("You have an unsubmitted tag. Do you want to add it before creating the recipe?");
+                    alert.showAndWait().ifPresent(response -> {
+                        if (response == ButtonType.OK) {
+                            addSingleTagClick();
+                        }
+                    });
+                }*/
                 Recipe recipe = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
                         imagePath,ingredientList,ingredientQtyList,instructionSteps);
                 System.out.println(recipe.toString());

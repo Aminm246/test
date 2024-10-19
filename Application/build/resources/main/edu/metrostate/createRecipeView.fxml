@@ -63,7 +63,7 @@
       </Text>
       <Button fx:id="recipeNameSubmit" layoutX="333.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit name" />
       <Button fx:id="descriptionSubmit" layoutX="1207.0" layoutY="459.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Submit description" />
-      <Button fx:id="tag1Submit" layoutX="1020.0" layoutY="314.0" mnemonicParsing="false" text="+" />
+      <Button fx:id="tagSubmit" layoutX="1020.0" layoutY="314.0" mnemonicParsing="false" text="+" />
       <Text layoutX="719.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructions:" wrappingWidth="120.13671875">
          <font>
             <Font size="14.0" />
@@ -113,7 +113,7 @@
             <ColorAdjust contrast="-0.15" />
          </effect>
       </TextArea>
-      <TextArea editable="false" layoutX="719.0" layoutY="347.0" prefHeight="55.0" prefWidth="652.0">
+      <TextArea fx:id="tagFxList" editable="false" layoutX="719.0" layoutY="347.0" prefHeight="55.0" prefWidth="652.0">
          <effect>
             <ColorAdjust contrast="-0.15" />
          </effect>
