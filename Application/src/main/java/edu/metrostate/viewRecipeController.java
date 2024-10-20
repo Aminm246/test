@@ -1,26 +1,24 @@
 package edu.metrostate;
 
-import ingredient.model.Ingredient;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import recipe.model.InstructionStep;
 import recipe.model.Recipe;
-
-import java.io.IOException;
+import recipe.model.RecipeManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class viewRecipeController {
+
+    private FXMLLoader createLoader;
+    private FXMLLoader listLoader;
 
     @FXML
     private Text recipeNameTag;
@@ -42,16 +40,18 @@ public class viewRecipeController {
 
     @FXML
     private ImageView recipeImageView;
+    private RecipeManager recipeManager;
 
-    public void setRecipe(Recipe recipe) {
+    public void setRecipe(int recipeID) {
+        Recipe recipe = recipeManager.getRecipe(recipeID);
 
         recipeNameLabel.setText(recipe.getRecipeName());
         List<String> ingredients = new ArrayList<>();
         List<BigDecimal> ingredientQty = recipe.getIngredientQtyList();
-        List<Ingredient> ingredientList = recipe.getIngredientList();
+        List<Integer> ingredientList = recipe.getIngredientList();
 
         for (int i = 0; i < ingredientList.size();i++){
-            ingredients.add(ingredientQty.get(i).toString() + "g " + ingredientList.get(i).getIngredientName());
+            ingredients.add(ingredientQty.get(i).toString() + "g " + recipeManager.getIngredientInventory().getIngredientById(ingredientList.get(i)).getIngredientName());
         }
 
         List<String> instructions = new ArrayList<>();
@@ -82,13 +82,26 @@ public class viewRecipeController {
 
     @FXML
     private void switchToCreateRecipe(){
-        try {
-            Stage stage = (Stage) recipeNameLabel.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
-            Parent root = loader.load();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        recipeNameLabel.getScene().setRoot(createLoader.getRoot());
     }
+
+    public void switchToRecipeList() {
+        recipeNameLabel.getScene().setRoot(listLoader.getRoot());
+        recipeListController listController = listLoader.getController();
+        listController.populateList();
+    }
+
+    public void setRecipeManager(RecipeManager recipeManager) {
+        this.recipeManager = recipeManager;
+    }
+
+    public void setCreateLoader(FXMLLoader createLoader) {
+        this.createLoader = createLoader;
+    }
+
+    public void setListLoader(FXMLLoader listLoader) {
+        this.listLoader = listLoader;
+    }
+
+
 }

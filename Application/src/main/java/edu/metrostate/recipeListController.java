@@ -1,7 +1,10 @@
 package edu.metrostate;
 
+import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,25 +14,33 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import recipe.model.RecipeManager;
+
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class recipeListController implements Initializable {
+
+    private FXMLLoader createLoader;
+
     @FXML
     private ListView<String> recipeListView;
 
     @FXML
     private Label myLabel;
 
-    String[] food = {"Pizza", "Sushi", "Burger"};
-
+    RecipeManager recipeManager;
+    List<String> recipes;
     String currentFood;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        recipeListView = new ListView<>();
+        recipes = new ArrayList<>();
+        /*recipeListView = new ListView<>();
+
         recipeListView.getItems().addAll(food);
         recipeListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -38,14 +49,45 @@ public class recipeListController implements Initializable {
                 myLabel.setText(currentFood);
             }
         });
+        */
 
     }
-    public void switchToViewRecipeList(javafx.event.ActionEvent e) throws IOException {
 
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("recipeListView.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+    public void populateList(){
+        Object [] recipeIDs = recipeManager.getRecipes();
+        int recipeID;
+        for (Object x : recipeIDs){
+            recipeID = Integer.parseInt(x.toString());
+            System.out.println(recipeManager.getRecipe(recipeID).getRecipeName());
+            recipes.add(recipeManager.getRecipe(recipeID).getRecipeName());
+        }
+
+        recipeListView = new ListView<>();
+        recipeListView.getItems().addAll(recipes);
+        /*
+        recipeListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                currentFood = recipeListView.getSelectionModel().getSelectedItem();
+                myLabel.setText(currentFood);
+            }
+        });*/
+
+    }
+    public void switchToCreateRecipe(){
+        myLabel.getScene().setRoot(createLoader.getRoot());
+    }
+
+    public void setRecipeManager(RecipeManager recipeManager){
+        this.recipeManager = recipeManager;
+
+        Object [] ids = this.recipeManager.getRecipes();
+        for (int i = 0; i <ids.length;i++){
+            System.out.println(ids[i]);
+        }
+    }
+
+    public void setCreateLoader(FXMLLoader createLoader) {
+        this.createLoader = createLoader;
     }
 }

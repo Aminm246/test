@@ -1,15 +1,10 @@
 package edu.metrostate;
 
-import ingredient.model.Ingredient;
 import ingredient.model.IngredientsInventory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import recipe.model.InstructionStep;
-import recipe.model.Recipe;
 import recipe.model.RecipeManager;
 
 import java.io.*;
@@ -34,8 +29,12 @@ public class createRecipeViewController {
             allInstructionsSubmit, durationSubmit, servingSizeSubmit, imagePathSubmit,
             allIngredientsSubmit, tagsSubmit, recipeSubmit, clearRecipeButton;
 
+    FXMLLoader viewLoader;
+    FXMLLoader listLoader;
+    FXMLLoader createLoader;
+
     String recipeName;
-    List<Ingredient> ingredientList;
+    List<Integer> ingredientList;
     List<BigDecimal> ingredientQtyList;
     List<InstructionStep> instructionSteps;
 
@@ -44,44 +43,62 @@ public class createRecipeViewController {
     int duration;
     int servingSize;
     String imagePath;
-    IngredientsInventory ingredientInventory = new IngredientsInventory();
-    RecipeManager recipeManager = new RecipeManager();
+    IngredientsInventory ingredientInventory;
+    RecipeManager recipeManager;
+
     //submitCounter counts the submits of each section to make sure it's all submitted before creating recipe.
     int submitCounter;
-
-    List<TextArea> instructionStepsInputs;
-
     int instructionCount;
 
     List<String> tagList;
     boolean tagsPlusClicked;
 
+    public void setListLoader(FXMLLoader listLoader){
+        this.listLoader = listLoader;
+        recipeListController controller = this.listLoader.getController();
+        controller.setRecipeManager(recipeManager);
+    }
+
+    public void setViewLoader(FXMLLoader viewLoader){
+        this.viewLoader = viewLoader;
+        viewRecipeController controller = this.viewLoader.getController();
+        controller.setRecipeManager(recipeManager);
+    }
+
+    public void setCreateLoader(FXMLLoader createLoader){
+        this.createLoader = createLoader;
+    }
     @FXML
     public void initialize() {
         ingredientCount = 0;
         submitCounter = 0;
         instructionCount = 0;
-
-        ingredientList = new ArrayList<Ingredient>();
+        ingredientList = new ArrayList<Integer>();
         ingredientQtyList = new ArrayList<BigDecimal>();
         instructionSteps = new ArrayList<InstructionStep>();
-
+        imagePath = "";
         tagList = new ArrayList<>();
         tagsPlusClicked = false;
 
-        tagSubmit.setOnAction(event -> addSingleTagClick());
-        tagsSubmit.setOnAction(event -> addAllTagsClick());
-        recipeNameSubmit.setOnAction(event -> addRecipeNameClick());
-        ingredientSubmit.setOnAction(event -> addSingleIngredientClick());
-        allIngredientsSubmit.setOnAction(event -> addAllIngredientsClick());
-        durationSubmit.setOnAction(event -> addRecipeDuration());
-        descriptionSubmit.setOnAction(event -> addRecipeDescription());
-        servingSizeSubmit.setOnAction(event -> addRecipeServingSize());
-        imagePathSubmit.setOnAction(event -> addRecipeImagePath());
-        recipeSubmit.setOnAction(event -> createRecipe());
-        instructionSubmit.setOnAction(event -> addSingleInstructionClick());
-        allInstructionsSubmit.setOnAction(event -> addAllInstructionsClick());
-        clearRecipeButton.setOnAction(event -> clearRecipe());
+        if(ingredientInventory == null){
+            ingredientInventory = new IngredientsInventory();
+            recipeManager = new RecipeManager();
+            recipeManager.setIngredientInventory(ingredientInventory);
+            tagSubmit.setOnAction(event -> addSingleTagClick());
+            tagsSubmit.setOnAction(event -> addAllTagsClick());
+            recipeNameSubmit.setOnAction(event -> addRecipeNameClick());
+            ingredientSubmit.setOnAction(event -> addSingleIngredientClick());
+            allIngredientsSubmit.setOnAction(event -> addAllIngredientsClick());
+            durationSubmit.setOnAction(event -> addRecipeDuration());
+            descriptionSubmit.setOnAction(event -> addRecipeDescription());
+            servingSizeSubmit.setOnAction(event -> addRecipeServingSize());
+            imagePathSubmit.setOnAction(event -> addRecipeImagePath());
+            recipeSubmit.setOnAction(event -> createRecipe());
+            instructionSubmit.setOnAction(event -> addSingleInstructionClick());
+            allInstructionsSubmit.setOnAction(event -> addAllInstructionsClick());
+            clearRecipeButton.setOnAction(event -> clearRecipe());
+        }
+
     }
 
     private void addSingleTagClick() {
@@ -121,6 +138,17 @@ public class createRecipeViewController {
     }
 
     private void submitTags() {
+        /* //This should be implemented in the tag functions
+        String lastTag = tagInputs.get(tagInputs.size() - 1).getText().trim();
+        if (!lastTag.isEmpty() && !tagList.contains(lastTag)) {
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("You have an unsubmitted tag. Do you want to add it before creating the recipe?");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    addSingleTagClick();
+                }
+            });
+        }*/
         tagSubmit.setDisable(true);
         tagsSubmit.setDisable(true);
         tagInput.setDisable(true);
@@ -158,13 +186,13 @@ public class createRecipeViewController {
 
         //ingredientList.add(new Ingredient(ingredientName));
         //need to add implementation for if the ingredient is already added to the inventory. if add just return the existing object.
-        Ingredient ingredient = ingredientInventory.addIngredient(ingredientName);
-        ingredientList.add(ingredient);
+        int ingredientID = ingredientInventory.addIngredient(ingredientName).getIngredientId();
+        ingredientList.add(ingredientID);
         ingredientQtyList.add(new BigDecimal(ingredientQty));
         ingredientNameInput.clear();
         ingredientQtyInput.clear();
         allIngredientsSubmit.setDisable(false);
-        ingredientFxList.setText(ingredientFxList.getText() + ingredientQty + "g " + ingredient.getIngredientName() + "\n");
+        ingredientFxList.setText(ingredientFxList.getText() + ingredientQty + "g " + ingredientInventory.getIngredientById(ingredientID).getIngredientName() + "\n");
         ingredientCount++;
     }
 
@@ -365,57 +393,58 @@ public class createRecipeViewController {
     }
 
     private void createRecipe(){
+        System.out.print(submitCounter);
         if(submitCounter == 8){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Do you want to view the recipe?",ButtonType.YES,ButtonType.NO);
             Optional<ButtonType> result = alert.showAndWait();
+
+            int recipeID = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
+                    imagePath,ingredientList,ingredientQtyList,instructionSteps);
+            System.out.println(recipeManager.getRecipe(recipeID).toString());
+
             if(result.get() == ButtonType.YES){
+                //Changes scene to viewRecipe
+                ingredientSubmit.getScene().setRoot(viewLoader.getRoot());
+                //Sets up the Recipe on the viewRecipe page.
+                viewRecipeController controller = viewLoader.getController();
+                controller.setRecipe(recipeID);
 
-                /* //This should be implemented in the tag functions
-                String lastTag = tagInputs.get(tagInputs.size() - 1).getText().trim();
-                if (!lastTag.isEmpty() && !tagList.contains(lastTag)) {
-                    alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setContentText("You have an unsubmitted tag. Do you want to add it before creating the recipe?");
-                    alert.showAndWait().ifPresent(response -> {
-                        if (response == ButtonType.OK) {
-                            addSingleTagClick();
-                        }
-                    });
-                }*/
-                Recipe recipe = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
-                        imagePath,ingredientList,ingredientQtyList,instructionSteps);
-                System.out.println(recipe.toString());
-
-                try {
-                    Stage stage = (Stage) recipeNameInput.getScene().getWindow();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
-                    Parent root = loader.load();
-                    viewRecipeController controller = loader.getController();
-
-                    stage.setScene(new Scene(root));
-                    controller.setRecipe(recipe);
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
             }
-            else{
-                clearRecipe();
-            }
+            //Clears the create recipe page for additional creations
+            clearRecipe();
         }
 
     }
 
-    private void clearRecipe(){
-        Stage stage = (Stage) ingredientSubmit.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
+    @FXML
+    private void clearRecipe(){//needs rework
+        Button [] buttons = {ingredientSubmit, recipeNameSubmit, descriptionSubmit, tagSubmit, instructionSubmit,
+                allInstructionsSubmit, durationSubmit, servingSizeSubmit, imagePathSubmit,
+                allIngredientsSubmit, tagsSubmit, recipeSubmit, clearRecipeButton};
+        TextArea [] inputs1 = {instructionInput, recipeDescriptionInput,instructionFxList,ingredientFxList,tagFxList};
+        TextField [] inputs2 = {recipeNameInput, ingredientNameInput, ingredientQtyInput, tagInput, durationInput,
+                servingSizeInput, imagePathInput};
 
-        try {
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        for (Button button : buttons){
+            button.setDisable(false);
         }
+
+        for (TextArea text : inputs1){
+            text.setDisable(false);
+            text.setText("");
+        }
+
+        for (TextField text : inputs2){
+            text.setDisable(false);
+            text.setText("");
+        }
+
+        initialize();
     }
 
+    public void switchToRecipeList() {
+        ingredientSubmit.getScene().setRoot(listLoader.getRoot());
+        recipeListController listController = listLoader.getController();
+        listController.populateList();
+    }
 }

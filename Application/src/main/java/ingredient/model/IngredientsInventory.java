@@ -1,45 +1,51 @@
 package ingredient.model;
 
+import recipe.model.Recipe;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class IngredientsInventory {
-    List<Ingredient> inventory;
+    private Map<Integer, Ingredient> inventory;
     int ingredientID;
 
     public IngredientsInventory(){
-        inventory = new ArrayList<Ingredient>();
+
+        inventory = new HashMap<>();
         ingredientID = 1;
     }
-    public IngredientsInventory(List<Ingredient> inventory) {
+    public IngredientsInventory(Map<Integer, Ingredient> inventory) {
         this.inventory = inventory;
     }
 
-    public List<Ingredient> getInventory() {
+    public Map<Integer, Ingredient> getInventory() {
         return inventory;
     }
 
-    public void setInventory(List<Ingredient> inventory) {
+    public void setInventory(Map<Integer, Ingredient> inventory) {
         this.inventory = inventory;
     }
 
     public Ingredient addIngredient(String ingredientName) {
         Ingredient x = new Ingredient(ingredientName,ingredientID);
-        inventory.add(x);
+        inventory.put(ingredientID, x);
         ingredientID++;
         return x;
     }
 
     public void deleteIngredient(Ingredient ingredient) {
-        this.inventory.remove(ingredient);
+        this.inventory.remove(ingredient.getIngredientId());
     }
 
     public void updateIngredient(Ingredient ingredient) {
-        this.inventory.set(inventory.indexOf(ingredient), ingredient);
+        //this.inventory.set(inventory.indexOf(ingredient), ingredient);
     }
 
-    public void getIngredientById(int ingredientId) {
+    public Ingredient getIngredientById(int ingredientId) {
+        return inventory.get(ingredientId);
         //Implement later
     }
 
@@ -55,5 +61,13 @@ public class IngredientsInventory {
         Ingredient ingredient = new Ingredient(name,ingredientID);
         ingredientID++;
 
+    }
+
+    public List<Ingredient> getIngredients(List<Integer> ingredientList) {
+        List<Ingredient> ingredients = new ArrayList<>();
+        for(Integer ingredientID: ingredientList){
+            ingredients.add(getIngredientById(ingredientID));
+        }
+        return ingredients;
     }
 }

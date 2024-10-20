@@ -55,9 +55,15 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    public List<BigDecimal> getIngredientQtyList(){ return ingredientQtyList;}
-    public List<Ingredient>  getIngredientList() {
-        return ingredientList;
+    public List<BigDecimal> getIngredientQtyList(){
+        return ingredientQtyList;
+    }
+    public List<Integer>  getIngredientList() {
+        List<Integer> ingredientIDs = new ArrayList<>();
+        for(Ingredient ing : ingredientList){
+            ingredientIDs.add(ing.getIngredientId());
+        }
+        return ingredientIDs;
     }
 
     public void setIngredientList(List<Ingredient> ingredientList) {

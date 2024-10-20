@@ -18,9 +18,9 @@
          <menus>
             <Menu mnemonicParsing="false" text="Recipes">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Create Recipe" />
-                  <!--<MenuItem mnemonicParsing="false" text="View Recipes" />
-                  <MenuItem mnemonicParsing="false" text="View Suggestions" />
+                  <MenuItem mnemonicParsing="false" onAction="#clearRecipe" text="Create Recipe" />
+                  <MenuItem mnemonicParsing="false" onAction="#switchToRecipeList" text="View Recipes" />
+                  <!--<MenuItem mnemonicParsing="false" text="View Suggestions" />
                   <MenuItem mnemonicParsing="false" text="Open Calorie Tracker" />-->
                </items></Menu>
             <Menu mnemonicParsing="false" text="Ingredients">

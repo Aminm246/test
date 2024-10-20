@@ -19,11 +19,28 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
         Parent root = loader.load();
 
-        //createRecipeViewController controller = loader.getController();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
 
+        createRecipeViewController controller = loader.getController();
+        controller.setCreateLoader(loader);
+
+        FXMLLoader viewLoader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
+        viewLoader.load();
+        controller.setViewLoader(viewLoader);
+
+        FXMLLoader listLoader = new FXMLLoader(getClass().getResource("recipeListView.fxml"));
+        listLoader.load();
+        controller.setListLoader(listLoader);
+
+
+        viewRecipeController viewController = viewLoader.getController();
+        viewController.setCreateLoader(loader);
+        viewController.setListLoader(listLoader);
+
+        recipeListController listController = listLoader.getController();
+        listController.setCreateLoader(loader);
     }
 
 }
