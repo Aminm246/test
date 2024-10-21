@@ -19,3 +19,4 @@
 
 # Milestone 4
 - [Amin Mohamed] Implemented the tags functionality in the project and ensured that the code was runnable. Contributed to testing efforts by verifying the feature's integration with the overall project structure.
+- [Hanad Musse] Worked on UI design structure and java code for create recipe and view recipe functions. 
