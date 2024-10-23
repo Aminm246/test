@@ -1,24 +1,46 @@
 package edu.metrostate;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    private Stage stage;
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setTitle("Hello World");
+        stage.setTitle("Cookbook v0.1");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
+        Parent root = loader.load();
 
-        StackPane root = new StackPane();
-
-        Button button = new Button();
-        button.setText("Button");
-        root.getChildren().add(button);
-
-        stage.setScene(new Scene(root, 300, 300));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
         stage.show();
+
+        createRecipeViewController controller = loader.getController();
+        controller.setCreateLoader(loader);
+
+        FXMLLoader viewLoader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
+        viewLoader.load();
+        controller.setViewLoader(viewLoader);
+
+        FXMLLoader listLoader = new FXMLLoader(getClass().getResource("recipeListView.fxml"));
+        listLoader.load();
+        controller.setListLoader(listLoader);
+
+
+        viewRecipeController viewController = viewLoader.getController();
+        viewController.setCreateLoader(loader);
+        viewController.setListLoader(listLoader);
+
+        recipeListController listController = listLoader.getController();
+        listController.setCreateLoader(loader);
     }
+
 }

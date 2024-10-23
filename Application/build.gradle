@@ -20,6 +20,14 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}
+
 test {
     useJUnitPlatform()
 }

@@ -1,5 +1,6 @@
 package recipe.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import ingredient.model.Ingredient;
@@ -8,9 +9,9 @@ import ingredient.model.NutritionalFacts;
 public class Recipe {
     private int recipeId;
     private String recipeName;
-    private List<String> categoryList;
     private List<String> tagList;
     private List<Ingredient> ingredientList;
+    private List<BigDecimal> ingredientQtyList;
     private List<InstructionStep> instructions;
     private NutritionalFacts nutrition;
     private int createdBy;
@@ -19,22 +20,31 @@ public class Recipe {
     private String description;
     private int duration;
 
-    public Recipe(int recipeId, String recipeName, int createdBy) {
+    public Recipe(int recipeId, String recipeName, int createdBy,List<String> tagList, int duration, int servingSize, String description,
+                  String imagePath, List<Ingredient> ingredientList, List<BigDecimal> ingredientQtyList, List<InstructionStep> instructions) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
         this.createdBy = createdBy;
-        this.categoryList = new ArrayList<>();
-        this.tagList = new ArrayList<>();
-        this.ingredientList = new ArrayList<Ingredient>();
-        this.instructions = new ArrayList<InstructionStep>();
+        this.tagList = tagList;
+        this.ingredientList = ingredientList;
+        this.ingredientQtyList = ingredientQtyList;
+        this.instructions = instructions;
+        this.duration = duration;
+        this.servingSize = servingSize;
+        this.description = description;
+        this.imagePath = imagePath;
+        calculateNutrition();
     }
 
-    public void addIngredient(Ingredient ingredient) {
+    public void addIngredient(Ingredient ingredient, BigDecimal quantity) {
         ingredientList.add(ingredient);
+        ingredientQtyList.add(quantity);
     }
 
     public void removeIngredient(Ingredient ingredient) {
-        ingredientList.remove(ingredient);
+        int index = ingredientList.indexOf(ingredient);
+        ingredientList.remove(index);
+        ingredientQtyList.remove(index);
     }
 
     public List<InstructionStep> getInstructions() {
@@ -45,8 +55,15 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    public List<Ingredient> getIngredientList() {
-        return ingredientList;
+    public List<BigDecimal> getIngredientQtyList(){
+        return ingredientQtyList;
+    }
+    public List<Integer>  getIngredientList() {
+        List<Integer> ingredientIDs = new ArrayList<>();
+        for(Ingredient ing : ingredientList){
+            ingredientIDs.add(ing.getIngredientId());
+        }
+        return ingredientIDs;
     }
 
     public void setIngredientList(List<Ingredient> ingredientList) {
@@ -61,19 +78,12 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    public List<String> getCategories() {
-        return categoryList;
-    }
-
-    public void setCategories(List<String> categories) {
-        this.categoryList = categories;
-    }
-
     public NutritionalFacts getNutrition() {
         return nutrition;
     }
 
     public NutritionalFacts calculateNutrition() {
+        nutrition = new NutritionalFacts();
         return nutrition;
     }
 
@@ -123,5 +133,39 @@ public class Recipe {
 
     public int getRecipeID() {
         return recipeId;
+    }
+
+    public String getRecipeName() {
+        return recipeName;
+    }
+
+    public List<String> getTagList() {
+        return tagList;
+    }
+
+    public int getServingSize() {
+        return servingSize;
+    }
+
+    public void setServingSize(int servingSize) {
+        this.servingSize = servingSize;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "recipeId=" + recipeId +
+                ", recipeName='" + recipeName + '\'' +
+                ", tagList=" + tagList +
+                ", ingredientList=" + ingredientList +
+                ", ingredientQtyList=" + ingredientQtyList +
+                ", instructions=" + instructions +
+                ", nutrition=" + nutrition +
+                ", createdBy=" + createdBy +
+                ", servingSize=" + servingSize +
+                ", imagePath='" + imagePath + '\'' +
+                ", description='" + description + '\'' +
+                ", duration=" + duration +
+                '}';
     }
 }

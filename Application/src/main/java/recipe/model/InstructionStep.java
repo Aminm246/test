@@ -1,12 +1,14 @@
 package recipe.model;
 
 public class InstructionStep {
-    private int recipeID;
     private int stepNum;
     private String stepDescription;
 
     public InstructionStep(int recipeID, int stepNum, String stepDescription) {
-        this.recipeID = recipeID;
+        this.stepNum = stepNum;
+        this.stepDescription = stepDescription;
+    }
+    public InstructionStep(int stepNum, String stepDescription) {
         this.stepNum = stepNum;
         this.stepDescription = stepDescription;
     }
@@ -27,11 +29,11 @@ public class InstructionStep {
         this.stepDescription = stepDescription;
     }
 
-    public int getRecipeID() {
-        return recipeID;
-    }
-
-    public void setRecipeID(int recipeID) {
-        this.recipeID = recipeID;
+    @Override
+    public String toString() {
+        return "InstructionStep{" +
+                "stepNum=" + stepNum +
+                ", stepDescription='" + stepDescription + '\'' +
+                '}';
     }
 }

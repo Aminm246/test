@@ -16,3 +16,13 @@
 - [Nick Reiss] Created MVC design for the features related to Recipe and implemented java code for those parts of the application.
 - [Nick Reiss] Created sequence diagram for Generate Grocery List
 - [Amin Mohamed] Created MVC design for the features related to User management and implemented initial Java code structure for User, UserModel, UserView, and UserController classes. Wroked with the team to fix and implement the User-related classes into the existing project structure.
+
+# Milestone 4
+- [Amin Mohamed] Implemented the tags functionality in the project and ensured that the code was runnable. Contributed to testing efforts by verifying the feature's integration with the overall project structure.
+- [Nick Reiss] Created implementation.md. Updated UI functions to use passed loaders.
+- [Nick Reiss] Updated createRecipe to take in any number of ingredients or instructions
+- [Nick Reiss] Modified the fxml of create page to go with the new functionality.
+- [Nick Reiss] Added functionality for adding images into the recipe page.
+- [Nick Reiss] Added functionality to Create and Clear buttons.
+- [Hanad Musse] Worked on UI design structure and java code for create recipe and view recipe functions. 
+

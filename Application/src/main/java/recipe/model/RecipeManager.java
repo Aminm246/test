@@ -1,5 +1,6 @@
 package recipe.model;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -20,12 +21,18 @@ public class RecipeManager {
         return recipeList.get(recipeID);
     }
 
-    public Recipe addRecipe(String recipeName) {
-        return null;
+    public int addRecipe(String recipeName, int createdBy, List<String> tagList, int duration, int servingSize, String description,
+                            String imagePath, List<Integer> ingredientList, List<BigDecimal> ingredientQtyList, List<InstructionStep> instructions){
+
+        Recipe recipe = new Recipe(nextRecipeId,recipeName,createdBy,tagList,duration,servingSize,description,imagePath,ingredientsInventory.getIngredients(ingredientList),ingredientQtyList,instructions);
+        recipeList.put(nextRecipeId,recipe);
+        nextRecipeId++;
+        return recipe.getRecipeID();
     }
 
-    public Recipe updateRecipe(int recipeID, Recipe updatedRecipe) {
-        return null;
+    private Recipe updateRecipe(Recipe updatedRecipe) {
+        recipeList.put(updatedRecipe.getRecipeID(), updatedRecipe);
+        return updatedRecipe;
     }
 
     public void deleteRecipe(int recipeID) {
@@ -48,14 +55,6 @@ public class RecipeManager {
         return null;
     }
 
-    public List<String> addCategory(String category) {
-        return new ArrayList<>();
-    }
-
-    public List<String> removeCategory(String category) {
-        return new ArrayList<>();
-    }
-
     public List<String> addTag(String tag) {
         return new ArrayList<>();
     }
@@ -66,5 +65,25 @@ public class RecipeManager {
 
     public List<String> generateGroceryList(int recipeID){
         return null;
+    }
+
+    public Object[] getRecipes(){
+        return recipeList.keySet().toArray();
+    }
+    public void setIngredientInventory(IngredientsInventory ingredientInventory) {
+        this.ingredientsInventory = ingredientInventory;
+    }
+    
+    @Override
+    public String toString() {
+        return "RecipeManager{" +
+                "recipeList=" + recipeList +
+                ", ingredientsInventory=" + ingredientsInventory +
+                ", nextRecipeId=" + nextRecipeId +
+                '}';
+    }
+
+    public IngredientsInventory getIngredientInventory() {
+        return ingredientsInventory;
     }
 }
