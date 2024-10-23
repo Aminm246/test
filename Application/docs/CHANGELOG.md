@@ -24,3 +24,5 @@
 - [Nick Reiss] Modified the fxml of create page to go with the new functionality.
 - [Nick Reiss] Added functionality for adding images into the recipe page.
 - [Nick Reiss] Added functionality to Create and Clear buttons.
+- [Hanad Musse] Worked on UI design structure and java code for create recipe and view recipe functions. 
+
