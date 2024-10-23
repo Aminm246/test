@@ -19,3 +19,8 @@
 
 # Milestone 4
 - [Amin Mohamed] Implemented the tags functionality in the project and ensured that the code was runnable. Contributed to testing efforts by verifying the feature's integration with the overall project structure.
+- [Nick Reiss] Created implementation.md. Updated UI functions to use passed loaders.
+- [Nick Reiss] Updated createRecipe to take in any number of ingredients or instructions
+- [Nick Reiss] Modified the fxml of create page to go with the new functionality.
+- [Nick Reiss] Added functionality for adding images into the recipe page.
+- [Nick Reiss] Added functionality to Create and Clear buttons.

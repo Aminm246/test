@@ -1,6 +1,5 @@
 package edu.metrostate;
 
-import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -8,15 +7,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.stage.Stage;
+import javafx.scene.control.cell.ComboBoxListCell;
 import recipe.model.RecipeManager;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +27,15 @@ public class recipeListController implements Initializable {
     private Label myLabel;
 
     RecipeManager recipeManager;
-    List<String> recipes;
+    public static final ObservableList recipes =
+            FXCollections.observableArrayList();
+    List recipeNames;
     String currentFood;
-
+    String[] food = {"appple","Banana"};
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        recipes = new ArrayList<>();
-        /*recipeListView = new ListView<>();
+
+        recipeListView = new ListView<>();
 
         recipeListView.getItems().addAll(food);
         recipeListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -49,21 +45,27 @@ public class recipeListController implements Initializable {
                 myLabel.setText(currentFood);
             }
         });
-        */
+
 
     }
-
     public void populateList(){
+        recipeNames = new ArrayList<>();
         Object [] recipeIDs = recipeManager.getRecipes();
+        recipeListView = new ListView<>();
+
+
         int recipeID;
         for (Object x : recipeIDs){
             recipeID = Integer.parseInt(x.toString());
             System.out.println(recipeManager.getRecipe(recipeID).getRecipeName());
+            //recipeNames.add(recipeManager.getRecipe(recipeID).getRecipeName());
             recipes.add(recipeManager.getRecipe(recipeID).getRecipeName());
         }
 
-        recipeListView = new ListView<>();
-        recipeListView.getItems().addAll(recipes);
+
+        recipeListView.setItems(recipes);
+        System.out.println(recipeListView.getItems());
+        recipeListView.setCellFactory(ComboBoxListCell.forListView(recipes));
         /*
         recipeListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
