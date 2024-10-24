@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.createRecipeController">
+    <children>
+        <MenuBar VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="Recipes">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Create Recipe" />
+                        <MenuItem mnemonicParsing="false" text="View Recipes" />
+                        <MenuItem mnemonicParsing="false" text="View Suggestions" />
+                        <MenuItem mnemonicParsing="false" text="Open Calorie Tracker" />
+                    </items></Menu>
+                <Menu mnemonicParsing="false" text="Ingredients">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="View Ingredients" />
+                        <MenuItem mnemonicParsing="false" text="Create Ingredient" />
+                    </items></Menu>
+                <Menu mnemonicParsing="false" text="Favorites">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Add Favorite" />
+                        <MenuItem mnemonicParsing="false" text="View Favorites" />
+                    </items></Menu>
+            </menus>
+        </MenuBar>
+      <VBox />
+      <AnchorPane prefHeight="580.0" prefWidth="900.0">
+         <children>
+            <ListView fx:id="recipeListView" layoutX="132.0" layoutY="51.0" prefHeight="493.0" prefWidth="648.0" />
+            <Label alignment="CENTER" prefHeight="50.0" prefWidth="900.0" text="Recipe List">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+    </children>
+</VBox>
