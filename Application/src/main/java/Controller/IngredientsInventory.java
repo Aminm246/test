@@ -1,6 +1,7 @@
-package ingredient.model;
+package Controller;
 
-import recipe.model.Recipe;
+import Model.Ingredient;
+import Model.MeasurementUnit;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -12,8 +13,7 @@ public class IngredientsInventory {
     private Map<Integer, Ingredient> inventory;
     int ingredientID;
 
-    public IngredientsInventory(){
-
+    public IngredientsInventory() {
         inventory = new HashMap<>();
         ingredientID = 1;
     }
@@ -53,7 +53,7 @@ public class IngredientsInventory {
         //Implement later
     }
 
-    public void createIngredient(String name, NutritionalFacts nutritionalFacts, BigDecimal quantity, MeasurementUnit measurementUnit) {
+    public void createIngredient(String name, BigDecimal quantity, MeasurementUnit measurementUnit) {
         //Implement later
     }
 

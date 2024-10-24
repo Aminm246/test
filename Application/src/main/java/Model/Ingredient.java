@@ -1,12 +1,8 @@
-package ingredient.model;
-
-import java.math.BigDecimal;
+package Model;
 
 public class Ingredient {
     int ingredientId;
     String ingredientName;
-    NutritionalFacts nutrition;
-    MeasurementUnit measurementUnit;
 
 
     public Ingredient(String ingredientName, int ingredientId) {
@@ -14,11 +10,9 @@ public class Ingredient {
         this.ingredientId = ingredientId;
     }
 
-    public Ingredient(int ingredientId, String ingredientName, NutritionalFacts nutrition, MeasurementUnit measurementUnit, BigDecimal quantity) {
+    public Ingredient(int ingredientId, String ingredientName) {
         this.ingredientId = ingredientId;
         this.ingredientName = ingredientName;
-        this.nutrition = nutrition;
-        this.measurementUnit = measurementUnit;
     }
 
     public String getIngredientName() {
@@ -37,29 +31,11 @@ public class Ingredient {
         this.ingredientId = ingredientId;
     }
 
-    public NutritionalFacts getNutrition() {
-        return nutrition;
-    }
-
-    public void setNutrition(NutritionalFacts nutrition) {
-        this.nutrition = nutrition;
-    }
-
-    public MeasurementUnit getMeasurementUnit() {
-        return measurementUnit;
-    }
-
-    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
-        this.measurementUnit = measurementUnit;
-    }
-
     @Override
     public String toString() {
         return "Ingredient{" +
                 "ingredientId=" + ingredientId +
                 ", ingredientName='" + ingredientName + '\'' +
-                ", nutrition=" + nutrition +
-                ", measurementUnit=" + measurementUnit +
                 '}';
     }
 }

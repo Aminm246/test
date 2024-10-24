@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="594.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.viewRecipeController">
+<AnchorPane prefHeight="594.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.viewRecipeController">
    <children>
       <MenuBar VBox.vgrow="NEVER">
          <menus>

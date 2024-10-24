@@ -1,4 +1,4 @@
-package edu.metrostate;
+package Controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,9 +7,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import recipe.model.InstructionStep;
-import recipe.model.Recipe;
-import recipe.model.RecipeManager;
+import Model.InstructionStep;
+import Model.Recipe;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class viewRecipeController {
         recipeNameLabel.setText(recipe.getRecipeName());
         List<String> ingredients = new ArrayList<>();
         List<BigDecimal> ingredientQty = recipe.getIngredientQtyList();
-        List<Integer> ingredientList = recipe.getIngredientList();
+        List<Integer> ingredientList = recipe.getRecipeIngredient();
 
         for (int i = 0; i < ingredientList.size();i++){
             ingredients.add(ingredientQty.get(i).toString() + "g " + recipeManager.getIngredientInventory().getIngredientById(ingredientList.get(i)).getIngredientName());

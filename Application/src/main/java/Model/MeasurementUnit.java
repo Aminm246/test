@@ -1,4 +1,4 @@
-package ingredient.model;
+package Model;
 
 public enum MeasurementUnit {
     GRAM,
@@ -7,5 +7,8 @@ public enum MeasurementUnit {
     TEASPOON,
     TABLESPOON,
     CUP,
-    PIECE;
+    UNIT,
+    FLUID_OUNCE,
+    POUND,
+    KILOGRAM;
 }

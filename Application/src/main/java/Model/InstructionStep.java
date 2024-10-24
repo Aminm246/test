@@ -1,4 +1,4 @@
-package recipe.model;
+package Model;
 
 public class InstructionStep {
     private int stepNum;

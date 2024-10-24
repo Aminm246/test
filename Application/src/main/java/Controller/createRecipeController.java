@@ -1,11 +1,9 @@
-package edu.metrostate;
+package Controller;
 
-import ingredient.model.IngredientsInventory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import recipe.model.InstructionStep;
-import recipe.model.RecipeManager;
+import Model.InstructionStep;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -15,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class createRecipeViewController {
+public class createRecipeController {
 
     @FXML
     private TextField recipeNameInput, ingredientNameInput, ingredientQtyInput,

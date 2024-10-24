@@ -1,11 +1,13 @@
-package recipe.model;
+package Controller;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
-import ingredient.model.IngredientsInventory;
+
+import Model.InstructionStep;
+import Model.Recipe;
 
 public class RecipeManager {
     private Map<Integer, Recipe> recipeList;
