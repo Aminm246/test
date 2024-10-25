@@ -1,5 +1,8 @@
 package Controller;
 
+import Model.Ingredient;
+import Model.MeasurementUnit;
+import Model.RecipeIngredient;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -32,8 +35,9 @@ public class createRecipeController {
     FXMLLoader createLoader;
 
     String recipeName;
+
+    List<RecipeIngredient> recipeIngredients;
     List<Integer> ingredientList;
-    List<BigDecimal> ingredientQtyList;
     List<InstructionStep> instructionSteps;
 
     int ingredientCount;
@@ -72,7 +76,7 @@ public class createRecipeController {
         submitCounter = 0;
         instructionCount = 0;
         ingredientList = new ArrayList<Integer>();
-        ingredientQtyList = new ArrayList<BigDecimal>();
+        recipeIngredients = new ArrayList<>();
         instructionSteps = new ArrayList<InstructionStep>();
         imagePath = "";
         tagList = new ArrayList<>();
@@ -157,7 +161,7 @@ public class createRecipeController {
     private void addSingleIngredientClick() {
         String ingredientName = ingredientNameInput.getText().trim();
         String ingredientQty = ingredientQtyInput.getText().trim();
-
+        BigDecimal qty = new BigDecimal(-1);
         if (ingredientName.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Ingredient name must not be empty, please enter a valid value.");
@@ -171,7 +175,7 @@ public class createRecipeController {
         }
 
         try {
-            BigDecimal qty = new BigDecimal(ingredientQty);
+            qty = new BigDecimal(ingredientQty);
             System.out.println("Ingredient Name: " + ingredientName + " Ingredient qty: " + qty);
 
         } catch (NumberFormatException e) {
@@ -184,9 +188,11 @@ public class createRecipeController {
 
         //ingredientList.add(new Ingredient(ingredientName));
         //need to add implementation for if the ingredient is already added to the inventory. if add just return the existing object.
-        int ingredientID = ingredientInventory.addIngredient(ingredientName).getIngredientId();
+        Ingredient ingredient = ingredientInventory.addIngredient(ingredientName);
+        int ingredientID = ingredient.getIngredientId();
         ingredientList.add(ingredientID);
-        ingredientQtyList.add(new BigDecimal(ingredientQty));
+        RecipeIngredient recipeIngredient = new RecipeIngredient(ingredientCount, 1, ingredient, MeasurementUnit.GRAM, qty);
+        recipeIngredients.add(recipeIngredient);
         ingredientNameInput.clear();
         ingredientQtyInput.clear();
         allIngredientsSubmit.setDisable(false);
@@ -205,7 +211,7 @@ public class createRecipeController {
         ingredientSubmit.setDisable(true);
         allIngredientsSubmit.setDisable(true);
         System.out.println(ingredientList.toString());
-        System.out.println(ingredientQtyList.toString());
+        System.out.println(recipeIngredients.toString());
         submitCounter++;
     }
 
@@ -397,7 +403,7 @@ public class createRecipeController {
             Optional<ButtonType> result = alert.showAndWait();
 
             int recipeID = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
-                    imagePath,ingredientList,ingredientQtyList,instructionSteps);
+                    imagePath,recipeIngredients,instructionSteps);
             System.out.println(recipeManager.getRecipe(recipeID).toString());
 
             if(result.get() == ButtonType.YES){
