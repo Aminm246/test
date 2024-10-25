@@ -17,7 +17,7 @@ public class Recipe {
     private int duration;
 
     public Recipe(int recipeId, String recipeName, int createdBy, List<String> tagList, int duration, int servingSize, String description,
-                  String imagePath, List<RecipeIngredient> recipeIngredients, List<BigDecimal> ingredientQtyList, List<InstructionStep> instructions) {
+                  String imagePath, List<RecipeIngredient> recipeIngredients, List<InstructionStep> instructions) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
         this.createdBy = createdBy;
@@ -30,6 +30,13 @@ public class Recipe {
         this.imagePath = imagePath;
     }
 
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+    }
 
     public List<InstructionStep> getInstructions() {
         return instructions;

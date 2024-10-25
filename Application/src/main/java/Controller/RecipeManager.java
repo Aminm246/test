@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import Model.InstructionStep;
 import Model.Recipe;
+import Model.RecipeIngredient;
 
 public class RecipeManager {
     private Map<Integer, Recipe> recipeList;
@@ -24,9 +25,9 @@ public class RecipeManager {
     }
 
     public int addRecipe(String recipeName, int createdBy, List<String> tagList, int duration, int servingSize, String description,
-                            String imagePath, List<Integer> ingredientList, List<BigDecimal> ingredientQtyList, List<InstructionStep> instructions){
+                         String imagePath, List<RecipeIngredient> recipeIngredients, List<InstructionStep> instructions){
 
-        Recipe recipe = new Recipe(nextRecipeId,recipeName,createdBy,tagList,duration,servingSize,description,imagePath,ingredientsInventory.getIngredients(ingredientList),ingredientQtyList,instructions);
+        Recipe recipe = new Recipe(nextRecipeId,recipeName,createdBy,tagList,duration,servingSize,description,imagePath,recipeIngredients,instructions);
         recipeList.put(nextRecipeId,recipe);
         nextRecipeId++;
         return recipe.getRecipeID();
@@ -67,6 +68,10 @@ public class RecipeManager {
 
     public List<String> generateGroceryList(int recipeID){
         return null;
+    }
+
+    public void setRecipeList(Map<Integer, Recipe> recipeList) {
+        this.recipeList = recipeList;
     }
 
     public Object[] getRecipes(){

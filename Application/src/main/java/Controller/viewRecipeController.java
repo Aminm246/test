@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.RecipeIngredient;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -47,12 +48,11 @@ public class viewRecipeController {
 
         recipeNameLabel.setText(recipe.getRecipeName());
         List<String> ingredients = new ArrayList<>();
-        List<BigDecimal> ingredientQty = recipe.getIngredientQtyList();
-        List<Integer> ingredientList = recipe.getRecipeIngredient();
 
-        for (int i = 0; i < ingredientList.size();i++){
-            ingredients.add(ingredientQty.get(i).toString() + "g " + recipeManager.getIngredientInventory().getIngredientById(ingredientList.get(i)).getIngredientName());
+        for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
+            ingredients.add(recipeIngredient.getIngredient().getIngredientName() + " " + recipeIngredient.getQuantity() + " " + recipeIngredient.getMeasurementUnit());
         }
+
 
         List<String> instructions = new ArrayList<>();
         for (InstructionStep instructionStep : recipe.getInstructions()) {
