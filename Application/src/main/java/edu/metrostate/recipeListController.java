@@ -31,7 +31,8 @@ public class recipeListController implements Initializable {
             FXCollections.observableArrayList();
     List recipeNames;
     String currentFood;
-    String[] food = {"appple","Banana"};
+    String[] food = {"apple","Banana"};
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

@@ -18,8 +18,8 @@
             <Menu mnemonicParsing="false" text="Recipes">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#switchToCreateRecipe" text="Create Recipe" />
-                  <!--<MenuItem mnemonicParsing="false" onAction="#switchToRecipeList" text="View Recipes" />
-                  <MenuItem mnemonicParsing="false" text="View Suggestions" />
+                  <MenuItem mnemonicParsing="false" onAction="#switchToRecipeList" text="View Recipes" />
+                  <!--<MenuItem mnemonicParsing="false" text="View Suggestions" />
                   <MenuItem mnemonicParsing="false" text="Open Calorie Tracker" />-->
                </items></Menu>
             <Menu mnemonicParsing="false" text="Ingredients">
