@@ -3,6 +3,7 @@ package Controller;
 import Model.Ingredient;
 import Model.MeasurementUnit;
 import Model.RecipeIngredient;
+import Model.RecipeManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -46,7 +47,7 @@ public class createRecipeController {
     int servingSize;
     String imagePath;
     IngredientsInventory ingredientInventory;
-    RecipeManager recipeManager;
+    RecipeManger recipeManager;
 
     //submitCounter counts the submits of each section to make sure it's all submitted before creating recipe.
     int submitCounter;
