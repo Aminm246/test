@@ -1,5 +1,8 @@
 package edu.metrostate;
 
+import Controller.createRecipeController;
+import Controller.recipeListController;
+import Controller.viewRecipeController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,7 +26,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
-        createRecipeViewController controller = loader.getController();
+        createRecipeController controller = loader.getController();
         controller.setCreateLoader(loader);
 
         FXMLLoader viewLoader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
