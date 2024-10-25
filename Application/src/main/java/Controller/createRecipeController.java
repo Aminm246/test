@@ -47,7 +47,7 @@ public class createRecipeController {
     int servingSize;
     String imagePath;
     IngredientsInventory ingredientInventory;
-    RecipeManger recipeManager;
+    RecipeManager recipeManager;
 
     //submitCounter counts the submits of each section to make sure it's all submitted before creating recipe.
     int submitCounter;
