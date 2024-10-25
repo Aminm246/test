@@ -3,7 +3,6 @@ package Controller;
 import Model.Ingredient;
 import Model.MeasurementUnit;
 import Model.RecipeIngredient;
-import Model.RecipeManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
