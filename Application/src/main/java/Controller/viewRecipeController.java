@@ -1,6 +1,9 @@
 package Controller;
 
 import Model.RecipeIngredient;
+import Model.RecipeManager;
+import Repository.DatabaseConnection;
+import Repository.RecipeRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -11,7 +14,7 @@ import javafx.scene.text.Text;
 import Model.InstructionStep;
 import Model.Recipe;
 
-import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,26 +45,38 @@ public class viewRecipeController {
     @FXML
     private ImageView recipeImageView;
     private RecipeManager recipeManager;
+    private DatabaseConnection databaseConnection;
+    private RecipeRepository recipeRepository;
 
-    public void setRecipe(int recipeID) {
+
+    @FXML
+    public void initialize() {
+        databaseConnection = new DatabaseConnection();
+        recipeRepository = new RecipeRepository(databaseConnection);
+        recipeManager = new RecipeManager(recipeRepository);
+    }
+
+
+
+    public void setRecipe(int recipeID) throws SQLException {
         Recipe recipe = recipeManager.getRecipe(recipeID);
-
+        System.err.println(recipe.toString());
         recipeNameLabel.setText(recipe.getRecipeName());
-        List<String> ingredients = new ArrayList<>();
+//        List<String> ingredients = new ArrayList<>();
 
-        for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
-            ingredients.add(recipeIngredient.getIngredient().getIngredientName() + " " + recipeIngredient.getQuantity() + " " + recipeIngredient.getMeasurementUnit());
-        }
-
-
-        List<String> instructions = new ArrayList<>();
-        for (InstructionStep instructionStep : recipe.getInstructions()) {
-            String instruction = "Instruction " + instructionStep.getStepNum() + ": " + instructionStep.getStepDescription();
-            instructions.add(instruction);
-        }
-        ingredientsTextArea.setText(String.join("\n", ingredients));
-        instructionsTextArea.setText(String.join("\n", instructions));
-        tagsLabel.setText(String.join(", ", recipe.getTags()));
+//        for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
+//            ingredients.add(recipeIngredient.getIngredient().getIngredientName() + " " + recipeIngredient.getQuantity() + " " + recipeIngredient.getMeasurementUnit());
+//        }
+//
+//
+//        List<String> instructions = new ArrayList<>();
+//        for (InstructionStep instructionStep : recipe.getInstructions()) {
+//            String instruction = "Instruction " + instructionStep.getStepNum() + ": " + instructionStep.getStepDescription();
+//            instructions.add(instruction);
+//        }
+//        ingredientsTextArea.setText(String.join("\n", ingredients));
+//        instructionsTextArea.setText(String.join("\n", instructions));
+//        tagsLabel.setText(String.join(", ", recipe.getTags()));
         descriptionLabel.setText(recipe.getDescription());
 
 
@@ -85,7 +100,7 @@ public class viewRecipeController {
         recipeNameLabel.getScene().setRoot(createLoader.getRoot());
     }
 
-    public void switchToRecipeList() {
+    public void switchToRecipeList() throws SQLException {
         recipeNameLabel.getScene().setRoot(listLoader.getRoot());
         recipeListController listController = listLoader.getController();
         listController.populateList();

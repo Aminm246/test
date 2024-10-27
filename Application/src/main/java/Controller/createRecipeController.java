@@ -1,17 +1,17 @@
 package Controller;
 
-import Model.Ingredient;
-import Model.MeasurementUnit;
-import Model.RecipeIngredient;
+import Model.*;
+import Repository.DatabaseConnection;
+import Repository.RecipeRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import Model.InstructionStep;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +47,8 @@ public class createRecipeController {
     String imagePath;
     IngredientsInventory ingredientInventory;
     RecipeManager recipeManager;
+    RecipeRepository recipeRepository;
+    DatabaseConnection databaseConnection;
 
     //submitCounter counts the submits of each section to make sure it's all submitted before creating recipe.
     int submitCounter;
@@ -55,7 +57,7 @@ public class createRecipeController {
     List<String> tagList;
     boolean tagsPlusClicked;
 
-    public void setListLoader(FXMLLoader listLoader){
+    public void setListLoader(FXMLLoader listLoader) throws SQLException {
         this.listLoader = listLoader;
         recipeListController controller = this.listLoader.getController();
         controller.setRecipeManager(recipeManager);
@@ -78,13 +80,15 @@ public class createRecipeController {
         ingredientList = new ArrayList<Integer>();
         recipeIngredients = new ArrayList<>();
         instructionSteps = new ArrayList<InstructionStep>();
+        databaseConnection = new DatabaseConnection();
+        recipeRepository = new RecipeRepository(databaseConnection);
         imagePath = "";
         tagList = new ArrayList<>();
         tagsPlusClicked = false;
 
         if(ingredientInventory == null){
             ingredientInventory = new IngredientsInventory();
-            recipeManager = new RecipeManager();
+            recipeManager = new RecipeManager(recipeRepository);
             recipeManager.setIngredientInventory(ingredientInventory);
             tagSubmit.setOnAction(event -> addSingleTagClick());
             tagsSubmit.setOnAction(event -> addAllTagsClick());
@@ -95,7 +99,13 @@ public class createRecipeController {
             descriptionSubmit.setOnAction(event -> addRecipeDescription());
             servingSizeSubmit.setOnAction(event -> addRecipeServingSize());
             imagePathSubmit.setOnAction(event -> addRecipeImagePath());
-            recipeSubmit.setOnAction(event -> createRecipe());
+            recipeSubmit.setOnAction(event -> {
+                try {
+                    createRecipe();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
             instructionSubmit.setOnAction(event -> addSingleInstructionClick());
             allInstructionsSubmit.setOnAction(event -> addAllInstructionsClick());
             clearRecipeButton.setOnAction(event -> clearRecipe());
@@ -396,7 +406,7 @@ public class createRecipeController {
         submitCounter++;
     }
 
-    private void createRecipe(){
+    private void createRecipe() throws SQLException {
         System.out.print(submitCounter);
         if(submitCounter == 8){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Do you want to view the recipe?",ButtonType.YES,ButtonType.NO);
@@ -446,7 +456,7 @@ public class createRecipeController {
         initialize();
     }
 
-    public void switchToRecipeList() {
+    public void switchToRecipeList() throws SQLException {
         ingredientSubmit.getScene().setRoot(listLoader.getRoot());
         recipeListController listController = listLoader.getController();
         listController.populateList();

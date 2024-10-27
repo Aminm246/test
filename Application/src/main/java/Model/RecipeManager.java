@@ -1,36 +1,47 @@
-package Controller;
+package Model;
 
-import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-import Model.InstructionStep;
-import Model.Recipe;
-import Model.RecipeIngredient;
+import Controller.IngredientsInventory;
+import Repository.RecipeRepository;
 
 public class RecipeManager {
     private Map<Integer, Recipe> recipeList;
     private IngredientsInventory ingredientsInventory;
     private int nextRecipeId;
+    private final RecipeRepository recipeRepository;
 
-    public RecipeManager() {
+    public RecipeManager(RecipeRepository recipeRepository) {
         this.recipeList = new HashMap<>();
         this.nextRecipeId = 1;
+        this.recipeRepository = recipeRepository;
     }
 
-    public Recipe getRecipe(int recipeID) {
-        return recipeList.get(recipeID);
+    public Recipe getRecipe(int recipeID) throws SQLException {
+        Recipe recipe = recipeRepository.getRecipeById(recipeID);
+        if (recipe != null) {
+            System.out.println("Recipe found: " + recipe.getRecipeName());
+        } else {
+            System.out.println("Recipe with ID " + recipeID + " not found.");
+        }
+        return recipe;
     }
 
     public int addRecipe(String recipeName, int createdBy, List<String> tagList, int duration, int servingSize, String description,
-                         String imagePath, List<RecipeIngredient> recipeIngredients, List<InstructionStep> instructions){
+                         String imagePath, List<RecipeIngredient> recipeIngredients, List<InstructionStep> instructions) throws SQLException {
 
         Recipe recipe = new Recipe(nextRecipeId,recipeName,createdBy,tagList,duration,servingSize,description,imagePath,recipeIngredients,instructions);
-        recipeList.put(nextRecipeId,recipe);
-        nextRecipeId++;
-        return recipe.getRecipeID();
+        int recipeId = recipeRepository.insertRecipe(recipe);
+        if (recipeId != -1) {
+            System.out.println("Recipe created with ID: " + recipeId);
+        } else {
+            System.out.println("Failed to create recipe.");
+        }
+        return recipeId;
     }
 
     private Recipe updateRecipe(Recipe updatedRecipe) {
@@ -74,8 +85,8 @@ public class RecipeManager {
         this.recipeList = recipeList;
     }
 
-    public Object[] getRecipes(){
-        return recipeList.keySet().toArray();
+    public List<Recipe> getRecipes() throws SQLException {
+        return recipeRepository.getAllRecipes();
     }
     public void setIngredientInventory(IngredientsInventory ingredientInventory) {
         this.ingredientsInventory = ingredientInventory;
@@ -90,7 +101,4 @@ public class RecipeManager {
                 '}';
     }
 
-    public IngredientsInventory getIngredientInventory() {
-        return ingredientsInventory;
-    }
 }

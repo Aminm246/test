@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Recipe {
     private int recipeId;
     private String recipeName;
@@ -15,6 +16,20 @@ public class Recipe {
     private String imagePath;
     private String description;
     private int duration;
+
+    public Recipe(String recipeName, int createdBy, List<String> tagList, int duration, int servingSize, String description,
+                  String imagePath, List<RecipeIngredient> recipeIngredients, List<InstructionStep> instructions) {
+        this.recipeId = -1;
+        this.recipeName = recipeName;
+        this.createdBy = createdBy;
+        this.tagList = tagList;
+        this.recipeIngredients = recipeIngredients;
+        this.instructions = instructions;
+        this.duration = duration;
+        this.servingSize = servingSize;
+        this.description = description;
+        this.imagePath = imagePath;
+    }
 
     public Recipe(int recipeId, String recipeName, int createdBy, List<String> tagList, int duration, int servingSize, String description,
                   String imagePath, List<RecipeIngredient> recipeIngredients, List<InstructionStep> instructions) {
@@ -28,6 +43,22 @@ public class Recipe {
         this.servingSize = servingSize;
         this.description = description;
         this.imagePath = imagePath;
+    }
+
+    public Recipe() {
+
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    public void setTagList(List<String> tagList) {
+        this.tagList = tagList;
     }
 
     public List<RecipeIngredient> getRecipeIngredients() {
