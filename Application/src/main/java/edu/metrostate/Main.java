@@ -3,17 +3,55 @@ package edu.metrostate;
 import Controller.createRecipeController;
 import Controller.recipeListController;
 import Controller.viewRecipeController;
+import Model.InstructionStep;
+import Model.Recipe;
+import Model.RecipeIngredient;
+import Repository.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Main extends Application {
 
     private Stage stage;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         launch(args);
+        DatabaseConnection db = new DatabaseConnection();
+        RecipeRepository recipeRepository = new RecipeRepository(db);
+        IngredientsRepository ingredientRepository = new IngredientsRepository(db);
+        RecipeIngRepository recipeIngRepository = new RecipeIngRepository(db);
+        InstructionsRepository instructionRepository = new InstructionsRepository(db);
+        TagRepository tagRepository = new TagRepository(db);
+        RecipeTagRepository recipeTagRepository = new RecipeTagRepository(db);
+        Connection connection = db.getConnection();
+        if (connection != null) {
+            try {
+                recipeRepository.createTable();
+                ingredientRepository.createTable();
+                recipeIngRepository.createTable();
+                instructionRepository.createTable();
+                tagRepository.createTable();
+                recipeTagRepository.createTable();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+//            } finally {
+//                db.closeConnection();
+//            }
+        }
+        else {
+            System.out.println("Connection failed.");
+        }
     }
 
     @Override

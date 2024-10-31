@@ -10,8 +10,10 @@ public class Ingredient {
         this.ingredientId = ingredientId;
     }
 
-    public Ingredient(int ingredientId, String ingredientName) {
-        this.ingredientId = ingredientId;
+    public Ingredient() {
+    }
+
+    public Ingredient(String ingredientName) {
         this.ingredientName = ingredientName;
     }
 
@@ -35,7 +37,7 @@ public class Ingredient {
     public String toString() {
         return "Ingredient{" +
                 "ingredientId=" + ingredientId +
-                ", ingredientName='" + ingredientName + '\'' +
+                ", ingredientName=" + ingredientName +
                 '}';
     }
 }

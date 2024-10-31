@@ -1,6 +1,7 @@
 package Controller;
 
-import Model.RecipeIngredient;
+import Model.*;
+import Repository.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -8,10 +9,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import Model.InstructionStep;
-import Model.Recipe;
 
-import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -41,29 +40,69 @@ public class viewRecipeController {
 
     @FXML
     private ImageView recipeImageView;
+
     private RecipeManager recipeManager;
+    private RecipeIngManager recipeIngManager;
+    private IngredientsManager ingredientsManager;
+    private InstructionsManager instructionsManager;
+    private TagManager tagManager;
+    private RecipeTagManager recipeTagManager;
 
-    public void setRecipe(int recipeID) {
+    private DatabaseConnection databaseConnection;
+    private RecipeRepository recipeRepository;
+    private RecipeIngRepository recipeIngRepository;
+    private IngredientsRepository ingredientsRepository;
+    private InstructionsRepository instructionsRepository;
+    private TagRepository tagRepository;
+    private RecipeTagRepository recipeTagRepository;
+
+    @FXML
+    public void initialize() {
+        databaseConnection = new DatabaseConnection();
+        recipeRepository = new RecipeRepository(databaseConnection);
+        recipeIngRepository = new RecipeIngRepository(databaseConnection);
+        ingredientsRepository = new IngredientsRepository(databaseConnection);
+        instructionsRepository = new InstructionsRepository(databaseConnection);
+        tagRepository = new TagRepository(databaseConnection);
+        recipeTagRepository = new RecipeTagRepository(databaseConnection);
+
+
+        recipeManager = new RecipeManager(recipeRepository);
+        recipeIngManager = new RecipeIngManager(recipeIngRepository);
+        ingredientsManager = new IngredientsManager(ingredientsRepository);
+        instructionsManager = new InstructionsManager(instructionsRepository);
+        tagManager = new TagManager(tagRepository);
+        recipeTagManager = new RecipeTagManager(recipeTagRepository);
+    }
+
+
+
+    public void setRecipe(int recipeID) throws SQLException {
         Recipe recipe = recipeManager.getRecipe(recipeID);
-
         recipeNameLabel.setText(recipe.getRecipeName());
         List<String> ingredients = new ArrayList<>();
 
-        for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
-            ingredients.add(recipeIngredient.getIngredient().getIngredientName() + " " + recipeIngredient.getQuantity() + " " + recipeIngredient.getMeasurementUnit());
-        }
-
-
         List<String> instructions = new ArrayList<>();
-        for (InstructionStep instructionStep : recipe.getInstructions()) {
+        for (InstructionStep instructionStep : instructionsManager.getInstructionsByRecipeId(recipeID)) {
             String instruction = "Instruction " + instructionStep.getStepNum() + ": " + instructionStep.getStepDescription();
             instructions.add(instruction);
         }
-        ingredientsTextArea.setText(String.join("\n", ingredients));
-        instructionsTextArea.setText(String.join("\n", instructions));
-        tagsLabel.setText(String.join(", ", recipe.getTags()));
-        descriptionLabel.setText(recipe.getDescription());
 
+        List<String> tags = new ArrayList<>();
+        for (RecipeTag recipeTag : recipeTagRepository.getTagsByRecipeId(recipeID)) {
+            int tagID = recipeTag.getTagID();
+            Tag tag = tagRepository.getTagById(tagID);
+            tags.add(tag.getTagName());
+        }
+
+        instructionsTextArea.setText(String.join("\n", instructions));
+        tagsLabel.setText(String.join(", ", tags));
+        descriptionLabel.setText(recipe.getDescription());
+        for (RecipeIngredient recipeIngredient : recipeIngManager.getIngredientsByRecipeId(recipeID)) {
+            Ingredient ingredient = ingredientsManager.getIngredientById(recipeIngredient.getIngredientID());
+            ingredients.add(ingredient.getIngredientName() + " " + recipeIngredient.getQuantity() + " " + recipeIngredient.getMeasurementUnit());
+        }
+        ingredientsTextArea.setText(String.join("\n", ingredients));
 
         if (recipe.getImagePath() != null && !recipe.getImagePath().isEmpty()) {
             try {
@@ -85,7 +124,7 @@ public class viewRecipeController {
         recipeNameLabel.getScene().setRoot(createLoader.getRoot());
     }
 
-    public void switchToRecipeList() {
+    public void switchToRecipeList() throws SQLException {
         recipeNameLabel.getScene().setRoot(listLoader.getRoot());
         recipeListController listController = listLoader.getController();
         listController.populateList();

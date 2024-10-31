@@ -1,7 +1,8 @@
 package Controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import Model.Recipe;
+import Repository.DatabaseConnection;
+import Repository.RecipeRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,8 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.ComboBoxListCell;
+
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -25,17 +27,21 @@ public class recipeListController implements Initializable {
     @FXML
     private Label myLabel;
 
-    RecipeManager recipeManager;
-    public static final ObservableList recipes =
-            FXCollections.observableArrayList();
-    List recipeNames;
+    private RecipeManager recipeManager;
+    private DatabaseConnection databaseConnection;
+    private RecipeRepository recipeRepository;
+
+    List<String> recipes;
     String currentFood;
-    String[] food = {"apple","Banana"};
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        databaseConnection = new DatabaseConnection();
+        recipeRepository = new RecipeRepository(databaseConnection);
+        recipeManager = new RecipeManager(recipeRepository);
+        recipes = new ArrayList<>();
         recipeListView = new ListView<>();
+        /*recipeListView = new ListView<>();
 
         recipeListView.getItems().addAll(food);
         recipeListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -45,27 +51,29 @@ public class recipeListController implements Initializable {
                 myLabel.setText(currentFood);
             }
         });
-
+        */
 
     }
-    public void populateList(){
-        recipeNames = new ArrayList<>();
-        Object [] recipeIDs = recipeManager.getRecipes();
-        recipeListView = new ListView<>();
 
+    @FXML
+    public void populateList() throws SQLException {
 
-        int recipeID;
-        for (Object x : recipeIDs){
-            recipeID = Integer.parseInt(x.toString());
-            System.out.println(recipeManager.getRecipe(recipeID).getRecipeName());
-            //recipeNames.add(recipeManager.getRecipe(recipeID).getRecipeName());
-            recipes.add(recipeManager.getRecipe(recipeID).getRecipeName());
+        for (Recipe recipe : recipeManager.getRecipes()) {
+            recipes.add(recipe.getRecipeName());
         }
+        recipeListView.getItems().addAll(recipes);
 
 
-        recipeListView.setItems(recipes);
-        System.out.println(recipeListView.getItems());
-        recipeListView.setCellFactory(ComboBoxListCell.forListView(recipes));
+//        Object [] recipeIDs = recipeManager.getRecipes();
+//        int recipeID;
+//        for (Object x : recipeIDs){
+//            recipeID = Integer.parseInt(x.toString());
+//            System.out.println(recipeManager.getRecipe(recipeID).getRecipeName());
+//            recipes.add(recipeManager.getRecipe(recipeID).getRecipeName());
+//        }
+//
+//        recipeListView = new ListView<>();
+//        recipeListView.getItems().addAll(recipes);
         /*
         recipeListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -80,13 +88,17 @@ public class recipeListController implements Initializable {
         myLabel.getScene().setRoot(createLoader.getRoot());
     }
 
-    public void setRecipeManager(RecipeManager recipeManager){
+    public void setRecipeManager(RecipeManager recipeManager) throws SQLException {
         this.recipeManager = recipeManager;
 
-        Object [] ids = this.recipeManager.getRecipes();
-        for (int i = 0; i <ids.length;i++){
-            System.out.println(ids[i]);
+        for (Recipe recipe : recipeManager.getRecipes()) {
+            System.out.println(recipe);
         }
+
+//        Object [] ids = this.recipeManager.getRecipes();
+//        for (int i = 0; i <ids.length;i++){
+//            System.out.println(ids[i]);
+//        }
     }
 
     public void setCreateLoader(FXMLLoader createLoader) {

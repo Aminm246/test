@@ -1,16 +1,41 @@
 package Model;
 
 public class InstructionStep {
+    private int instructionStepID;
+    private int recipeID;
     private int stepNum;
     private String stepDescription;
 
-    public InstructionStep(int recipeID, int stepNum, String stepDescription) {
+    public InstructionStep(int instructionStepID, int recipeID, int stepNum, String stepDescription) {
+        this.recipeID = recipeID;
+        this.instructionStepID = instructionStepID;
         this.stepNum = stepNum;
         this.stepDescription = stepDescription;
     }
-    public InstructionStep(int stepNum, String stepDescription) {
+    public InstructionStep(int recipeID, int stepNum, String stepDescription) {
+        this.recipeID = recipeID;
         this.stepNum = stepNum;
         this.stepDescription = stepDescription;
+    }
+
+    public InstructionStep() {
+
+    }
+
+    public int getInstructionStepID() {
+        return instructionStepID;
+    }
+
+    public void setInstructionStepID(int instructionStepID) {
+        this.instructionStepID = instructionStepID;
+    }
+
+    public int getRecipeID() {
+        return recipeID;
+    }
+
+    public void setRecipeID(int recipeID) {
+        this.recipeID = recipeID;
     }
 
     public int getStepNum() {
