@@ -1,8 +1,7 @@
 package Controller;
 
 import Model.*;
-import Repository.DatabaseConnection;
-import Repository.RecipeRepository;
+import Repository.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -37,17 +36,34 @@ public class createRecipeController {
     String recipeName;
 
     List<RecipeIngredient> recipeIngredients;
-    List<Integer> ingredientList;
+    List<String> ingredientNames;
+    List<BigDecimal> ingredientQtys;
+    List<String> ingredientUnits;
     List<InstructionStep> instructionSteps;
+    List<String> descriptions;
+    List<String> tagNames;
 
     int ingredientCount;
     String description;
     int duration;
     int servingSize;
     String imagePath;
-    IngredientsInventory ingredientInventory;
+
+
+    IngredientsManager ingredientsManager;
     RecipeManager recipeManager;
+    RecipeIngManager recipeIngManager;
+    InstructionsManager instructionsManager;
+    TagManager tagManager;
+    RecipeTagManager recipeTagManager;
+
+    RecipeIngRepository recipeIngRepository;
     RecipeRepository recipeRepository;
+    IngredientsRepository ingredientsRepository;
+    InstructionsRepository instructionsRepository;
+    TagRepository tagRepository;
+    RecipeTagRepository recipeTagRepository;
+
     DatabaseConnection databaseConnection;
 
     //submitCounter counts the submits of each section to make sure it's all submitted before creating recipe.
@@ -77,39 +93,63 @@ public class createRecipeController {
         ingredientCount = 0;
         submitCounter = 0;
         instructionCount = 0;
-        ingredientList = new ArrayList<Integer>();
+        ingredientNames = new ArrayList<String>();
+        ingredientQtys = new ArrayList<BigDecimal>();
+        ingredientUnits = new ArrayList<String>();
         recipeIngredients = new ArrayList<>();
         instructionSteps = new ArrayList<InstructionStep>();
-        databaseConnection = new DatabaseConnection();
-        recipeRepository = new RecipeRepository(databaseConnection);
+        tagNames = new ArrayList<>();
+        descriptions = new ArrayList<>();
         imagePath = "";
         tagList = new ArrayList<>();
         tagsPlusClicked = false;
 
-        if(ingredientInventory == null){
-            ingredientInventory = new IngredientsInventory();
-            recipeManager = new RecipeManager(recipeRepository);
-            recipeManager.setIngredientInventory(ingredientInventory);
-            tagSubmit.setOnAction(event -> addSingleTagClick());
-            tagsSubmit.setOnAction(event -> addAllTagsClick());
-            recipeNameSubmit.setOnAction(event -> addRecipeNameClick());
-            ingredientSubmit.setOnAction(event -> addSingleIngredientClick());
-            allIngredientsSubmit.setOnAction(event -> addAllIngredientsClick());
-            durationSubmit.setOnAction(event -> addRecipeDuration());
-            descriptionSubmit.setOnAction(event -> addRecipeDescription());
-            servingSizeSubmit.setOnAction(event -> addRecipeServingSize());
-            imagePathSubmit.setOnAction(event -> addRecipeImagePath());
-            recipeSubmit.setOnAction(event -> {
-                try {
-                    createRecipe();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            instructionSubmit.setOnAction(event -> addSingleInstructionClick());
-            allInstructionsSubmit.setOnAction(event -> addAllInstructionsClick());
-            clearRecipeButton.setOnAction(event -> clearRecipe());
-        }
+        databaseConnection = new DatabaseConnection();
+        recipeRepository = new RecipeRepository(databaseConnection);
+        ingredientsRepository = new IngredientsRepository(databaseConnection);
+        recipeIngRepository = new RecipeIngRepository(databaseConnection);
+        instructionsRepository = new InstructionsRepository(databaseConnection);
+        tagRepository = new TagRepository(databaseConnection);
+        recipeTagRepository = new RecipeTagRepository(databaseConnection);
+
+        ingredientsManager = new IngredientsManager(ingredientsRepository);
+        recipeManager = new RecipeManager(recipeRepository);
+        recipeIngManager = new RecipeIngManager(recipeIngRepository);
+        instructionsManager = new InstructionsManager(instructionsRepository);
+        tagManager = new TagManager(tagRepository);
+        recipeTagManager = new RecipeTagManager(recipeTagRepository);
+
+        tagSubmit.setOnAction(event -> addSingleTagClick());
+        tagsSubmit.setOnAction(event -> addAllTagsClick());
+        recipeNameSubmit.setOnAction(event -> addRecipeNameClick());
+        ingredientSubmit.setOnAction(event -> {
+            try {
+                addSingleIngredientClick();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        allIngredientsSubmit.setOnAction(event -> {
+            try {
+                addAllIngredientsClick();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        durationSubmit.setOnAction(event -> addRecipeDuration());
+        descriptionSubmit.setOnAction(event -> addRecipeDescription());
+        servingSizeSubmit.setOnAction(event -> addRecipeServingSize());
+        imagePathSubmit.setOnAction(event -> addRecipeImagePath());
+        recipeSubmit.setOnAction(event -> {
+            try {
+                createRecipe();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        instructionSubmit.setOnAction(event -> addSingleInstructionClick());
+        allInstructionsSubmit.setOnAction(event -> addAllInstructionsClick());
+        clearRecipeButton.setOnAction(event -> clearRecipe());
 
     }
 
@@ -121,7 +161,8 @@ public class createRecipeController {
             alert.showAndWait();
         } else {
             System.out.println("Tag: " + tag);
-            tagList.add(tag);
+//            tagList.add(tag);
+            tagNames.add(tag);
             if(tagFxList.getText().isEmpty()){
                 tagFxList.setText(tag);
             }
@@ -168,7 +209,7 @@ public class createRecipeController {
         System.out.println("All tags: " + tagFxList.getText());
     }
 
-    private void addSingleIngredientClick() {
+    private void addSingleIngredientClick() throws SQLException {
         String ingredientName = ingredientNameInput.getText().trim();
         String ingredientQty = ingredientQtyInput.getText().trim();
         BigDecimal qty = new BigDecimal(-1);
@@ -196,21 +237,31 @@ public class createRecipeController {
             return;
         }
 
+        ingredientNames.add(ingredientName);
+        ingredientQtys.add(qty);
+        ingredientUnits.add("GRAMS");
+
         //ingredientList.add(new Ingredient(ingredientName));
         //need to add implementation for if the ingredient is already added to the inventory. if add just return the existing object.
-        Ingredient ingredient = ingredientInventory.addIngredient(ingredientName);
-        int ingredientID = ingredient.getIngredientId();
-        ingredientList.add(ingredientID);
-        RecipeIngredient recipeIngredient = new RecipeIngredient(ingredientCount, 1, ingredient, MeasurementUnit.GRAM, qty);
-        recipeIngredients.add(recipeIngredient);
+
+
+//        int ingredientID  =  ingredientsManager.addIngredient(ingredientName);
+//        Ingredient ingredient = ingredientsManager.getIngredientById(ingredientID);
+
+
+//        Ingredient ingredient = ingredientsManager.addIngredient(ingredientName);
+//        int ingredientID = ingredient.getIngredientId();
+//        ingredientList.add(ingredientID);
+//        RecipeIngredient recipeIngredient = new RecipeIngredient(ingredientID, "GRAMS", qty);
+//        recipeIngredients.add(recipeIngredient);
         ingredientNameInput.clear();
         ingredientQtyInput.clear();
         allIngredientsSubmit.setDisable(false);
-        ingredientFxList.setText(ingredientFxList.getText() + ingredientQty + "g " + ingredientInventory.getIngredientById(ingredientID).getIngredientName() + "\n");
+        ingredientFxList.setText(ingredientFxList.getText() + ingredientQty + "g " + ingredientName + "\n");
         ingredientCount++;
     }
 
-    private void addAllIngredientsClick() {
+    private void addAllIngredientsClick() throws SQLException {
         if (ingredientCount < 6) {
             if (!ingredientNameInput.getText().isEmpty() && !ingredientQtyInput.getText().isEmpty()) {
                 addSingleIngredientClick();
@@ -220,7 +271,6 @@ public class createRecipeController {
         ingredientQtyInput.setDisable(true);
         ingredientSubmit.setDisable(true);
         allIngredientsSubmit.setDisable(true);
-        System.out.println(ingredientList.toString());
         System.out.println(recipeIngredients.toString());
         submitCounter++;
     }
@@ -235,10 +285,12 @@ public class createRecipeController {
         }
 
         else {
-            InstructionStep instructionStep = new InstructionStep(instructionCount + 1, instructionStepString);
-            System.out.println(instructionStep);
-            instructionSteps.add(instructionStep);
-            instructionFxList.setText(instructionFxList.getText() + "Instruction " + instructionStep.getStepNum() + ": " + instructionStep.getStepDescription() + "\n");
+//            InstructionStep instructionStep = new InstructionStep(instructionCount + 1, instructionStepString);
+            descriptions.add(instructionStepString);
+
+//            System.out.println(instructionStep);
+//            instructionSteps.add(instructionStep);
+            instructionFxList.setText(instructionFxList.getText() + "Instruction " + descriptions.size() + ": " + instructionStepString + "\n");
             instructionInput.clear();
             instructionCount++;
             allInstructionsSubmit.setDisable(false);
@@ -412,9 +464,35 @@ public class createRecipeController {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Do you want to view the recipe?",ButtonType.YES,ButtonType.NO);
             Optional<ButtonType> result = alert.showAndWait();
 
-            int recipeID = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
-                    imagePath,recipeIngredients,instructionSteps);
+//            int recipeID = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
+//                    imagePath,recipeIngredients,instructionSteps);
+//
+
+
+            int recipeID = recipeManager.addRecipe(recipeName, 1, servingSize, imagePath, description, duration);
+            System.err.println("RECIPE ID:" + recipeID);
+            for (int i = 0; i < ingredientCount; i++) {
+                String ingredientName = ingredientNames.get(i);
+                BigDecimal ingredientQty = ingredientQtys.get(i);
+                String ingredientUnit = ingredientUnits.get(i);
+                int ingredientId = ingredientsManager.addIngredient(ingredientName);
+                recipeIngManager.addIngredient(ingredientId, recipeID, ingredientUnit, ingredientQty);
+            }
+            for (int i = 0; i < descriptions.size(); i++) {
+                String description = descriptions.get(i);
+                instructionsManager.insertInstruction(recipeID, i+1, description);
+            }
+            for (int i = 0; i < tagNames.size(); i++) {
+                String tagName = tagNames.get(i);
+                int tagId = tagManager.addTag(tagName);
+                recipeTagManager.addTag(recipeID, tagId);
+            }
+
             System.out.println(recipeManager.getRecipe(recipeID).toString());
+
+            Recipe recipe = recipeManager.getRecipe(recipeID);
+
+
 
             if(result.get() == ButtonType.YES){
                 //Changes scene to viewRecipe

@@ -13,11 +13,11 @@ public class RecipeRepository {
         this.db = db;
     }
 
-    public void createTable() throws SQLException {
-        String createTable = "CREATE TABLE IF NOT EXISTS recipes (" +
-                "recipeId INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "recipeName TEXT, " +
-                "createdBy INTEGER, " +
+   public void createTable() throws SQLException {
+            String createTable = "CREATE TABLE IF NOT EXISTS recipes (" +
+                    "recipeId INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "recipeName TEXT, " +
+                    "createdBy INTEGER, " +
                 "servingSize INTEGER, " +
                 "imagePath TEXT, " +
                 "description TEXT, " +
@@ -69,7 +69,6 @@ public class RecipeRepository {
                 recipe.setDescription(resultSet.getString("description"));
                 recipe.setDuration(resultSet.getInt("duration"));
 
-                // tagList, recipeIngredients, and instructions remaining, will implement later
                 return recipe;
             }
         }
@@ -92,7 +91,6 @@ public class RecipeRepository {
                 recipe.setDescription(resultSet.getString("description"));
                 recipe.setDuration(resultSet.getInt("duration"));
 
-                // tagList, recipeIngredients, and instructions remaining, will implement later
                 recipes.add(recipe);
             }
         }
@@ -103,7 +101,7 @@ public class RecipeRepository {
         String update = "UPDATE recipes SET recipeName = ?, createdBy = ?, servingSize = ?, imagePath = ?, description = ?, duration = ? WHERE recipeId = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
-            connection.setAutoCommit(false); // Optional, depending on transaction settings
+            connection.setAutoCommit(false);
             preparedStatement.setString(1, recipe.getRecipeName());
             preparedStatement.setInt(2, recipe.getCreatedBy());
             preparedStatement.setInt(3, recipe.getServingSize());
@@ -113,7 +111,7 @@ public class RecipeRepository {
             preparedStatement.setInt(7, recipe.getRecipeId());
 
             int rowsUpdated = preparedStatement.executeUpdate();
-            connection.commit(); // Optional, for explicit transaction control
+            connection.commit();
 
             if (rowsUpdated == 0) {
                 System.out.println("Update failed: No record found with recipeId = " + recipe.getRecipeId());

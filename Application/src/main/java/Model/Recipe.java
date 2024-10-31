@@ -45,6 +45,15 @@ public class Recipe {
         this.imagePath = imagePath;
     }
 
+    public Recipe(String recipeName, int createdBy, int servingSize, String imagePath, String description, int duration) {
+        this.recipeName = recipeName;
+        this.createdBy = createdBy;
+        this.servingSize = servingSize;
+        this.imagePath = imagePath;
+        this.description = description;
+        this.duration = duration;
+    }
+
     public Recipe() {
 
     }

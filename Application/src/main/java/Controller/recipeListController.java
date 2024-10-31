@@ -1,9 +1,10 @@
 package Controller;
 
 import Model.Recipe;
-import Model.RecipeManager;
 import Repository.DatabaseConnection;
 import Repository.RecipeRepository;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,10 +27,9 @@ public class recipeListController implements Initializable {
     @FXML
     private Label myLabel;
 
+    private RecipeManager recipeManager;
     private DatabaseConnection databaseConnection;
     private RecipeRepository recipeRepository;
-
-    RecipeManager recipeManager;
 
     List<String> recipes;
     String currentFood;
@@ -38,7 +38,9 @@ public class recipeListController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         databaseConnection = new DatabaseConnection();
         recipeRepository = new RecipeRepository(databaseConnection);
+        recipeManager = new RecipeManager(recipeRepository);
         recipes = new ArrayList<>();
+        recipeListView = new ListView<>();
         /*recipeListView = new ListView<>();
 
         recipeListView.getItems().addAll(food);
@@ -53,12 +55,12 @@ public class recipeListController implements Initializable {
 
     }
 
+    @FXML
     public void populateList() throws SQLException {
+
         for (Recipe recipe : recipeManager.getRecipes()) {
-            System.out.println(recipe);
             recipes.add(recipe.getRecipeName());
         }
-        recipeListView = new ListView<>();
         recipeListView.getItems().addAll(recipes);
 
 
