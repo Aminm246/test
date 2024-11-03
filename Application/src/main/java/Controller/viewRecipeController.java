@@ -4,6 +4,7 @@ import Model.*;
 import Repository.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -25,6 +26,9 @@ public class viewRecipeController {
 
     @FXML
     private Label recipeNameLabel;
+
+    @FXML
+    private Button recipeUpdate;
 
     @FXML
     private TextArea ingredientsTextArea;
@@ -117,6 +121,11 @@ public class viewRecipeController {
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg")));
             recipeImageView.setImage(image);
         }
+        recipeUpdate.setOnAction(event -> recipeUpdatePage());
+    }
+
+    private void recipeUpdatePage() {
+
     }
 
     @FXML
