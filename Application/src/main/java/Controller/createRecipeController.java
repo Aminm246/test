@@ -492,8 +492,6 @@ public class createRecipeController {
 
             Recipe recipe = recipeManager.getRecipe(recipeID);
 
-
-
             if(result.get() == ButtonType.YES){
                 //Changes scene to viewRecipe
                 ingredientSubmit.getScene().setRoot(viewLoader.getRoot());

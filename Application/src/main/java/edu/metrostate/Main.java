@@ -3,9 +3,6 @@ package edu.metrostate;
 import Controller.createRecipeController;
 import Controller.recipeListController;
 import Controller.viewRecipeController;
-import Model.InstructionStep;
-import Model.Recipe;
-import Model.RecipeIngredient;
 import Repository.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,12 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Main extends Application {
 
@@ -57,15 +49,15 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Cookbook v0.1");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
-        Parent root = loader.load();
+        FXMLLoader createLoader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
+        Parent root = createLoader.load();
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
 
-        createRecipeController controller = loader.getController();
-        controller.setCreateLoader(loader);
+        createRecipeController controller = createLoader.getController();
+        controller.setCreateLoader(createLoader);
 
         FXMLLoader viewLoader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
         viewLoader.load();
@@ -77,11 +69,12 @@ public class Main extends Application {
 
 
         viewRecipeController viewController = viewLoader.getController();
-        viewController.setCreateLoader(loader);
+        viewController.setCreateLoader(createLoader);
         viewController.setListLoader(listLoader);
 
         recipeListController listController = listLoader.getController();
-        listController.setCreateLoader(loader);
+        listController.setCreateLoader(createLoader);
+        listController.setViewLoader(viewLoader);
     }
 
 }

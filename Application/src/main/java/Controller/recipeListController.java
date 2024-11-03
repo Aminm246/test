@@ -5,21 +5,22 @@ import Repository.DatabaseConnection;
 import Repository.RecipeRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class recipeListController implements Initializable {
 
     private FXMLLoader createLoader;
+    private FXMLLoader viewLoader;
 
     @FXML
     private ListView<String> recipeListView;
@@ -31,57 +32,42 @@ public class recipeListController implements Initializable {
     private DatabaseConnection databaseConnection;
     private RecipeRepository recipeRepository;
 
-    List<String> recipes;
-    String currentFood;
+    ObservableList<String> recipes;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         databaseConnection = new DatabaseConnection();
         recipeRepository = new RecipeRepository(databaseConnection);
         recipeManager = new RecipeManager(recipeRepository);
-        recipes = new ArrayList<>();
-        recipeListView = new ListView<>();
-        /*recipeListView = new ListView<>();
+        recipes = FXCollections.observableArrayList();
+        recipeListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
-        recipeListView.getItems().addAll(food);
-        recipeListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                currentFood = recipeListView.getSelectionModel().getSelectedItem();
-                myLabel.setText(currentFood);
+            public void handle(MouseEvent event) {
+                String recipeName = recipeListView.getSelectionModel().getSelectedItem();
+                if(!recipeName.isEmpty()){
+                    int recipeID = Integer.parseInt(recipeName.substring(recipeName.indexOf("(") + 1,recipeName.indexOf(")")));
+
+                    try {
+                        switchToViewRecipe(recipeID);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
             }
         });
-        */
-
     }
 
     @FXML
     public void populateList() throws SQLException {
-
+        recipes.clear();
         for (Recipe recipe : recipeManager.getRecipes()) {
-            recipes.add(recipe.getRecipeName());
+            recipes.add(recipe.getRecipeName() + " (" + recipe.getRecipeID() + ")");
         }
-        recipeListView.getItems().addAll(recipes);
+        recipeListView.setItems(recipes);
 
-
-//        Object [] recipeIDs = recipeManager.getRecipes();
-//        int recipeID;
-//        for (Object x : recipeIDs){
-//            recipeID = Integer.parseInt(x.toString());
-//            System.out.println(recipeManager.getRecipe(recipeID).getRecipeName());
-//            recipes.add(recipeManager.getRecipe(recipeID).getRecipeName());
-//        }
-//
-//        recipeListView = new ListView<>();
-//        recipeListView.getItems().addAll(recipes);
-        /*
-        recipeListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                currentFood = recipeListView.getSelectionModel().getSelectedItem();
-                myLabel.setText(currentFood);
-            }
-        });*/
 
     }
     public void switchToCreateRecipe(){
@@ -103,5 +89,15 @@ public class recipeListController implements Initializable {
 
     public void setCreateLoader(FXMLLoader createLoader) {
         this.createLoader = createLoader;
+    }
+
+    public void switchToViewRecipe(int recipeID) throws SQLException {
+        myLabel.getScene().setRoot(viewLoader.getRoot());
+        viewRecipeController controller = viewLoader.getController();
+        controller.setRecipe(recipeID);
+    }
+
+    public void setViewLoader(FXMLLoader viewLoader){
+        this.viewLoader = viewLoader;
     }
 }
