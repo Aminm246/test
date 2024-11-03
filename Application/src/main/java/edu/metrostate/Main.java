@@ -56,25 +56,33 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
-        createRecipeController controller = createLoader.getController();
-        controller.setCreateLoader(createLoader);
+        createRecipeController createController = createLoader.getController();
+        createController.setCreateLoader(createLoader);
 
         FXMLLoader viewLoader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
         viewLoader.load();
-        controller.setViewLoader(viewLoader);
+
 
         FXMLLoader listLoader = new FXMLLoader(getClass().getResource("recipeListView.fxml"));
         listLoader.load();
-        controller.setListLoader(listLoader);
 
+        FXMLLoader updateLoader = new FXMLLoader(getClass().getResource("updateRecipeView.fxml"));
+        updateLoader.load();
+
+        createController.setViewLoader(viewLoader);
+        createController.setListLoader(listLoader);
+        createController.setListLoader(listLoader);
 
         viewRecipeController viewController = viewLoader.getController();
         viewController.setCreateLoader(createLoader);
         viewController.setListLoader(listLoader);
+        viewController.setUpdateLoader(updateLoader);
 
         recipeListController listController = listLoader.getController();
         listController.setCreateLoader(createLoader);
         listController.setViewLoader(viewLoader);
+
+
     }
 
 }

@@ -10,7 +10,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +19,7 @@ public class viewRecipeController {
 
     private FXMLLoader createLoader;
     private FXMLLoader listLoader;
+    private FXMLLoader updateLoader;
 
     @FXML
     private Text recipeNameTag;
@@ -45,14 +45,6 @@ public class viewRecipeController {
     @FXML
     private ImageView recipeImageView;
 
-    private RecipeManager recipeManager;
-    private RecipeIngManager recipeIngManager;
-    private IngredientsManager ingredientsManager;
-    private InstructionsManager instructionsManager;
-    private TagManager tagManager;
-    private RecipeTagManager recipeTagManager;
-
-    private DatabaseConnection databaseConnection;
     private RecipeRepository recipeRepository;
     private RecipeIngRepository recipeIngRepository;
     private IngredientsRepository ingredientsRepository;
@@ -60,9 +52,10 @@ public class viewRecipeController {
     private TagRepository tagRepository;
     private RecipeTagRepository recipeTagRepository;
 
+
     @FXML
     public void initialize() {
-        databaseConnection = new DatabaseConnection();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
         recipeRepository = new RecipeRepository(databaseConnection);
         recipeIngRepository = new RecipeIngRepository(databaseConnection);
         ingredientsRepository = new IngredientsRepository(databaseConnection);
@@ -70,24 +63,15 @@ public class viewRecipeController {
         tagRepository = new TagRepository(databaseConnection);
         recipeTagRepository = new RecipeTagRepository(databaseConnection);
 
-
-        recipeManager = new RecipeManager(recipeRepository);
-        recipeIngManager = new RecipeIngManager(recipeIngRepository);
-        ingredientsManager = new IngredientsManager(ingredientsRepository);
-        instructionsManager = new InstructionsManager(instructionsRepository);
-        tagManager = new TagManager(tagRepository);
-        recipeTagManager = new RecipeTagManager(recipeTagRepository);
     }
 
-
-
     public void setRecipe(int recipeID) throws SQLException {
-        Recipe recipe = recipeManager.getRecipe(recipeID);
+        Recipe recipe = recipeRepository.getRecipeById(recipeID);
         recipeNameLabel.setText(recipe.getRecipeName());
         List<String> ingredients = new ArrayList<>();
 
         List<String> instructions = new ArrayList<>();
-        for (InstructionStep instructionStep : instructionsManager.getInstructionsByRecipeId(recipeID)) {
+        for (InstructionStep instructionStep : instructionsRepository.getInstructionsByRecipeId(recipeID)) {
             String instruction = "Instruction " + instructionStep.getStepNum() + ": " + instructionStep.getStepDescription();
             instructions.add(instruction);
         }
@@ -102,8 +86,9 @@ public class viewRecipeController {
         instructionsTextArea.setText(String.join("\n", instructions));
         tagsLabel.setText(String.join(", ", tags));
         descriptionLabel.setText(recipe.getDescription());
-        for (RecipeIngredient recipeIngredient : recipeIngManager.getIngredientsByRecipeId(recipeID)) {
-            Ingredient ingredient = ingredientsManager.getIngredientById(recipeIngredient.getIngredientID());
+
+        for (RecipeIngredient recipeIngredient : recipeIngRepository.getIngredientsByRecipeId(recipeID)) {
+            Ingredient ingredient = ingredientsRepository.getIngredientsById(recipeIngredient.getIngredientID());
             ingredients.add(ingredient.getIngredientName() + " " + recipeIngredient.getQuantity() + " " + recipeIngredient.getMeasurementUnit());
         }
         ingredientsTextArea.setText(String.join("\n", ingredients));
@@ -121,11 +106,19 @@ public class viewRecipeController {
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg")));
             recipeImageView.setImage(image);
         }
-        recipeUpdate.setOnAction(event -> recipeUpdatePage());
+        recipeUpdate.setOnAction(event -> {
+            try {
+                recipeUpdatePage(recipe.getRecipeID());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
-    private void recipeUpdatePage() {
-
+    private void recipeUpdatePage(int recipeID) throws SQLException {
+        recipeNameLabel.getScene().setRoot(updateLoader.getRoot());
+        updateRecipeController updateController = updateLoader.getController();
+        updateController.setRecipe(recipeID);
     }
 
     @FXML
@@ -139,10 +132,6 @@ public class viewRecipeController {
         listController.populateList();
     }
 
-    public void setRecipeManager(RecipeManager recipeManager) {
-        this.recipeManager = recipeManager;
-    }
-
     public void setCreateLoader(FXMLLoader createLoader) {
         this.createLoader = createLoader;
     }
@@ -151,5 +140,7 @@ public class viewRecipeController {
         this.listLoader = listLoader;
     }
 
-
+    public void setUpdateLoader(FXMLLoader updateLoader){
+        this.updateLoader = updateLoader;
+    }
 }

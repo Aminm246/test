@@ -82,7 +82,6 @@ public class createRecipeController {
     public void setViewLoader(FXMLLoader viewLoader){
         this.viewLoader = viewLoader;
         viewRecipeController controller = this.viewLoader.getController();
-        controller.setRecipeManager(recipeManager);
     }
 
     public void setCreateLoader(FXMLLoader createLoader){
