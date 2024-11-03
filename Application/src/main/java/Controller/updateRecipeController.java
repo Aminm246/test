@@ -1,7 +1,12 @@
 package Controller;
 
+import Model.*;
+import Repository.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
 import java.math.BigDecimal;
@@ -11,6 +16,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class updateRecipeController  {
+    int recipeID;
+    private DatabaseConnection databaseConnection;
+    private RecipeRepository recipeRepository;
+    private RecipeIngRepository recipeIngRepository;
+    private IngredientsRepository ingredientsRepository;
+    private InstructionsRepository instructionsRepository;
+    private TagRepository tagRepository;
+
+    private RecipeTagRepository recipeTagRepository;
 
 
     @FXML TextField imagePathInput,recipeNameInput, durationInput,servingSizeInput, ingredientNameInput, ingredientQtyInput, tagInput;

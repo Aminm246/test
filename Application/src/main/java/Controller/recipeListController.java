@@ -1,23 +1,26 @@
 package Controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import Model.Recipe;
+import Repository.DatabaseConnection;
+import Repository.RecipeRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.input.MouseEvent;
+
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class recipeListController implements Initializable {
 
     private FXMLLoader createLoader;
+    private FXMLLoader viewLoader;
 
     @FXML
     private ListView<String> recipeListView;
@@ -25,71 +28,76 @@ public class recipeListController implements Initializable {
     @FXML
     private Label myLabel;
 
-    RecipeManager recipeManager;
-    public static final ObservableList recipes =
-            FXCollections.observableArrayList();
-    List recipeNames;
-    String currentFood;
-    String[] food = {"apple","Banana"};
+    private RecipeManager recipeManager;
+    private DatabaseConnection databaseConnection;
+    private RecipeRepository recipeRepository;
+
+    ObservableList<String> recipes;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        databaseConnection = new DatabaseConnection();
+        recipeRepository = new RecipeRepository(databaseConnection);
+        recipeManager = new RecipeManager(recipeRepository);
+        recipes = FXCollections.observableArrayList();
+        recipeListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
-        recipeListView = new ListView<>();
-
-        recipeListView.getItems().addAll(food);
-        recipeListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                currentFood = recipeListView.getSelectionModel().getSelectedItem();
-                myLabel.setText(currentFood);
+            public void handle(MouseEvent event) {
+                String recipeName = recipeListView.getSelectionModel().getSelectedItem();
+                if(!recipeName.isEmpty()){
+                    int recipeID = Integer.parseInt(recipeName.substring(recipeName.indexOf("(") + 1,recipeName.indexOf(")")));
+
+                    try {
+                        switchToViewRecipe(recipeID);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
             }
         });
-
-
     }
-    public void populateList(){
-        recipeNames = new ArrayList<>();
-        Object [] recipeIDs = recipeManager.getRecipes();
-        recipeListView = new ListView<>();
 
-
-        int recipeID;
-        for (Object x : recipeIDs){
-            recipeID = Integer.parseInt(x.toString());
-            System.out.println(recipeManager.getRecipe(recipeID).getRecipeName());
-            //recipeNames.add(recipeManager.getRecipe(recipeID).getRecipeName());
-            recipes.add(recipeManager.getRecipe(recipeID).getRecipeName());
+    @FXML
+    public void populateList() throws SQLException {
+        recipes.clear();
+        for (Recipe recipe : recipeManager.getRecipes()) {
+            recipes.add(recipe.getRecipeName() + " (" + recipe.getRecipeID() + ")");
         }
-
-
         recipeListView.setItems(recipes);
-        System.out.println(recipeListView.getItems());
-        recipeListView.setCellFactory(ComboBoxListCell.forListView(recipes));
-        /*
-        recipeListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                currentFood = recipeListView.getSelectionModel().getSelectedItem();
-                myLabel.setText(currentFood);
-            }
-        });*/
+
 
     }
     public void switchToCreateRecipe(){
         myLabel.getScene().setRoot(createLoader.getRoot());
     }
 
-    public void setRecipeManager(RecipeManager recipeManager){
+    public void setRecipeManager(RecipeManager recipeManager) throws SQLException {
         this.recipeManager = recipeManager;
 
-        Object [] ids = this.recipeManager.getRecipes();
-        for (int i = 0; i <ids.length;i++){
-            System.out.println(ids[i]);
+        for (Recipe recipe : recipeManager.getRecipes()) {
+            System.out.println(recipe);
         }
+
+//        Object [] ids = this.recipeManager.getRecipes();
+//        for (int i = 0; i <ids.length;i++){
+//            System.out.println(ids[i]);
+//        }
     }
 
     public void setCreateLoader(FXMLLoader createLoader) {
         this.createLoader = createLoader;
+    }
+
+    public void switchToViewRecipe(int recipeID) throws SQLException {
+        myLabel.getScene().setRoot(viewLoader.getRoot());
+        viewRecipeController controller = viewLoader.getController();
+        controller.setRecipe(recipeID);
+    }
+
+    public void setViewLoader(FXMLLoader viewLoader){
+        this.viewLoader = viewLoader;
     }
 }

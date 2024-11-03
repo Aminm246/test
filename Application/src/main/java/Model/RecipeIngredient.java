@@ -5,16 +5,27 @@ import java.math.BigDecimal;
 public class RecipeIngredient {
     int recipeIngredientID;
     int recipeID;
-    Ingredient ingredient;
-    MeasurementUnit measurementUnit;
+    int ingredientID;
+    String measurementUnit;
     BigDecimal quantity;
 
-    public RecipeIngredient(int recipeIngredientID, int recipeID, Ingredient ingredient, MeasurementUnit measurementUnit, BigDecimal quantity) {
+    public RecipeIngredient(int recipeIngredientID, int recipeID, int ingredientID, String measurementUnit, BigDecimal quantity) {
         this.recipeIngredientID = recipeIngredientID;
         this.recipeID = recipeID;
-        this.ingredient = ingredient;
+        this.ingredientID = ingredientID;
         this.measurementUnit = measurementUnit;
         this.quantity = quantity;
+    }
+
+    public RecipeIngredient(int ingredientID, int recipeID, String measurementUnit, BigDecimal quantity) {
+        this.recipeID = recipeID;
+        this.ingredientID = ingredientID;
+        this.measurementUnit = measurementUnit;
+        this.quantity = quantity;
+    }
+
+    public RecipeIngredient() {
+
     }
 
     public int getRecipeIngredientID() {
@@ -33,20 +44,20 @@ public class RecipeIngredient {
         this.recipeID = recipeID;
     }
 
-    public Ingredient getIngredient() {
-        return ingredient;
+    public int getIngredientID() {
+        return ingredientID;
     }
 
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
+    public void setIngredientID(int ingredientID) {
+        this.ingredientID = ingredientID;
     }
 
-    public MeasurementUnit getMeasurementUnit() {
+    public java.lang.String getMeasurementUnit() {
         return measurementUnit;
     }
 
-    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
-        this.measurementUnit = measurementUnit;
+    public void setMeasurementUnit(String string) {
+        this.measurementUnit = string;
     }
 
     public BigDecimal getQuantity() {
@@ -62,7 +73,7 @@ public class RecipeIngredient {
         return "RecipeIngredient{" +
                 "recipeIngredientID=" + recipeIngredientID +
                 ", recipeID=" + recipeID +
-                ", ingredient=" + ingredient +
+                ", ingredient=" + ingredientID +
                 ", measurementUnit=" + measurementUnit +
                 ", quantity=" + quantity +
                 '}';

@@ -77,6 +77,6 @@
          <font>
             <Font size="18.0" />
          </font></TextArea>
-      <Button fx:id="updateRecipe" layoutX="52.0" layoutY="260.0" mnemonicParsing="false" text="Update Recipe" />
+      <Button fx:id="recipeUpdate" layoutX="52.0" layoutY="260.0" mnemonicParsing="false" text="Update Recipe" />
    </children>
 </AnchorPane>

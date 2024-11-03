@@ -111,8 +111,8 @@
             <ColorAdjust contrast="-0.15" />
          </effect>
       </TextArea>
-      <ComboBox fx:id="ingredientNumPicker" layoutX="542.0" layoutY="92.0" prefHeight="25.0" prefWidth="25.0" />
-      <ComboBox fx:id="instructionNumPicker" layoutX="1170.0" layoutY="79.0" prefHeight="25.0" prefWidth="25.0" />
-      <ComboBox fx:id="tagNumPicker1" layoutX="1182.0" layoutY="314.0" prefHeight="25.0" prefWidth="25.0" />
+      <ComboBox fx:id="ingredientNumPicker" layoutX="535.0" layoutY="92.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="instructionNumPicker" layoutX="1163.0" layoutY="79.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="tagNumPicker" layoutX="1153.0" layoutY="314.0" prefHeight="25.0" prefWidth="65.0" />
    </children>
 </AnchorPane>
