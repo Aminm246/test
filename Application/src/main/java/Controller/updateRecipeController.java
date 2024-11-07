@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.util.converter.BigDecimalStringConverter;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -88,21 +89,38 @@ public class updateRecipeController  {
     }
 
     private void saveIngredient(){
+        if(!ingredientNameInput.getText().isEmpty()){
+            String ingredientName = ingredientNameInput.getText();
+            Double ingredientQuantity = Double.parseDouble(ingredientQtyInput.getText());
+            int ingredientID = Integer.parseInt(ingredientNumPicker.getSelectionModel().getSelectedItem().toString());
 
+            System.out.println(ingredientName + " : " + ingredientQuantity + " : " + ingredientID);
+        }
     }
 
     private void saveInstruction(){
+        if(!instructionInput.getText().isEmpty()) {
+            String instruction = instructionInput.getText();
+            int instructionID = Integer.parseInt(instructionNumPicker.getSelectionModel().getSelectedItem().toString());
 
+            System.out.println(instruction + " : " + instructionID);
+        }
     }
 
     private void saveTag(){
-        //recipeRepository.updateRecipe();
+        if(!tagInput.getText().isEmpty()){
+            String tag = tagInput.getText();
+            int tagID = Integer.parseInt(tagNumPicker.getSelectionModel().getSelectedItem().toString());
+
+            System.out.println(tag + " : " + tagID);
+        }
     }
     private void saveRecipe(){
         List<TextInputControl> x = Arrays.asList(instructionFxList,tagFxList,recipeDescriptionInput,
                 ingredientFxList,recipeNameInput, durationInput,servingSizeInput,imagePathInput);
         for(TextInputControl field: x){
             if(field.getStyle().contains("-fx-control-inner-background: red")){
+                field.setStyle("-fx-control-inner-background: green");
                 System.out.println(field.getText());
             }
         }
