@@ -25,7 +25,7 @@ public class InstructionsManager {
 
     public int insertInstruction(int recipeID, int stepNum, String stepDescription) throws SQLException {
 
-        InstructionStep instructionStep = new InstructionStep(instructionStepID, recipeID, stepNum, stepDescription);
+        InstructionStep instructionStep = new InstructionStep(recipeID, stepNum, stepDescription);
         int instructionID = instructionsRepository.insertInstruction(instructionStep);
         if (instructionID != -1) {
             System.out.println("Instruction created with ID: " + instructionID);

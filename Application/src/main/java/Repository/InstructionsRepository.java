@@ -35,7 +35,6 @@ public class InstructionsRepository {
             preparedStatement.setInt(1, instructionStep.getRecipeID());
             preparedStatement.setInt(2, instructionStep.getStepNum());
             preparedStatement.setString(3, instructionStep.getStepDescription());
-            preparedStatement.setInt(4,instructionStep.getInstructionStepID());
             preparedStatement.executeUpdate();
         }
         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
