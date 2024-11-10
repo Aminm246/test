@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.recipeListController">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.recipeListController">
     <children>
         <MenuBar VBox.vgrow="NEVER">
             <menus>
                 <Menu mnemonicParsing="false" text="Recipes">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#switchToCreateRecipe" text="Create Recipe" />
-                        <!--<MenuItem mnemonicParsing="false" text="View Recipes" />
-                        <MenuItem mnemonicParsing="false" text="View Suggestions" />
+                        <MenuItem mnemonicParsing="false" text="View Recipes" />
+                        <!--<MenuItem mnemonicParsing="false" text="View Suggestions" />
                         <MenuItem mnemonicParsing="false" text="Open Calorie Tracker" />-->
                     </items></Menu>
                 <Menu mnemonicParsing="false" text="Ingredients">
@@ -28,15 +32,11 @@
             </menus>
         </MenuBar>
       <VBox />
-      <AnchorPane prefHeight="580.0" prefWidth="900.0">
-         <children>
-            <ListView fx:id="recipeListView" layoutX="126.0" layoutY="50.0" prefHeight="493.0" prefWidth="648.0" />
-            <Label fx:id="myLabel" alignment="CENTER" prefHeight="50.0" prefWidth="900.0" text="Select a recipe">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
+      <Label fx:id="myLabel" alignment="CENTER" prefHeight="50.0" prefWidth="900.0" text="Select a recipe">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ListView fx:id="recipeListView" editable="true" prefHeight="493.0" prefWidth="648.0" />
     </children>
 </VBox>
