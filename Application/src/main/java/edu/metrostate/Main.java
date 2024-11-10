@@ -2,6 +2,7 @@ package edu.metrostate;
 
 import Controller.createRecipeController;
 import Controller.recipeListController;
+import Controller.searchRecipeController;
 import Controller.viewRecipeController;
 import Repository.*;
 import javafx.application.Application;
@@ -69,19 +70,28 @@ public class Main extends Application {
         FXMLLoader updateLoader = new FXMLLoader(getClass().getResource("updateRecipeView.fxml"));
         updateLoader.load();
 
+        FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("searchRecipeView.fxml"));
+        searchLoader.load();
+
         createController.setViewLoader(viewLoader);
         createController.setListLoader(listLoader);
         createController.setListLoader(listLoader);
+        createController.setSearchLoader(searchLoader);
 
         viewRecipeController viewController = viewLoader.getController();
         viewController.setCreateLoader(createLoader);
         viewController.setListLoader(listLoader);
-        viewController.setUpdateLoader(updateLoader);
+        viewController.setSearchLoader(updateLoader);
+        viewController.setSearchLoader(searchLoader);
 
         recipeListController listController = listLoader.getController();
         listController.setCreateLoader(createLoader);
         listController.setViewLoader(viewLoader);
+        listController.setSearchLoader(searchLoader);
 
+        searchRecipeController searchController = searchLoader.getController();
+        searchController.setCreateLoader(createLoader);
+        searchController.setListLoader(listLoader);
 
     }
 

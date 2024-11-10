@@ -57,7 +57,9 @@ public class InstructionStep {
     @Override
     public String toString() {
         return "InstructionStep{" +
-                "stepNum=" + stepNum +
+                "instructionStepID=" + instructionStepID +
+                ", recipeID=" + recipeID +
+                ", stepNum=" + stepNum +
                 ", stepDescription='" + stepDescription + '\'' +
                 '}';
     }

@@ -18,7 +18,7 @@ public class viewRecipeController {
 
     private FXMLLoader createLoader;
     private FXMLLoader listLoader;
-    private FXMLLoader updateLoader;
+    private FXMLLoader searchLoader;
 
     @FXML
     private Text recipeNameTag;
@@ -141,14 +141,19 @@ public class viewRecipeController {
     }
 
     private void recipeUpdatePage(int recipeID) throws SQLException {
-        recipeNameLabel.getScene().setRoot(updateLoader.getRoot());
-        updateRecipeController updateController = updateLoader.getController();
+        recipeNameLabel.getScene().setRoot(searchLoader.getRoot());
+        updateRecipeController updateController = searchLoader.getController();
         updateController.setRecipe(recipeID);
     }
 
     @FXML
     private void switchToCreateRecipe(){
         recipeNameLabel.getScene().setRoot(createLoader.getRoot());
+    }
+
+    @FXML
+    private void switchToSearch(){
+        recipeNameLabel.getScene().setRoot(searchLoader.getRoot());
     }
 
     public void switchToRecipeList() throws SQLException {
@@ -165,7 +170,7 @@ public class viewRecipeController {
         this.listLoader = listLoader;
     }
 
-    public void setUpdateLoader(FXMLLoader updateLoader){
-        this.updateLoader = updateLoader;
+    public void setSearchLoader(FXMLLoader searchLoader){
+        this.searchLoader = searchLoader;
     }
 }

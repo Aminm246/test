@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.recipeListController">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.recipeListController">
     <children>
         <MenuBar VBox.vgrow="NEVER">
             <menus>
                 <Menu mnemonicParsing="false" text="Recipes">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#switchToCreateRecipe" text="Create Recipe" />
-                        <MenuItem mnemonicParsing="false" text="View Recipes" />
+                        <MenuItem mnemonicParsing="false" text="View All Recipes" />
+                  <MenuItem mnemonicParsing="false" onAction="#switchToSearch" text="Search Recipes" />
                         <!--<MenuItem mnemonicParsing="false" text="View Suggestions" />
                         <MenuItem mnemonicParsing="false" text="Open Calorie Tracker" />-->
                     </items></Menu>

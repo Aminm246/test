@@ -32,4 +32,12 @@ public class Tag {
     public void setTagId(int tagId) {
         this.tagId = tagId;
     }
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "tagId=" + tagId +
+                ", tagName='" + tagName + '\'' +
+                '}';
+    }
 }

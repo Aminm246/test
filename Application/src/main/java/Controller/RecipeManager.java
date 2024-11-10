@@ -4,22 +4,27 @@ import java.sql.SQLException;
 import java.util.List;
 
 import Model.Recipe;
+import Repository.InstructionsRepository;
 import Repository.RecipeRepository;
 
 public class RecipeManager {
     private final RecipeRepository recipeRepository;
+    private RecipeTagManager recipeTagManager;
+    private RecipeIngManager recipeIngManager;
+    private InstructionsRepository instructionsRepository;
 
-    public RecipeManager(RecipeRepository recipeRepository) {
+    public RecipeManager(RecipeRepository recipeRepository, RecipeTagManager recipeTagManager, RecipeIngManager recipeIngManager, InstructionsRepository instructionsRepository) {
+        this.recipeTagManager = recipeTagManager;
+        this.recipeIngManager = recipeIngManager;
+        this.instructionsRepository = instructionsRepository;
         this.recipeRepository = recipeRepository;
     }
 
     public Recipe getRecipe(int recipeID) throws SQLException {
         Recipe recipe = recipeRepository.getRecipeById(recipeID);
-        if (recipe != null) {
-            System.out.println("Recipe found: " + recipe.getRecipeName());
-        } else {
-            System.out.println("Recipe with ID " + recipeID + " not found.");
-        }
+        recipe.setRecipeIngredients(recipeIngManager.getIngredientsByRecipeId(recipe.getRecipeID()));
+        recipe.setInstructions(instructionsRepository.getInstructionsByRecipeId(recipe.getRecipeID()));
+        recipe.setTagList(recipeTagManager.getTagsByRecipeId(recipe.getRecipeID()));
         return recipe;
     }
 
@@ -36,7 +41,13 @@ public class RecipeManager {
     }
 
     public List<Recipe> getRecipes() throws SQLException {
-        return recipeRepository.getAllRecipes();
+        List<Recipe> recipes = recipeRepository.getAllRecipes();
+        for (Recipe recipe : recipes) {
+            recipe.setRecipeIngredients(recipeIngManager.getIngredientsByRecipeId(recipe.getRecipeID()));
+            recipe.setInstructions(instructionsRepository.getInstructionsByRecipeId(recipe.getRecipeID()));
+            recipe.setTagList(recipeTagManager.getTagsByRecipeId(recipe.getRecipeID()));
+        }
+        return recipes;
     }
 
     @Override

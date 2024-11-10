@@ -52,6 +52,7 @@ public class InstructionsRepository {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 InstructionStep instructionStep = new InstructionStep();
+                instructionStep.setInstructionStepID(resultSet.getInt("instructionStepID"));
                 instructionStep.setRecipeID(resultSet.getInt("recipeID"));
                 instructionStep.setStepNum(resultSet.getInt("stepNum"));
                 instructionStep.setStepDescription(resultSet.getString("stepDescription"));
@@ -72,6 +73,7 @@ public class InstructionsRepository {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 InstructionStep instructionStep = new InstructionStep();
+                instructionStep.setInstructionStepID(resultSet.getInt("instructionStepID"));
                 instructionStep.setRecipeID(resultSet.getInt("recipeID"));
                 instructionStep.setStepNum(resultSet.getInt("stepNum"));
                 instructionStep.setStepDescription(resultSet.getString("stepDescription"));
@@ -89,6 +91,7 @@ public class InstructionsRepository {
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 InstructionStep instructionStep = new InstructionStep();
+                instructionStep.setInstructionStepID(resultSet.getInt("instructionStepID"));
                 instructionStep.setRecipeID(resultSet.getInt("recipeID"));
                 instructionStep.setStepNum(resultSet.getInt("stepNum"));
                 instructionStep.setStepDescription(resultSet.getString("stepDescription"));
