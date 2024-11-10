@@ -112,8 +112,8 @@ public class createRecipeController {
         recipeTagRepository = new RecipeTagRepository(databaseConnection);
 
         ingredientsManager = new IngredientsManager(ingredientsRepository);
-        recipeManager = new RecipeManager(recipeRepository);
         recipeIngManager = new RecipeIngManager(recipeIngRepository);
+        recipeManager = new RecipeManager(recipeRepository,databaseConnection);
         instructionsManager = new InstructionsManager(instructionsRepository);
         tagManager = new TagManager(tagRepository);
         recipeTagManager = new RecipeTagManager(recipeTagRepository);

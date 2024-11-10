@@ -30,7 +30,11 @@ public class RecipeIngManager {
         return recipeIngRepository.getIngredientById(ingredientId);
     }
 
-
+    public void updateIngredient(int ingredientId, String measurementUnit, BigDecimal quantity) throws SQLException {
+        RecipeIngredient ingredient = recipeIngRepository.getIngredientById(ingredientId);
+        ingredient.setMeasurementUnit(measurementUnit);
+        ingredient.setQuantity(quantity);
+    }
 
     public List<RecipeIngredient> getIngredients(List<Integer> ingredientList) throws SQLException {
         return recipeIngRepository.getAllIngredients();

@@ -39,7 +39,7 @@ public class recipeListController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         databaseConnection = new DatabaseConnection();
         recipeRepository = new RecipeRepository(databaseConnection);
-        recipeManager = new RecipeManager(recipeRepository);
+        recipeManager = new RecipeManager(recipeRepository,databaseConnection);
         recipes = FXCollections.observableArrayList();
         recipeListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 

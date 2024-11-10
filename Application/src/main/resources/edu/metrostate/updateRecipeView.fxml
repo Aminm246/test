@@ -86,7 +86,7 @@
       <Button fx:id="cancelButton" layoutX="128.0" layoutY="443.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: PINK;" text="Cancel Changes" />
       <Button fx:id="tagsSubmit" layoutX="1024.0" layoutY="314.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Update Tag" />
       <TextField fx:id="recipeNameInput" layoutX="112.0" layoutY="40.0" prefHeight="25.0" prefWidth="210.0" />
-      <TextField fx:id="ingredientNameInput" layoutX="22.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredientNameInput" editable="false" layoutX="22.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
       <TextField fx:id="ingredientQtyInput" layoutX="260.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
       <TextArea fx:id="instructionInput" layoutX="719.0" layoutY="80.0" prefHeight="67.0" prefWidth="355.0" />
       <TextArea fx:id="recipeDescriptionInput" layoutX="714.0" layoutY="432.0" prefHeight="67.0" prefWidth="439.0" />
@@ -94,7 +94,7 @@
       <TextField fx:id="durationInput" layoutX="480.0" layoutY="171.0" prefHeight="25.0" prefWidth="104.0" />
       <TextField fx:id="servingSizeInput" layoutX="480.0" layoutY="206.0" prefHeight="25.0" prefWidth="104.0" />
       <TextField fx:id="imagePathInput" layoutX="106.0" layoutY="402.0" prefHeight="25.0" prefWidth="355.0" />
-      <Button fx:id="ingredientSubmit" layoutX="494.0" layoutY="124.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" text="Update Ingredient" />
+      <Button fx:id="ingredientSubmit" layoutX="511.0" layoutY="124.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" text="Update Ingredient" />
       <Button fx:id="instructionSubmit" layoutX="1135.0" layoutY="111.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Update Instruction" />
       <TextArea fx:id="ingredientFxList" editable="false" layoutX="24.0" layoutY="162.0" prefHeight="148.0" prefWidth="355.0" wrapText="true">
          <effect>
@@ -111,8 +111,9 @@
             <ColorAdjust contrast="-0.15" />
          </effect>
       </TextArea>
-      <ComboBox fx:id="ingredientNumPicker" layoutX="535.0" layoutY="92.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="ingredientNumPicker" layoutX="638.0" layoutY="92.0" prefHeight="25.0" prefWidth="65.0" promptText="ID" />
       <ComboBox fx:id="instructionNumPicker" layoutX="1163.0" layoutY="79.0" prefHeight="25.0" prefWidth="65.0" />
       <ComboBox fx:id="tagNumPicker" layoutX="1153.0" layoutY="314.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="measurementPicker" layoutX="474.0" layoutY="92.0" prefHeight="25.0" prefWidth="146.0" promptText="Measurement Unit" />
    </children>
 </AnchorPane>

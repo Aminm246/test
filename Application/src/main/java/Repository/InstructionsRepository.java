@@ -30,11 +30,12 @@ public class InstructionsRepository {
 
     public int insertInstruction(InstructionStep instructionStep) throws SQLException {
         Connection connection = db.getConnection();
-        String insert = "INSERT INTO instructions (recipeID, stepNum, stepDescription) VALUES (?, ?, ?)";
+        String insert = "INSERT INTO instructions (recipeID, stepNum, stepDescription, instructionStepID) VALUES (?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(insert); {
             preparedStatement.setInt(1, instructionStep.getRecipeID());
             preparedStatement.setInt(2, instructionStep.getStepNum());
             preparedStatement.setString(3, instructionStep.getStepDescription());
+            preparedStatement.setInt(4,instructionStep.getInstructionStepID());
             preparedStatement.executeUpdate();
         }
         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();

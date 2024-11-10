@@ -58,6 +58,9 @@ public class Recipe {
 
     }
 
+    public void setAll(){
+
+    }
     public int getRecipeId() {
         return recipeId;
     }
@@ -172,5 +175,18 @@ public class Recipe {
                 ", description='" + description + '\'' +
                 ", duration=" + duration +
                 '}';
+    }
+
+    public void setAll(String recipeName, int createdBy, int servingSize, String imagePath, String description,
+                       int duration, List<String> tags, List<InstructionStep> instructions) {
+        List<RecipeIngredient> recipeIngredients = new ArrayList<>();
+        setRecipeName(recipeName);
+        setCreatedBy(createdBy);
+        setServingSize(servingSize);
+        setImagePath(imagePath);
+        setDescription(description);
+        setDuration(duration);
+        setTags(tags);
+        setInstructions(instructions);
     }
 }

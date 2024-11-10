@@ -16,6 +16,7 @@ public class InstructionStep {
         this.recipeID = recipeID;
         this.stepNum = stepNum;
         this.stepDescription = stepDescription;
+
     }
 
     public InstructionStep() {
