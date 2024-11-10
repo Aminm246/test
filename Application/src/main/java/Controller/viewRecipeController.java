@@ -4,9 +4,7 @@ import Model.*;
 import Repository.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -14,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class viewRecipeController {
 
@@ -29,6 +28,9 @@ public class viewRecipeController {
 
     @FXML
     private Button recipeUpdate;
+
+    @FXML
+    private Button recipeDelete;
 
     @FXML
     private TextArea ingredientsTextArea;
@@ -111,6 +113,29 @@ public class viewRecipeController {
                 recipeUpdatePage(recipe.getRecipeID());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
+            }
+        });
+        recipeDelete.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Confirmation");
+            alert.setHeaderText("Are you sure you want to delete the recipe?");
+            alert.setContentText("Recipe will be deleted from the application.");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                try {
+                    recipeRepository.deleteRecipe(recipeID);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println("Recipe has been deleted");
+                try {
+                    switchToRecipeList();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else{
+                System.out.println("Deletion cancelled");
             }
         });
     }
