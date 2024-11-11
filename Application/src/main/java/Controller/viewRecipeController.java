@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.io.File;
 
 public class viewRecipeController {
 
@@ -97,10 +98,15 @@ public class viewRecipeController {
 
         if (recipe.getImagePath() != null && !recipe.getImagePath().isEmpty()) {
             try {
-                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(recipe.getImagePath())));
-                recipeImageView.setImage(image);
-            } catch (NullPointerException e) {
-                System.out.println("Image not found: " + recipe.getImagePath());
+                File imageFile = new File("src/main/resources" + recipe.getImagePath());
+                if (imageFile.exists()) {
+                    Image image = new Image(imageFile.toURI().toString());
+                    recipeImageView.setImage(image);
+                } else {
+                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg")));
+                    recipeImageView.setImage(image);
+                }
+            } catch (Exception e) {
                 Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg")));
                 recipeImageView.setImage(image);
             }

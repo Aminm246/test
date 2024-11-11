@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javafx.scene.image.Image;
 
 public class createRecipeController {
 
@@ -460,6 +461,18 @@ public class createRecipeController {
                     !lowercaseName.endsWith(".png")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Only JPG, JPEG, and PNG files are supported.");
+                alert.showAndWait();
+                imagePathInput.clear();
+                return;
+            }
+
+            try {
+                new Image(new File(imagePath).toURI().toString());
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Image");
+                alert.setHeaderText("File Error");
+                alert.setContentText("The selected file is not a valid image file.");
                 alert.showAndWait();
                 imagePathInput.clear();
                 return;
