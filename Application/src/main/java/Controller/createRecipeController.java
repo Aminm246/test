@@ -274,15 +274,39 @@ public class createRecipeController {
     }
 
     private void addAllIngredientsClick() throws SQLException {
-        if (ingredientCount < 6) {
-            if (!ingredientNameInput.getText().isEmpty() && !ingredientQtyInput.getText().isEmpty()) {
+        // Check if no ingredients have been added
+        if (ingredientCount == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No Ingredients");
+            alert.setHeaderText("Missing Ingredients");
+            alert.setContentText("Please add at least one ingredient before submitting.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Check for unsaved text in input fields
+        if (!ingredientNameInput.getText().trim().isEmpty() ||
+                !ingredientQtyInput.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Unsaved Changes");
+            alert.setHeaderText("Unsaved Ingredient");
+            alert.setContentText("You have unsaved ingredient details. Would you like to add them?");
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == buttonTypeYes) {
                 addSingleIngredientClick();
             }
         }
+
+        // Proceed with submission if validation passes
         ingredientNameInput.setDisable(true);
         ingredientQtyInput.setDisable(true);
         ingredientSubmit.setDisable(true);
         allIngredientsSubmit.setDisable(true);
+        measurementUnitComboBox.setDisable(true);
         System.out.println(recipeIngredients.toString());
         submitCounter++;
     }
@@ -312,13 +336,35 @@ public class createRecipeController {
     }
 
     private void addAllInstructionsClick() {
-        if (!instructionInput.getText().isEmpty()) {
-            addSingleInstructionClick();
+        // Check if no instructions have been added
+        if (instructionCount == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No Instructions");
+            alert.setHeaderText("Missing Instructions");
+            alert.setContentText("Please add at least one instruction before submitting.");
+            alert.showAndWait();
+            return;
         }
+
+        // Check for unsaved text in input field
+        if (!instructionInput.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Unsaved Changes");
+            alert.setHeaderText("Unsaved Instruction");
+            alert.setContentText("You have an unsaved instruction. Would you like to add it?");
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == buttonTypeYes) {
+                addSingleInstructionClick();
+            }
+        }
+
         instructionInput.setDisable(true);
         allInstructionsSubmit.setDisable(true);
         instructionSubmit.setDisable(true);
-        System.out.println(instructionSteps.toString());
         submitCounter++;
     }
     
@@ -525,6 +571,32 @@ public class createRecipeController {
     }
 
     private void createRecipe() throws SQLException {
+        // Check all required fields before allowing submission
+        if (recipeName == null || recipeName.trim().isEmpty()) {
+            showError("Recipe Name", "Please enter a recipe name.");
+            return;
+        }
+        if (ingredientCount == 0) {
+            showError("Ingredients", "Please add at least one ingredient.");
+            return;
+        }
+        if (instructionCount == 0) {
+            showError("Instructions", "Please add at least one instruction.");
+            return;
+        }
+        if (description == null || description.trim().isEmpty()) {
+            showError("Description", "Please enter a description.");
+            return;
+        }
+        if (duration <= 0) {
+            showError("Duration", "Please enter a valid duration.");
+            return;
+        }
+        if (servingSize <= 0) {
+            showError("Serving Size", "Please enter a valid serving size.");
+            return;
+        }
+
         System.out.print(submitCounter);
         if(submitCounter == 8){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
@@ -581,6 +653,14 @@ public class createRecipeController {
             //Clears the create recipe page for additional creations
             clearRecipe();
         }
+    }
+
+    private void showError(String field, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Missing Information");
+        alert.setHeaderText("Missing " + field);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
