@@ -1,5 +1,4 @@
 package Controller;
-//test commit
 import Model.*;
 import Repository.*;
 import javafx.fxml.FXML;
@@ -18,6 +17,7 @@ import javafx.scene.image.Image;
 
 public class createRecipeController {
 
+
     @FXML
     private TextField recipeNameInput, ingredientNameInput, ingredientQtyInput,
             tagInput, durationInput, servingSizeInput, imagePathInput;
@@ -34,6 +34,7 @@ public class createRecipeController {
     private ComboBox<String> measurementUnitComboBox;
     private List<String> ingredientUnits;
 
+    private FXMLLoader menuLoader;
     FXMLLoader viewLoader;
     FXMLLoader listLoader;
     FXMLLoader createLoader;
@@ -86,6 +87,9 @@ public class createRecipeController {
     public void setViewLoader(FXMLLoader viewLoader){
         this.viewLoader = viewLoader;
         viewRecipeController controller = this.viewLoader.getController();
+    }
+    public void setMenuLoader(FXMLLoader menuLoader) {
+        this.menuLoader = menuLoader;
     }
 
     public void setCreateLoader(FXMLLoader createLoader){
