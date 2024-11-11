@@ -195,9 +195,16 @@ public class createRecipeController {
     private void addAllTagsClick() {
         if (!tagsPlusClicked) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Empty Tags Warning");
             alert.setContentText("You didn't click the '+' button to add any tags. Are you sure you want to submit without tags?");
+
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
             alert.showAndWait().ifPresent(response -> {
-                if (response == ButtonType.OK) {
+                if (response == buttonTypeYes) {
                     submitTags();
                 }
             });
