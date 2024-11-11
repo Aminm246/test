@@ -29,6 +29,10 @@ public class createRecipeController {
             allInstructionsSubmit, durationSubmit, servingSizeSubmit, imagePathSubmit,
             allIngredientsSubmit, tagsSubmit, recipeSubmit, clearRecipeButton;
 
+    @FXML
+    private ComboBox<String> measurementUnitComboBox;
+    private List<String> ingredientUnits;
+
     FXMLLoader viewLoader;
     FXMLLoader listLoader;
     FXMLLoader createLoader;
@@ -38,7 +42,6 @@ public class createRecipeController {
     List<RecipeIngredient> recipeIngredients;
     List<String> ingredientNames;
     List<BigDecimal> ingredientQtys;
-    List<String> ingredientUnits;
     List<InstructionStep> instructionSteps;
     List<String> descriptions;
     List<String> tagNames;
@@ -102,6 +105,20 @@ public class createRecipeController {
         imagePath = "";
         tagList = new ArrayList<>();
         tagsPlusClicked = false;
+
+        measurementUnitComboBox.getItems().addAll(
+                "grams",
+                "cups",
+                "tablespoons",
+                "teaspoons",
+                "ounces",
+                "pounds",
+                "milliliters",
+                "liters",
+                "pieces",
+                "pinch"
+        );
+        measurementUnitComboBox.setValue("grams"); // Default value
 
         databaseConnection = new DatabaseConnection();
         recipeRepository = new RecipeRepository(databaseConnection);
@@ -211,53 +228,41 @@ public class createRecipeController {
     private void addSingleIngredientClick() throws SQLException {
         String ingredientName = ingredientNameInput.getText().trim();
         String ingredientQty = ingredientQtyInput.getText().trim();
-        BigDecimal qty = new BigDecimal(-1);
+        String unit = measurementUnitComboBox.getValue();
+
         if (ingredientName.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Ingredient name must not be empty, please enter a valid value.");
             alert.showAndWait();
+            return;
         }
-
         if (ingredientQty.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Ingredient quantity must not be empty, please enter a valid value.");
             alert.showAndWait();
+            return;
         }
 
         try {
-            qty = new BigDecimal(ingredientQty);
-            System.out.println("Ingredient Name: " + ingredientName + " Ingredient qty: " + qty);
+            BigDecimal qty = new BigDecimal(ingredientQty);
+            ingredientNames.add(ingredientName);
+            ingredientQtys.add(qty);
+            ingredientUnits.add(unit);
 
+            // Update display with unit
+            ingredientFxList.setText(ingredientFxList.getText() +
+                    ingredientQty + " " + unit + " " + ingredientName + "\n");
+
+            ingredientCount++;
+            ingredientNameInput.clear();
+            ingredientQtyInput.clear();
+            allIngredientsSubmit.setDisable(false);
         } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Ingredient quantity must be a valid integer.");
             alert.showAndWait();
             ingredientQtyInput.clear();
-            return;
         }
-
-        ingredientNames.add(ingredientName);
-        ingredientQtys.add(qty);
-        ingredientUnits.add("GRAMS");
-
-        //ingredientList.add(new Ingredient(ingredientName));
-        //need to add implementation for if the ingredient is already added to the inventory. if add just return the existing object.
-
-
-//        int ingredientID  =  ingredientsManager.addIngredient(ingredientName);
-//        Ingredient ingredient = ingredientsManager.getIngredientById(ingredientID);
-
-
-//        Ingredient ingredient = ingredientsManager.addIngredient(ingredientName);
-//        int ingredientID = ingredient.getIngredientId();
-//        ingredientList.add(ingredientID);
-//        RecipeIngredient recipeIngredient = new RecipeIngredient(ingredientID, "GRAMS", qty);
-//        recipeIngredients.add(recipeIngredient);
-        ingredientNameInput.clear();
-        ingredientQtyInput.clear();
-        allIngredientsSubmit.setDisable(false);
-        ingredientFxList.setText(ingredientFxList.getText() + ingredientQty + "g " + ingredientName + "\n");
-        ingredientCount++;
     }
 
     private void addAllIngredientsClick() throws SQLException {
@@ -391,7 +396,7 @@ public class createRecipeController {
                     servingSizeInput.clear();
                     return;
                 }
-                System.out.println("Serving size is: " + this.duration);
+                System.out.println("Serving size is: " + this.servingSize);
                 servingSizeInput.setDisable(true);
                 servingSizeSubmit.setDisable(true);
                 submitCounter++;
@@ -419,57 +424,109 @@ public class createRecipeController {
         }
     }
 
-    private void imagePathHelper(String imagePath){
-
-        if(imagePath.isEmpty()){
-
+    private void imagePathHelper(String imagePath) {
+        if (imagePath.isEmpty()) {
+            // Handle empty path case
+            this.imagePath = "";
+            imagePathInput.setDisable(true);
+            imagePathSubmit.setDisable(true);
+            submitCounter++;
+            return;
         }
-        else{
+
+        try {
             System.out.println("Image path: " + imagePath);
-            imagePath = imagePath.replace("\"","");
-            imagePath = imagePath.replace("\\","/");
+            imagePath = imagePath.replace("\"", "");
+            imagePath = imagePath.replace("\\", "/");
 
+            // Get the file name from the path
             int index = imagePath.indexOf("/");
-            String recipeName;
-            while(imagePath.indexOf("/",index + 1) != -1){
-                index = imagePath.indexOf("/",index + 1);
+            String fileName;
+            while (imagePath.indexOf("/", index + 1) != -1) {
+                index = imagePath.indexOf("/", index + 1);
             }
-            recipeName = imagePath.substring(index + 1);
+            fileName = imagePath.substring(index + 1);
 
+            // Validate file extension
+            String lowercaseName = fileName.toLowerCase();
+            if (!lowercaseName.endsWith(".jpg") && !lowercaseName.endsWith(".jpeg") &&
+                    !lowercaseName.endsWith(".png")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Only JPG, JPEG, and PNG files are supported.");
+                alert.showAndWait();
+                imagePathInput.clear();
+                return;
+            }
+
+            // Create source and destination files
             File imageFile = new File(imagePath);
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //Need to add functionality to check if the file already exists with that name and handle it
-            File output = new File("src/main/resources/edu/metrostate/images/" + recipeName);
-            try {
-                Files.copy(imageFile.toPath(),output.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            if (!imageFile.exists()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Image file not found: " + imagePath);
+                alert.showAndWait();
+                imagePathInput.clear();
+                return;
             }
 
-            imagePath = output.toPath().toString().replace("\\","/");
-            imagePath = imagePath.substring(imagePath.indexOf("edu")-1);
-        }
+            // Create resources directory if it doesn't exist
+            File resourceDir = new File("src/main/resources/edu/metrostate/images/");
+            if (!resourceDir.exists()) {
+                resourceDir.mkdirs();
+            }
 
-        this.imagePath = imagePath;
-        imagePathInput.setDisable(true);
-        imagePathSubmit.setDisable(true);
-        submitCounter++;
+            File output = new File(resourceDir, fileName);
+
+            // Copy file with proper error handling
+            try {
+                Files.copy(imageFile.toPath(), output.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Image copied to: " + output.getPath());
+
+                // Update image path for database
+                this.imagePath = "/edu/metrostate/images/" + fileName;
+
+                imagePathInput.setDisable(true);
+                imagePathSubmit.setDisable(true);
+                submitCounter++;
+
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Error copying image file: " + e.getMessage());
+                alert.showAndWait();
+                imagePathInput.clear();
+                return;
+            }
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Error processing image: " + e.getMessage());
+            alert.showAndWait();
+            imagePathInput.clear();
+        }
     }
 
     private void createRecipe() throws SQLException {
         System.out.print(submitCounter);
         if(submitCounter == 8){
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Do you want to view the recipe?",ButtonType.YES,ButtonType.NO);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Do you want to view the recipe?",
+                    ButtonType.YES,
+                    ButtonType.NO);
             Optional<ButtonType> result = alert.showAndWait();
 
-//            int recipeID = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
-//                    imagePath,recipeIngredients,instructionSteps);
-//
+            // Create recipe and get ID first
+            int recipeID = recipeManager.addRecipe(recipeName, 1, servingSize,
+                    imagePath, description, duration);
 
+            if (recipeID == -1) {
+                Alert alert2 = new Alert(Alert.AlertType.ERROR);
+                alert2.setContentText("Failed to create recipe");
+                alert2.showAndWait();
+                return;
+            }
 
-            int recipeID = recipeManager.addRecipe(recipeName, 1, servingSize, imagePath, description, duration);
             System.err.println("RECIPE ID:" + recipeID);
+
+            // Add ingredients
             for (int i = 0; i < ingredientCount; i++) {
                 String ingredientName = ingredientNames.get(i);
                 BigDecimal ingredientQty = ingredientQtys.get(i);
@@ -477,10 +534,14 @@ public class createRecipeController {
                 int ingredientId = ingredientsManager.addIngredient(ingredientName);
                 recipeIngManager.addIngredient(ingredientId, recipeID, ingredientUnit, ingredientQty);
             }
+
+            // Add instructions
             for (int i = 0; i < descriptions.size(); i++) {
                 String description = descriptions.get(i);
                 instructionsManager.insertInstruction(recipeID, i+1, description);
             }
+
+            // Add tags
             for (int i = 0; i < tagNames.size(); i++) {
                 String tagName = tagNames.get(i);
                 int tagId = tagManager.addTag(tagName);
@@ -488,7 +549,6 @@ public class createRecipeController {
             }
 
             System.out.println(recipeManager.getRecipe(recipeID).toString());
-
             Recipe recipe = recipeManager.getRecipe(recipeID);
 
             if(result.get() == ButtonType.YES){
@@ -497,12 +557,10 @@ public class createRecipeController {
                 //Sets up the Recipe on the viewRecipe page.
                 viewRecipeController controller = viewLoader.getController();
                 controller.setRecipe(recipeID);
-
             }
             //Clears the create recipe page for additional creations
             clearRecipe();
         }
-
     }
 
     @FXML
