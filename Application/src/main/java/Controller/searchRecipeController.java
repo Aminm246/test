@@ -9,17 +9,20 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class searchRecipeController {
-    FXMLLoader listLoader;
-    FXMLLoader createLoader;
-
+public class searchRecipeController implements Initializable  {
+    private FXMLLoader listLoader;
+    private FXMLLoader createLoader;
+    private FXMLLoader viewLoader;
 
     @FXML
     private Button ingredientSubmit, nameSubmitButton, allIngredientsSubmit, addTagButton, submitTagsButton,
@@ -59,9 +62,14 @@ public class searchRecipeController {
     RecipeIngRepository recipeIngRepository;
     InstructionsRepository instructionsRepository;
 
+    private URL location;
+    private ResourceBundle resources;
 
-    @FXML
-    public void initialize() {
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.location = location;
+        this.resources = resources;
         databaseConnection = new DatabaseConnection();
         recipeRepository = new RecipeRepository(databaseConnection);
         ingredientsRepository = new IngredientsRepository(databaseConnection);
@@ -96,16 +104,39 @@ public class searchRecipeController {
         tagNames = new ArrayList<>();
         searchSubmit.setDisable(true);
         recipes = FXCollections.observableArrayList();
-        recipeListView = new ListView<>(recipes);
+        recipeListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                String recipeName = recipeListView.getSelectionModel().getSelectedItem();
+                if(!recipeName.isEmpty()){
+                    int recipeID = Integer.parseInt(recipeName.substring(recipeName.indexOf("(") + 1,recipeName.indexOf(")")));
+                    try {
+                        switchToViewRecipe(recipeID);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+            }
+        });
     }
 
 
     @FXML
     private void searchButtonClick() throws SQLException {
+        if (!recipeNameInput.isDisable()) recipeNameInput.setDisable(true);
+        if (!ingredientNameInput.isDisable()) ingredientNameInput.setDisable(true);
+        if (!tagNameInput.isDisable()) tagNameInput.setDisable(true);
+        if (!tagFxList.isDisable()) tagFxList.setDisable(true);
+        if (!ingredientFxList.isDisable()) ingredientFxList.setDisable(true);
+        if (!ingredientSubmit.isDisable()) ingredientSubmit.setDisable(true);
+        if (!nameSubmitButton.isDisable()) nameSubmitButton.setDisable(true);
+        if (!allIngredientsSubmit.isDisable()) allIngredientsSubmit.setDisable(true);
+        if (!submitTagsButton.isDisable()) submitTagsButton.setDisable(true);
+
         recipes.clear();
         for (Recipe recipe : recipeManager.getRecipes()) {
-            boolean match = true;
-
             if (recipeName != null && !recipeName.isEmpty()) {
                 System.err.println("inside recipe name");
                 if (!recipe.getRecipeName().toLowerCase().contains(recipeName.toLowerCase())) {
@@ -113,12 +144,10 @@ public class searchRecipeController {
                 }
             }
 
-
             if (!tagNames.isEmpty()) {
                 System.err.println("inside tag names");
                 System.err.println("Tag names: " + tagNames);
                 System.err.println("Tags empty: " + tagNames.isEmpty());
-                if (tagNames == null) System.err.println("tags null");
                 boolean tagMatchFound = false;
                 for (RecipeTag recipeTag : recipe.getTags()) {
                     String recipeTagName = recipeTag.getTag().getTagName().toLowerCase();
@@ -147,13 +176,9 @@ public class searchRecipeController {
                     continue;
                 }
             }
-            if (match) {
-                System.err.println(recipe.toString());
-                recipes.add(recipe.getRecipeName() + " (" + recipe.getRecipeID() + ")");
-                System.err.println(recipes.toString());
-                System.err.println(recipeListView.toString());
-            }
+            recipes.add(recipe.getRecipeName() + " (" + recipe.getRecipeID() + ")");
         }
+        if (recipes.isEmpty()) recipes.add("No results found!");
         recipeListView.setItems(recipes);
     }
 
@@ -176,7 +201,9 @@ public class searchRecipeController {
             text.setDisable(false);
             text.setText("");
         }
-        initialize();
+        recipes.clear();
+        initialize(this.location, this.resources);
+
     }
 
     private void addSingleTagClick() {
@@ -256,6 +283,17 @@ public class searchRecipeController {
     @FXML
     private void switchToCreateRecipe(){
         ingredientSubmit.getScene().setRoot(createLoader.getRoot());
+    }
+
+    public void setViewLoader(FXMLLoader viewLoader){
+        this.viewLoader = viewLoader;
+    }
+
+    @FXML
+    private void switchToViewRecipe(int recipeID) throws SQLException {
+        ingredientSubmit.getScene().setRoot(viewLoader.getRoot());
+        viewRecipeController controller = viewLoader.getController();
+        controller.setRecipe(recipeID);
     }
 
 }

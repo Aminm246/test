@@ -92,6 +92,7 @@ public class Main extends Application {
         searchRecipeController searchController = searchLoader.getController();
         searchController.setCreateLoader(createLoader);
         searchController.setListLoader(listLoader);
+        searchController.setViewLoader(viewLoader);
 
     }
 
