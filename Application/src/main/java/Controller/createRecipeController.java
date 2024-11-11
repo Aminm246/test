@@ -194,6 +194,22 @@ public class createRecipeController {
     }
 
     private void addAllTagsClick() {
+        // First check for any unsaved tag in the input field
+        if (!tagInput.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Unsaved Tag");
+            alert.setContentText("You have an unsaved tag. Would you like to add it before submitting?");
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            alert.showAndWait().ifPresent(response -> {
+                if (response == buttonTypeYes) {
+                    addSingleTagClick();
+                }
+            });
+        }
+
         if (!tagsPlusClicked) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
