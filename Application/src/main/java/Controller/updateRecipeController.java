@@ -19,8 +19,9 @@ public class updateRecipeController  {
     private RecipeRepository recipeRepository;
     private RecipeIngRepository recipeIngRepository;
     private IngredientsRepository ingredientsRepository;
-    private InstructionsRepository instructionsRepository;
+    //private InstructionsRepository instructionsRepository;
     private TagRepository tagRepository;
+    private InstructionsManager instructionsManager;
 
     private RecipeTagRepository recipeTagRepository;
 
@@ -40,7 +41,7 @@ public class updateRecipeController  {
         recipeRepository = new RecipeRepository(databaseConnection);
         recipeIngRepository = new RecipeIngRepository(databaseConnection);
         ingredientsRepository = new IngredientsRepository(databaseConnection);
-        instructionsRepository = new InstructionsRepository(databaseConnection);
+        instructionsManager = new InstructionsManager(new InstructionsRepository(databaseConnection));
         tagRepository = new TagRepository(databaseConnection);
         recipeTagRepository = new RecipeTagRepository(databaseConnection);
         ingredients = new ArrayList<>();
@@ -153,7 +154,7 @@ public class updateRecipeController  {
         recipeNameInput.setText(recipe.getRecipeName());
         instructions = new ArrayList<>();
 
-        for (InstructionStep instructionStep : instructionsRepository.getInstructionsByRecipeId(recipeID)) {
+        for (InstructionStep instructionStep : instructionsManager.getInstructionsByRecipeId(recipeID)) {
             instructionNumPicker.getItems().add(instructionStep.getInstructionStepID());
             String instruction = instructionStep.getInstructionStepID() + ": " + instructionStep.getStepDescription();
             instructions.add(instruction);
@@ -189,7 +190,7 @@ public class updateRecipeController  {
         ingredientFxList.setText(String.join("\n", ingredients));
     }
     private void setInstruction(int index) throws SQLException {
-        instructionInput.setText(instructionsRepository.getInstructionsByRecipeId(recipeID).get(index - 1).getStepDescription());
+        instructionInput.setText(instructionsManager.getInstructionsByRecipeId(recipeID).get(index - 1).getStepDescription());
     }
 
     private void setTag(int tagID) throws SQLException {

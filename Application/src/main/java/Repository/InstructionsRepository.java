@@ -30,7 +30,7 @@ public class InstructionsRepository {
 
     public int insertInstruction(InstructionStep instructionStep) throws SQLException {
         Connection connection = db.getConnection();
-        String insert = "INSERT INTO instructions (recipeID, stepNum, stepDescription, instructionStepID) VALUES (?, ?, ?, ?)";
+        String insert = "INSERT INTO instructions (recipeID, stepNum, stepDescription) VALUES (?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(insert); {
             preparedStatement.setInt(1, instructionStep.getRecipeID());
             preparedStatement.setInt(2, instructionStep.getStepNum());
@@ -55,6 +55,7 @@ public class InstructionsRepository {
                 instructionStep.setRecipeID(resultSet.getInt("recipeID"));
                 instructionStep.setStepNum(resultSet.getInt("stepNum"));
                 instructionStep.setStepDescription(resultSet.getString("stepDescription"));
+                instructionStep.setInstructionStepID(resultSet.getInt("instructionStepID"));
                 return instructionStep;
             }
         }
