@@ -37,6 +37,7 @@ public class InstructionsManager {
 
     public void updateInstruction(int instructionID, String stepDescription) throws SQLException {
         InstructionStep instruction = instructionsRepository.getInstructionById(instructionID);
+        System.out.println(":" + instructionID + ":");
         instruction.setStepDescription(stepDescription);
         instructionsRepository.updateInstruction(instruction);
 

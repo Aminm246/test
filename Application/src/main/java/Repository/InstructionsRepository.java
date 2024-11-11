@@ -76,6 +76,7 @@ public class InstructionsRepository {
                 instructionStep.setRecipeID(resultSet.getInt("recipeID"));
                 instructionStep.setStepNum(resultSet.getInt("stepNum"));
                 instructionStep.setStepDescription(resultSet.getString("stepDescription"));
+                instructionStep.setInstructionStepID(resultSet.getInt("instructionStepID"));
                 instructions.add(instructionStep);
             }
         }
@@ -104,9 +105,10 @@ public class InstructionsRepository {
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
             connection.setAutoCommit(false);
-            preparedStatement.setInt(1, instructionStep.getStepNum());
-            preparedStatement.setString(2, instructionStep.getStepDescription());
-            preparedStatement.setInt(3, instructionStep.getRecipeID());
+            preparedStatement.setInt(1, instructionStep.getInstructionStepID());
+            preparedStatement.setInt(2, instructionStep.getStepNum());
+            preparedStatement.setString(3, instructionStep.getStepDescription());
+            preparedStatement.setInt(4, instructionStep.getRecipeID());
 
             int rowsUpdated = preparedStatement.executeUpdate();
             connection.commit();

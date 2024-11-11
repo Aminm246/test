@@ -83,7 +83,13 @@ public class updateRecipeController  {
 
 
         ingredientSubmit.setOnAction(event -> saveIngredient());
-        instructionSubmit.setOnAction(event -> saveInstruction());
+        instructionSubmit.setOnAction(event -> {
+            try {
+                saveInstruction();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
         tagsSubmit.setOnAction(event -> saveTag());
         recipeSubmit.setOnAction(event -> {
             try {
@@ -112,16 +118,15 @@ public class updateRecipeController  {
             System.out.println(ingredientName + " : " + ingredientQuantity + " : " + ingredientID);
         }
     }
-
-    private void saveInstruction(){
+    private void saveInstruction() throws SQLException {
         if(!instructionInput.getText().isEmpty()) {
             String instruction = instructionInput.getText();
             int instructionID = Integer.parseInt(instructionNumPicker.getSelectionModel().getSelectedItem().toString());
-
+            instructionsManager.updateInstruction(instructionID,instruction);
+            setInstructions();
             System.out.println(instruction + " : " + instructionID);
         }
     }
-
     private void saveTag(){
         if(!tagInput.getText().isEmpty()){
             String tag = tagInput.getText();
@@ -168,7 +173,7 @@ public class updateRecipeController  {
             tags.add("(" + tag.getTagId() + ") " + tag.getTagName());
         }
 
-        instructionFxList.setText(String.join("\n", instructions));
+
         tagFxList.setText(String.join(", ", tags));
         recipeDescriptionInput.setText(recipe.getDescription());
 
@@ -179,6 +184,7 @@ public class updateRecipeController  {
             ingredients.add("(" + ingredient.getIngredientId() + ") [" + ingredient.getIngredientName() + "] {" + recipeIngredient.getQuantity() + "} " + recipeIngredient.getMeasurementUnit());
         }
         setIngredients();
+        setInstructions();
 
         durationInput.setText(Integer.toString(recipe.getDuration()));
         servingSizeInput.setText(Integer.toString(recipe.getServingSize()));
@@ -189,14 +195,16 @@ public class updateRecipeController  {
     private void setIngredients() {
         ingredientFxList.setText(String.join("\n", ingredients));
     }
-    private void setInstruction(int index) throws SQLException {
-        instructionInput.setText(instructionsManager.getInstructionsByRecipeId(recipeID).get(index - 1).getStepDescription());
+    private void setInstructions(){
+        instructionFxList.setText(String.join("\n", instructions));
     }
 
+    private void setInstruction(int id) throws SQLException {
+        instructionInput.setText(instructionsManager.getInstruction(id).getStepDescription());
+    }
     private void setTag(int tagID) throws SQLException {
         tagInput.setText(tagRepository.getTagById(tagID).getTagName());
     }
-
     private void loadIngredient(int ingredientID) throws SQLException {
         ingredientNameInput.setText(ingredientsRepository.getIngredientsById(ingredientID).getIngredientName());
 
