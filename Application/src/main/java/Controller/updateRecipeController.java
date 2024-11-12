@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,11 +18,10 @@ public class updateRecipeController  {
     int recipeID;
     private DatabaseConnection databaseConnection;
     private RecipeRepository recipeRepository;
-    private RecipeIngRepository recipeIngRepository;
-    private IngredientsRepository ingredientsRepository;
-    //private InstructionsRepository instructionsRepository;
     private TagRepository tagRepository;
     private InstructionsManager instructionsManager;
+    private RecipeIngManager recipeIngManager;
+    private IngredientsManager ingredientsManager;
 
     private RecipeTagRepository recipeTagRepository;
 
@@ -39,12 +39,13 @@ public class updateRecipeController  {
     void initialize() {
         databaseConnection = new DatabaseConnection();
         recipeRepository = new RecipeRepository(databaseConnection);
-        recipeIngRepository = new RecipeIngRepository(databaseConnection);
-        ingredientsRepository = new IngredientsRepository(databaseConnection);
+        recipeIngManager = new RecipeIngManager(new RecipeIngRepository(databaseConnection));
         instructionsManager = new InstructionsManager(new InstructionsRepository(databaseConnection));
+        ingredientsManager = new IngredientsManager(new IngredientsRepository(databaseConnection));
         tagRepository = new TagRepository(databaseConnection);
         recipeTagRepository = new RecipeTagRepository(databaseConnection);
         ingredients = new ArrayList<>();
+
         instructionNumPicker.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             try {
                 setInstruction(Integer.parseInt(newValue.toString()));
@@ -82,7 +83,13 @@ public class updateRecipeController  {
         }
 
 
-        ingredientSubmit.setOnAction(event -> saveIngredient());
+        ingredientSubmit.setOnAction(event -> {
+            try {
+                saveIngredient();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
         instructionSubmit.setOnAction(event -> {
             try {
                 saveInstruction();
@@ -101,19 +108,21 @@ public class updateRecipeController  {
 
     }
 
-    private void saveIngredient() {
+    private void saveIngredient() throws SQLException {
         if(!ingredientNameInput.getText().isEmpty()){
             String ingredientName = ingredientNameInput.getText();
             Double ingredientQuantity = Double.parseDouble(ingredientQtyInput.getText());
+            String measurementUnit = measurementPicker.getSelectionModel().getSelectedItem().toString();
             int ingredientID = Integer.parseInt(ingredientNumPicker.getSelectionModel().getSelectedItem().toString());
             int i =0;
             for(String ingredient : ingredients){
                 if(ingredient.contains("(" + ingredientID + ")")){
                     ingredients.set(i, ("(" + ingredientID + ") [" + ingredientName + "] {" +
-                            ingredientQuantity + "} " + measurementPicker.getSelectionModel().getSelectedItem().toString()));
+                            ingredientQuantity + "} " + measurementUnit));
                 }
                 i++;
             }
+            recipeIngManager.updateIngredient(ingredientID,measurementUnit, BigDecimal.valueOf(ingredientQuantity));
             setIngredients();
             System.out.println(ingredientName + " : " + ingredientQuantity + " : " + ingredientID);
         }
@@ -178,10 +187,10 @@ public class updateRecipeController  {
         recipeDescriptionInput.setText(recipe.getDescription());
 
 
-        for (RecipeIngredient recipeIngredient : recipeIngRepository.getIngredientsByRecipeId(recipeID)) {
-            Ingredient ingredient = ingredientsRepository.getIngredientsById(recipeIngredient.getIngredientID());
-            ingredientNumPicker.getItems().add(ingredient.getIngredientId());
-            ingredients.add("(" + ingredient.getIngredientId() + ") [" + ingredient.getIngredientName() + "] {" + recipeIngredient.getQuantity() + "} " + recipeIngredient.getMeasurementUnit());
+        for (RecipeIngredient ingredient : recipeIngManager.getIngredientsByRecipeId(recipeID)) {
+            ingredientNumPicker.getItems().add(ingredient.getRecipeIngredientID());
+            ingredients.add("(" + ingredient.getRecipeIngredientID() + ") [" + ingredientsManager.getIngredientById(ingredient.getIngredientID()).getIngredientName() +
+                    "] {" + ingredient.getQuantity() + "} " + ingredient.getMeasurementUnit());
         }
         setIngredients();
         setInstructions();
@@ -205,18 +214,12 @@ public class updateRecipeController  {
     private void setTag(int tagID) throws SQLException {
         tagInput.setText(tagRepository.getTagById(tagID).getTagName());
     }
-    private void loadIngredient(int ingredientID) throws SQLException {
-        ingredientNameInput.setText(ingredientsRepository.getIngredientsById(ingredientID).getIngredientName());
-
-        List<RecipeIngredient> x = recipeIngRepository.getIngredientsByRecipeId(recipeID);
-        for (RecipeIngredient ingredient: x){
-            if(ingredient.getIngredientID() == ingredientID){
-                ingredientQtyInput.setText(ingredient.getQuantity().toString());
-                measurementPicker.getItems().clear();
-                measurementPicker.getItems().add(ingredient.getMeasurementUnit());
-                measurementPicker.getSelectionModel().selectFirst();
-            }
-        }
-
+    private void loadIngredient(int recipeIngID) throws SQLException {
+            RecipeIngredient ingredient = recipeIngManager.getIngredientById(recipeIngID);
+            ingredientNameInput.setText(ingredientsManager.getIngredientById(ingredient.getIngredientID()).getIngredientName());
+            ingredientQtyInput.setText(ingredient.getQuantity().toString());
+            measurementPicker.getItems().clear();
+            measurementPicker.getItems().add(ingredient.getMeasurementUnit());
+            measurementPicker.getSelectionModel().selectFirst();
     }
 }

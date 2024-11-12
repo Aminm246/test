@@ -34,6 +34,7 @@ public class RecipeIngManager {
         RecipeIngredient ingredient = recipeIngRepository.getIngredientById(ingredientId);
         ingredient.setMeasurementUnit(measurementUnit);
         ingredient.setQuantity(quantity);
+        recipeIngRepository.updateIngredient(ingredient);
     }
 
     public List<RecipeIngredient> getIngredients(List<Integer> ingredientList) throws SQLException {
