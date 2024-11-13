@@ -28,6 +28,17 @@ public class RecipeTagManager {
         return recipeTagRepository.getTagById(tagId);
     }
 
+    public void removeAllTags(int recipeID) throws SQLException {
+        List<RecipeTag> tags = recipeTagRepository.getTagsByRecipeId(recipeID);
+        for(RecipeTag recipeTag: tags){
+            recipeTagRepository.deleteTag(recipeTag.getRecipeTagID());
+        }
+    }
+
+    public List<RecipeTag> getTagsByRecipeId(int recipeID) throws SQLException {
+        return recipeTagRepository.getTagsByRecipeId(recipeID);
+    }
+
     public List<RecipeTag> getAllTags() throws SQLException {
         return recipeTagRepository.getAllTags();
     }

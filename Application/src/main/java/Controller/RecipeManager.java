@@ -5,10 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.InstructionStep;
-import Model.Recipe;
-import Model.RecipeIngredient;
-import Model.Tag;
+import Model.*;
 import Repository.*;
 
 public class RecipeManager {
@@ -16,11 +13,13 @@ public class RecipeManager {
     private final RecipeIngManager recipeIngManager;
     private final InstructionsManager instructionsManager;
     private final TagManager tagManager;
+    private final RecipeTagManager recipeTagManager;
 
     public RecipeManager(RecipeRepository recipeRepository,DatabaseConnection databaseConnection) {
         RecipeIngRepository repo = new RecipeIngRepository(databaseConnection);
         this.recipeIngManager = new RecipeIngManager(repo);
         this.tagManager = new TagManager(new TagRepository(databaseConnection));
+        recipeTagManager = new RecipeTagManager(new RecipeTagRepository(databaseConnection));
         this.recipeRepository = recipeRepository;
 
         InstructionsRepository instRepo = new InstructionsRepository(databaseConnection);
@@ -59,6 +58,11 @@ public class RecipeManager {
                     instruction.substring(instruction.indexOf(":") + 1) );
         }
 
+        recipeTagManager.removeAllTags(recipeID);
+        for(String tag: tags){
+            int tagID = Integer.parseInt(tag.substring(tag.indexOf("(") + 1,tag.indexOf(")")));
+            recipeTagManager.addTag(recipeID,tagID);
+        }
 
         for(String ingredient : recipeIngredients){
             int ingredientID = Integer.parseInt(ingredient.substring(ingredient.indexOf("(") + 1,ingredient.indexOf(")")));

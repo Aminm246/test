@@ -15,7 +15,27 @@
 
 <AnchorPane prefHeight="560.0" prefWidth="1437.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.updateRecipeController">
    <children>
-      <fx:include source="menuBar.fxml"/>
+      <MenuBar VBox.vgrow="NEVER">
+         <menus>
+            <Menu mnemonicParsing="false" text="Recipes">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Create Recipe" />
+                  <MenuItem mnemonicParsing="false" text="View Recipes" />
+                  <!--<MenuItem mnemonicParsing="false" text="View Suggestions" />
+                  <MenuItem mnemonicParsing="false" text="Open Calorie Tracker" />-->
+               </items></Menu>
+            <Menu mnemonicParsing="false" text="Ingredients">
+               <items>
+                  <!--<MenuItem mnemonicParsing="false" text="View Ingredients" />
+                  <MenuItem mnemonicParsing="false" text="Create Ingredient" />-->
+               </items></Menu>
+            <Menu mnemonicParsing="false" text="Favorites">
+               <items>
+                  <!--<MenuItem mnemonicParsing="false" text="Add Favorite" />
+                  <MenuItem mnemonicParsing="false" text="View Favorites" />-->
+               </items></Menu>
+         </menus>
+      </MenuBar>
       <Text layoutX="21.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name:" wrappingWidth="120.13671875">
          <font>
             <Font size="14.0" />
@@ -64,7 +84,7 @@
       </Text>
       <Button fx:id="recipeSubmit" layoutX="22.0" layoutY="443.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: CYAN;" text="Save Changes" />
       <Button fx:id="cancelButton" layoutX="128.0" layoutY="443.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: PINK;" text="Cancel Changes" />
-      <Button fx:id="tagsSubmit" layoutX="1024.0" layoutY="314.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Update Tag" />
+      <Button fx:id="tagRemove" layoutX="1142.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Remove Tag" />
       <TextField fx:id="recipeNameInput" layoutX="112.0" layoutY="40.0" prefHeight="25.0" prefWidth="210.0" />
       <TextField fx:id="ingredientNameInput" editable="false" layoutX="22.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
       <TextField fx:id="ingredientQtyInput" layoutX="260.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
@@ -93,7 +113,8 @@
       </TextArea>
       <ComboBox fx:id="ingredientNumPicker" layoutX="638.0" layoutY="92.0" prefHeight="25.0" prefWidth="65.0" promptText="ID" />
       <ComboBox fx:id="instructionNumPicker" layoutX="1163.0" layoutY="79.0" prefHeight="25.0" prefWidth="65.0" />
-      <ComboBox fx:id="tagNumPicker" layoutX="1153.0" layoutY="314.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="tagNumPicker" layoutX="1274.0" layoutY="314.0" prefHeight="25.0" prefWidth="65.0" />
       <ComboBox fx:id="measurementPicker" layoutX="474.0" layoutY="92.0" prefHeight="25.0" prefWidth="146.0" promptText="Measurement Unit" />
+      <Button fx:id="tagAdd" layoutX="1015.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Add Tag" />
    </children>
 </AnchorPane>

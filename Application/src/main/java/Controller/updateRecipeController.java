@@ -19,19 +19,18 @@ public class updateRecipeController  {
     int recipeID;
     private DatabaseConnection databaseConnection;
     private RecipeRepository recipeRepository;
-    private TagRepository tagRepository;
+    private TagManager tagManager;
     private InstructionsManager instructionsManager;
     private RecipeIngManager recipeIngManager;
     private IngredientsManager ingredientsManager;
-
-    private RecipeTagRepository recipeTagRepository;
+    private RecipeTagManager recipeTagManager;
 
 
     @FXML TextField imagePathInput,recipeNameInput, durationInput,servingSizeInput, ingredientNameInput, ingredientQtyInput, tagInput;
     @FXML TextArea instructionFxList,tagFxList,recipeDescriptionInput,ingredientFxList, instructionInput;
 
     @FXML ComboBox ingredientNumPicker, instructionNumPicker, tagNumPicker, measurementPicker;
-    @FXML Button ingredientSubmit, instructionSubmit, tagsSubmit, recipeSubmit, cancelButton;
+    @FXML Button ingredientSubmit, instructionSubmit, tagRemove,tagAdd, recipeSubmit, cancelButton;
 
     List<String> ingredients;
     List<String> instructions;
@@ -43,8 +42,8 @@ public class updateRecipeController  {
         recipeIngManager = new RecipeIngManager(new RecipeIngRepository(databaseConnection));
         instructionsManager = new InstructionsManager(new InstructionsRepository(databaseConnection));
         ingredientsManager = new IngredientsManager(new IngredientsRepository(databaseConnection));
-        tagRepository = new TagRepository(databaseConnection);
-        recipeTagRepository = new RecipeTagRepository(databaseConnection);
+        tagManager = new TagManager(new TagRepository(databaseConnection));
+        recipeTagManager =new RecipeTagManager(new RecipeTagRepository(databaseConnection));
 
         instructionNumPicker.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             try {
@@ -71,16 +70,6 @@ public class updateRecipeController  {
             }
         });
 
-        List<TextInputControl> x = Arrays.asList(instructionFxList,tagFxList,recipeDescriptionInput,
-                ingredientFxList,recipeNameInput, durationInput,servingSizeInput,imagePathInput);
-        for(TextInputControl field: x){
-            field.textProperty().addListener((observable, oldValue, newValue) -> {
-                if(!oldValue.equals(newValue) && !oldValue.isEmpty()){
-                    field.setStyle("-fx-control-inner-background: red");
-                }
-            });
-        }
-
         ingredientSubmit.setOnAction(event -> {
             try {
                 saveIngredient();
@@ -95,7 +84,14 @@ public class updateRecipeController  {
                 throw new RuntimeException(e);
             }
         });
-        tagsSubmit.setOnAction(event -> saveTag());
+        tagAdd.setOnAction(event -> {
+            try {
+                addTag();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        tagRemove.setOnAction(event -> removeTag());
         recipeSubmit.setOnAction(event -> {
             try {
                 saveRecipe();
@@ -142,32 +138,33 @@ public class updateRecipeController  {
             System.out.println(instruction + " : " + instructionID);
         }
     }
-    private void saveTag(){
+    private void removeTag(){
         if(!tagInput.getText().isEmpty()){
-            String tag = tagInput.getText();
             int tagID = Integer.parseInt(tagNumPicker.getSelectionModel().getSelectedItem().toString());
             int i = 0;
 
             for(String tagParse: tags){
                 if(tagParse.contains(Integer.toString(tagID))){
-                    tags.set(i,tag);
+                    tags.remove(i);
+                    break;
                 }
                 i++;
             }
             setTags();
-            System.out.println(tag + " : " + tagID);
+        }
+    }
+
+    private void addTag() throws SQLException {
+        if(!tagInput.getText().isEmpty()){
+            int tagid = tagManager.addTag(tagInput.getText());
+            Tag tag = tagManager.getTagById(tagid);
+            String string = "(" + tag.getTagId() + ") " + tag.getTagName();
+            tags.add(string);
+            tagNumPicker.getItems().add(tag.getTagId());
+            setTags();
         }
     }
     private void saveRecipe() throws SQLException {
-        List<TextInputControl> x = Arrays.asList(instructionFxList,tagFxList,recipeDescriptionInput,
-                ingredientFxList,recipeNameInput, durationInput,servingSizeInput,imagePathInput);
-        for(TextInputControl field: x){
-            if(field.getStyle().contains("-fx-control-inner-background: red")){
-                field.setStyle("-fx-control-inner-background: green");
-                System.out.println(field.getText() + " " + field.getId());
-            }
-        }
-
         RecipeManager recipeManager = new RecipeManager(recipeRepository,databaseConnection);
         recipeManager.updateRecipe(recipeID,recipeNameInput.getText(),1,Integer.parseInt(servingSizeInput.getText())
                 ,imagePathInput.getText(),recipeDescriptionInput.getText(),Integer.parseInt(durationInput.getText()),ingredients,instructions,tags);
@@ -175,7 +172,9 @@ public class updateRecipeController  {
     }
 
     public void setRecipe(int recipeID) throws SQLException {
-
+        tagNumPicker.getItems().clear();
+        ingredientNumPicker.getItems().clear();
+        instructionNumPicker.getItems().clear();
         Recipe recipe = recipeRepository.getRecipeById(recipeID);
         this.recipeID = recipeID;
         recipeNameInput.setText(recipe.getRecipeName());
@@ -189,9 +188,9 @@ public class updateRecipeController  {
             instructions.add(instruction);
         }
 
-        for (RecipeTag recipeTag : recipeTagRepository.getTagsByRecipeId(recipeID)) {
+        for (RecipeTag recipeTag : recipeTagManager.getTagsByRecipeId(recipeID)) {
             int tagID = recipeTag.getTagID();
-            Tag tag = tagRepository.getTagById(tagID);
+            Tag tag = tagManager.getTagById(tagID);
             tagNumPicker.getItems().add(tag.getTagId());
             tags.add("(" + tag.getTagId() + ") " + tag.getTagName());
         }
@@ -208,13 +207,6 @@ public class updateRecipeController  {
         setInstructions();
         durationInput.setText(Integer.toString(recipe.getDuration()));
         servingSizeInput.setText(Integer.toString(recipe.getServingSize()));
-
-        List<TextInputControl> x = Arrays.asList(instructionFxList,tagFxList,recipeDescriptionInput,
-                ingredientFxList,recipeNameInput, durationInput,servingSizeInput,imagePathInput);
-
-        for(TextInputControl field: x){
-            field.setStyle("-fx-control-inner-background:white");
-        }
     }
 
     private void setIngredients() {
@@ -232,7 +224,7 @@ public class updateRecipeController  {
         instructionInput.setText(instructionsManager.getInstruction(id).getStepDescription());
     }
     private void setTag(int tagID) throws SQLException {
-        tagInput.setText(tagRepository.getTagById(tagID).getTagName());
+        tagInput.setText(tagManager.getTagById(tagID).getTagName());
     }
     private void loadIngredient(int recipeIngID) throws SQLException {
             RecipeIngredient ingredient = recipeIngManager.getIngredientById(recipeIngID);
