@@ -47,7 +47,9 @@ public class updateRecipeController  {
 
         instructionNumPicker.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             try {
-                setInstruction(Integer.parseInt(newValue.toString()));
+                if(newValue != null) {
+                    setInstruction(Integer.parseInt(newValue.toString()));
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -56,7 +58,9 @@ public class updateRecipeController  {
 
         tagNumPicker.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             try {
-                setTag(Integer.parseInt(newValue.toString()));
+                if(newValue != null){
+                    setTag(Integer.parseInt(newValue.toString()));
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -64,7 +68,10 @@ public class updateRecipeController  {
 
         ingredientNumPicker.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             try {
-                loadIngredient(Integer.parseInt(newValue.toString()));
+                if(newValue != null){
+                    loadIngredient(Integer.parseInt(newValue.toString()));
+                }
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -175,6 +182,11 @@ public class updateRecipeController  {
         tagNumPicker.getItems().clear();
         ingredientNumPicker.getItems().clear();
         instructionNumPicker.getItems().clear();
+        ingredientNameInput.clear();
+        ingredientQtyInput.clear();
+        instructionInput.clear();
+        tagInput.clear();
+
         Recipe recipe = recipeRepository.getRecipeById(recipeID);
         this.recipeID = recipeID;
         recipeNameInput.setText(recipe.getRecipeName());
