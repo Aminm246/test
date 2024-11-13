@@ -122,7 +122,6 @@ public class updateRecipeController  {
                 }
                 i++;
             }
-            recipeIngManager.updateIngredient(ingredientID,measurementUnit, BigDecimal.valueOf(ingredientQuantity));
             setIngredients();
             System.out.println(ingredientName + " : " + ingredientQuantity + " : " + ingredientID);
         }
@@ -131,7 +130,16 @@ public class updateRecipeController  {
         if(!instructionInput.getText().isEmpty()) {
             String instruction = instructionInput.getText();
             int instructionID = Integer.parseInt(instructionNumPicker.getSelectionModel().getSelectedItem().toString());
-            instructionsManager.updateInstruction(instructionID,instruction);
+            int i = 0;
+
+            for(String instructionParse: instructions){
+                String parseID = instructionParse.substring(0,instructionParse.indexOf(":"));
+                if(Integer.parseInt(parseID) == instructionID){
+                    instructions.set(i,(instructionID + ": " + instruction));
+                }
+                i++;
+            }
+
             setInstructions();
             System.out.println(instruction + " : " + instructionID);
         }
@@ -140,7 +148,14 @@ public class updateRecipeController  {
         if(!tagInput.getText().isEmpty()){
             String tag = tagInput.getText();
             int tagID = Integer.parseInt(tagNumPicker.getSelectionModel().getSelectedItem().toString());
+            int i = 0;
 
+            for(String tagParse: tags){
+                if(tagParse.contains(Integer.toString(tagID))){
+                    tags.set(i,tag);
+                }
+                i++;
+            }
             System.out.println(tag + " : " + tagID);
         }
     }
@@ -205,6 +220,7 @@ public class updateRecipeController  {
         ingredientFxList.setText(String.join("\n", ingredients));
     }
     private void setInstructions(){
+        System.out.println(instructions.toString());
         instructionFxList.setText(String.join("\n", instructions));
     }
 

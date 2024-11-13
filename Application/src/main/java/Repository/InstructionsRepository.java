@@ -105,11 +105,10 @@ public class InstructionsRepository {
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
             connection.setAutoCommit(false);
-            preparedStatement.setInt(1, instructionStep.getInstructionStepID());
-            preparedStatement.setInt(2, instructionStep.getStepNum());
-            preparedStatement.setString(3, instructionStep.getStepDescription());
-            preparedStatement.setInt(4, instructionStep.getRecipeID());
-
+            preparedStatement.setInt(1, instructionStep.getStepNum());
+            preparedStatement.setString(2, instructionStep.getStepDescription());
+            preparedStatement.setInt(3, instructionStep.getRecipeID());
+            preparedStatement.setInt(4, instructionStep.getInstructionStepID());
             int rowsUpdated = preparedStatement.executeUpdate();
             connection.commit();
 

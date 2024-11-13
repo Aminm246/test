@@ -120,6 +120,7 @@ public class RecipeIngRepository {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, ingredient.getMeasurementUnit());
             preparedStatement.setString(2, ingredient.getQuantity().toPlainString());
+            preparedStatement.setInt(3,ingredient.getRecipeIngredientID());
 
             int rowsUpdated = preparedStatement.executeUpdate();
             connection.commit();
