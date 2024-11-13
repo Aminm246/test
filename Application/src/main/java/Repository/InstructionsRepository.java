@@ -55,6 +55,7 @@ public class InstructionsRepository {
                 instructionStep.setRecipeID(resultSet.getInt("recipeID"));
                 instructionStep.setStepNum(resultSet.getInt("stepNum"));
                 instructionStep.setStepDescription(resultSet.getString("stepDescription"));
+                instructionStep.setInstructionStepID(resultSet.getInt("instructionStepID"));
                 return instructionStep;
             }
         }
@@ -75,6 +76,7 @@ public class InstructionsRepository {
                 instructionStep.setRecipeID(resultSet.getInt("recipeID"));
                 instructionStep.setStepNum(resultSet.getInt("stepNum"));
                 instructionStep.setStepDescription(resultSet.getString("stepDescription"));
+                instructionStep.setInstructionStepID(resultSet.getInt("instructionStepID"));
                 instructions.add(instructionStep);
             }
         }
@@ -106,7 +108,7 @@ public class InstructionsRepository {
             preparedStatement.setInt(1, instructionStep.getStepNum());
             preparedStatement.setString(2, instructionStep.getStepDescription());
             preparedStatement.setInt(3, instructionStep.getRecipeID());
-
+            preparedStatement.setInt(4, instructionStep.getInstructionStepID());
             int rowsUpdated = preparedStatement.executeUpdate();
             connection.commit();
 

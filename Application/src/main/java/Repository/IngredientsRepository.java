@@ -78,7 +78,7 @@ public class IngredientsRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, ingredient.getIngredientName());
-
+            preparedStatement.setInt(2,ingredient.getIngredientId());
             int rowsUpdated = preparedStatement.executeUpdate();
             connection.commit();
 

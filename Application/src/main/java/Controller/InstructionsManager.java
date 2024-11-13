@@ -24,6 +24,7 @@ public class InstructionsManager {
     }
 
     public int insertInstruction(int recipeID, int stepNum, String stepDescription) throws SQLException {
+
         InstructionStep instructionStep = new InstructionStep(recipeID, stepNum, stepDescription);
         int instructionID = instructionsRepository.insertInstruction(instructionStep);
         if (instructionID != -1) {
@@ -32,6 +33,14 @@ public class InstructionsManager {
             System.out.println("Failed to create instruction.");
         }
         return instructionID;
+    }
+
+    public void updateInstruction(int instructionID, String stepDescription) throws SQLException {
+        InstructionStep instruction = instructionsRepository.getInstructionById(instructionID);
+        System.out.println(":" + instructionID + ":");
+        instruction.setStepDescription(stepDescription);
+        instructionsRepository.updateInstruction(instruction);
+
     }
 
     public List<InstructionStep> getInstructionsByRecipeId(int recipeId) throws SQLException {
