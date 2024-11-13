@@ -8,19 +8,19 @@ import java.util.List;
 import Model.InstructionStep;
 import Model.Recipe;
 import Model.RecipeIngredient;
-import Repository.DatabaseConnection;
-import Repository.InstructionsRepository;
-import Repository.RecipeIngRepository;
-import Repository.RecipeRepository;
+import Model.Tag;
+import Repository.*;
 
 public class RecipeManager {
     private final RecipeRepository recipeRepository;
     private final RecipeIngManager recipeIngManager;
     private final InstructionsManager instructionsManager;
+    private final TagManager tagManager;
 
     public RecipeManager(RecipeRepository recipeRepository,DatabaseConnection databaseConnection) {
         RecipeIngRepository repo = new RecipeIngRepository(databaseConnection);
         this.recipeIngManager = new RecipeIngManager(repo);
+        this.tagManager = new TagManager(new TagRepository(databaseConnection));
         this.recipeRepository = recipeRepository;
 
         InstructionsRepository instRepo = new InstructionsRepository(databaseConnection);
@@ -60,13 +60,14 @@ public class RecipeManager {
         }
 
 
-        recipe.setAll(recipeName, createdBy, servingSize, imagePath, description, duration, tags,instructionSteps);
         for(String ingredient : recipeIngredients){
             int ingredientID = Integer.parseInt(ingredient.substring(ingredient.indexOf("(") + 1,ingredient.indexOf(")")));
             String measurementUnit = ingredient.substring(ingredient.indexOf("}") + 2);
             double quantity  = Double.parseDouble(ingredient.substring(ingredient.indexOf("{") + 1,ingredient.indexOf("}")));
             recipeIngManager.updateIngredient(ingredientID,measurementUnit, BigDecimal.valueOf(quantity));
         }
+
+        recipe.setAll(recipeName, createdBy, servingSize, imagePath, description, duration);
         recipeRepository.updateRecipe(recipe);
         return 0;
     }

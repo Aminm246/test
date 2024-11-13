@@ -2,6 +2,7 @@ package Controller;
 
 import Model.*;
 import Repository.*;
+import javafx.collections.ObservableArray;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.ComboBox;
@@ -44,7 +45,6 @@ public class updateRecipeController  {
         ingredientsManager = new IngredientsManager(new IngredientsRepository(databaseConnection));
         tagRepository = new TagRepository(databaseConnection);
         recipeTagRepository = new RecipeTagRepository(databaseConnection);
-        ingredients = new ArrayList<>();
 
         instructionNumPicker.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             try {
@@ -71,7 +71,6 @@ public class updateRecipeController  {
             }
         });
 
-
         List<TextInputControl> x = Arrays.asList(instructionFxList,tagFxList,recipeDescriptionInput,
                 ingredientFxList,recipeNameInput, durationInput,servingSizeInput,imagePathInput);
         for(TextInputControl field: x){
@@ -81,7 +80,6 @@ public class updateRecipeController  {
                 }
             });
         }
-
 
         ingredientSubmit.setOnAction(event -> {
             try {
@@ -156,6 +154,7 @@ public class updateRecipeController  {
                 }
                 i++;
             }
+            setTags();
             System.out.println(tag + " : " + tagID);
         }
     }
@@ -173,15 +172,16 @@ public class updateRecipeController  {
         recipeManager.updateRecipe(recipeID,recipeNameInput.getText(),1,Integer.parseInt(servingSizeInput.getText())
                 ,imagePathInput.getText(),recipeDescriptionInput.getText(),Integer.parseInt(durationInput.getText()),ingredients,instructions,tags);
 
-
-
     }
 
     public void setRecipe(int recipeID) throws SQLException {
+
         Recipe recipe = recipeRepository.getRecipeById(recipeID);
         this.recipeID = recipeID;
         recipeNameInput.setText(recipe.getRecipeName());
         instructions = new ArrayList<>();
+        ingredients = new ArrayList<>();
+        tags = new ArrayList<>();
 
         for (InstructionStep instructionStep : instructionsManager.getInstructionsByRecipeId(recipeID)) {
             instructionNumPicker.getItems().add(instructionStep.getInstructionStepID());
@@ -189,7 +189,6 @@ public class updateRecipeController  {
             instructions.add(instruction);
         }
 
-        tags = new ArrayList<>();
         for (RecipeTag recipeTag : recipeTagRepository.getTagsByRecipeId(recipeID)) {
             int tagID = recipeTag.getTagID();
             Tag tag = tagRepository.getTagById(tagID);
@@ -197,23 +196,25 @@ public class updateRecipeController  {
             tags.add("(" + tag.getTagId() + ") " + tag.getTagName());
         }
 
-
-        tagFxList.setText(String.join(", ", tags));
-        recipeDescriptionInput.setText(recipe.getDescription());
-
-
         for (RecipeIngredient ingredient : recipeIngManager.getIngredientsByRecipeId(recipeID)) {
             ingredientNumPicker.getItems().add(ingredient.getRecipeIngredientID());
             ingredients.add("(" + ingredient.getRecipeIngredientID() + ") [" + ingredientsManager.getIngredientById(ingredient.getIngredientID()).getIngredientName() +
                     "] {" + ingredient.getQuantity() + "} " + ingredient.getMeasurementUnit());
         }
+
+        recipeDescriptionInput.setText(recipe.getDescription());
+        setTags();
         setIngredients();
         setInstructions();
-
         durationInput.setText(Integer.toString(recipe.getDuration()));
         servingSizeInput.setText(Integer.toString(recipe.getServingSize()));
 
+        List<TextInputControl> x = Arrays.asList(instructionFxList,tagFxList,recipeDescriptionInput,
+                ingredientFxList,recipeNameInput, durationInput,servingSizeInput,imagePathInput);
 
+        for(TextInputControl field: x){
+            field.setStyle("-fx-control-inner-background:white");
+        }
     }
 
     private void setIngredients() {
@@ -222,6 +223,9 @@ public class updateRecipeController  {
     private void setInstructions(){
         System.out.println(instructions.toString());
         instructionFxList.setText(String.join("\n", instructions));
+    }
+    private void setTags(){
+        tagFxList.setText(String.join(", ", tags));
     }
 
     private void setInstruction(int id) throws SQLException {

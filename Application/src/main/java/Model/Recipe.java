@@ -178,7 +178,7 @@ public class Recipe {
     }
 
     public void setAll(String recipeName, int createdBy, int servingSize, String imagePath, String description,
-                       int duration, List<String> tags, List<InstructionStep> instructions) {
+                       int duration) {
         List<RecipeIngredient> recipeIngredients = new ArrayList<>();
         setRecipeName(recipeName);
         setCreatedBy(createdBy);
@@ -186,7 +186,5 @@ public class Recipe {
         setImagePath(imagePath);
         setDescription(description);
         setDuration(duration);
-        setTags(tags);
-        setInstructions(instructions);
     }
 }

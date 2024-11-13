@@ -77,7 +77,7 @@ public class TagRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, tag.getTagName());
-
+            preparedStatement.setInt(2,tag.getTagId());
             int rowsUpdated = preparedStatement.executeUpdate();
             connection.commit();
 
