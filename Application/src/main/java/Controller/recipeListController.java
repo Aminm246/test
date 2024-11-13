@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 
+
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -21,6 +23,7 @@ public class recipeListController implements Initializable {
 
     private FXMLLoader createLoader;
     private FXMLLoader viewLoader;
+    private FXMLLoader listLoader;
 
     @FXML
     private ListView<String> recipeListView;
@@ -28,6 +31,7 @@ public class recipeListController implements Initializable {
     @FXML
     private Label myLabel;
 
+    private FXMLLoader menuLoader;
     private RecipeManager recipeManager;
     private DatabaseConnection databaseConnection;
     private RecipeRepository recipeRepository;
@@ -60,6 +64,10 @@ public class recipeListController implements Initializable {
         });
     }
 
+    public void setMenuLoader(FXMLLoader menuLoader) {
+        this.menuLoader = menuLoader;
+    }
+
     @FXML
     public void populateList() throws SQLException {
         recipes.clear();
@@ -70,9 +78,7 @@ public class recipeListController implements Initializable {
 
 
     }
-    public void switchToCreateRecipe(){
-        myLabel.getScene().setRoot(createLoader.getRoot());
-    }
+
 
     public void setRecipeManager(RecipeManager recipeManager) throws SQLException {
         this.recipeManager = recipeManager;
@@ -92,9 +98,13 @@ public class recipeListController implements Initializable {
     }
 
     public void switchToViewRecipe(int recipeID) throws SQLException {
-        myLabel.getScene().setRoot(viewLoader.getRoot());
+        recipeListView.getScene().setRoot(viewLoader.getRoot());
         viewRecipeController controller = viewLoader.getController();
         controller.setRecipe(recipeID);
+    }
+
+    public void setListLoader(FXMLLoader listLoader) {
+        this.listLoader = listLoader;
     }
 
     public void setViewLoader(FXMLLoader viewLoader){

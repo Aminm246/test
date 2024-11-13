@@ -7,27 +7,7 @@
 
 <AnchorPane prefHeight="594.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.viewRecipeController">
    <children>
-      <MenuBar VBox.vgrow="NEVER">
-         <menus>
-            <Menu mnemonicParsing="false" text="Recipes">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#switchToCreateRecipe" text="Create Recipe" />
-                  <MenuItem mnemonicParsing="false" onAction="#switchToRecipeList" text="View Recipes" />
-                  <!--<MenuItem mnemonicParsing="false" text="View Suggestions" />
-                  <MenuItem mnemonicParsing="false" text="Open Calorie Tracker" />-->
-               </items></Menu>
-            <Menu mnemonicParsing="false" text="Ingredients">
-               <items>
-                  <!--<MenuItem mnemonicParsing="false" text="View Ingredients" />
-                  <MenuItem mnemonicParsing="false" text="Create Ingredient" />-->
-               </items></Menu>
-            <Menu mnemonicParsing="false" text="Favorites">
-               <items>
-                  <!--<MenuItem mnemonicParsing="false" text="Add Favorite" />
-                  <MenuItem mnemonicParsing="false" text="View Favorites" />-->
-               </items></Menu>
-         </menus>
-      </MenuBar>
+      <fx:include source="menuBar.fxml"/>
       <Text fx:id="recipeNameTag" layoutX="192.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name" wrappingWidth="115.13672637939453">
          <font>
             <Font size="18.0" />

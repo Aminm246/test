@@ -3,6 +3,7 @@ package edu.metrostate;
 import Controller.createRecipeController;
 import Controller.recipeListController;
 import Controller.viewRecipeController;
+import Controller.MenuBarController;
 import Repository.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 public class Main extends Application {
 
     private Stage stage;
+    private FXMLLoader menuLoader;
     public static void main(String[] args) throws SQLException {
         launch(args);
         DatabaseConnection db = new DatabaseConnection();
@@ -49,19 +51,13 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Cookbook v0.1");
+
+        // Load all FXML files
         FXMLLoader createLoader = new FXMLLoader(getClass().getResource("createRecipeView.fxml"));
         Parent root = createLoader.load();
 
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
-        createRecipeController createController = createLoader.getController();
-        createController.setCreateLoader(createLoader);
-
         FXMLLoader viewLoader = new FXMLLoader(getClass().getResource("viewRecipe.fxml"));
         viewLoader.load();
-
 
         FXMLLoader listLoader = new FXMLLoader(getClass().getResource("recipeListView.fxml"));
         listLoader.load();
@@ -69,20 +65,40 @@ public class Main extends Application {
         FXMLLoader updateLoader = new FXMLLoader(getClass().getResource("updateRecipeView.fxml"));
         updateLoader.load();
 
+
+        // Initialize MenuBar
+        // Initialize MenuBar
+        menuLoader = new FXMLLoader(getClass().getResource("menuBar.fxml"));
+        menuLoader.load();
+        MenuBarController menuController = menuLoader.getController();
+        menuController.setLoaders(createLoader, listLoader, viewLoader, updateLoader);
+
+        // Set up scene
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+
+        // Set up controllers
+        createRecipeController createController = createLoader.getController();
+        viewRecipeController viewController = viewLoader.getController();
+        recipeListController listController = listLoader.getController();
+
+        // Set MenuLoader for all controllers
+        createController.setMenuLoader(menuLoader);
+        viewController.setMenuLoader(menuLoader);
+        listController.setMenuLoader(menuLoader);
+
+        // Set up other loaders
+        createController.setCreateLoader(createLoader);
         createController.setViewLoader(viewLoader);
         createController.setListLoader(listLoader);
-        createController.setListLoader(listLoader);
 
-        viewRecipeController viewController = viewLoader.getController();
         viewController.setCreateLoader(createLoader);
         viewController.setListLoader(listLoader);
         viewController.setUpdateLoader(updateLoader);
 
-        recipeListController listController = listLoader.getController();
         listController.setCreateLoader(createLoader);
         listController.setViewLoader(viewLoader);
 
-
+        stage.show();
     }
-
 }

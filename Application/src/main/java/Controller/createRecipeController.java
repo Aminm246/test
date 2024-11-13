@@ -1,5 +1,4 @@
 package Controller;
-
 import Model.*;
 import Repository.*;
 import javafx.fxml.FXML;
@@ -14,8 +13,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javafx.scene.image.Image;
 
 public class createRecipeController {
+
 
     @FXML
     private TextField recipeNameInput, ingredientNameInput, ingredientQtyInput,
@@ -29,6 +30,11 @@ public class createRecipeController {
             allInstructionsSubmit, durationSubmit, servingSizeSubmit, imagePathSubmit,
             allIngredientsSubmit, tagsSubmit, recipeSubmit, clearRecipeButton;
 
+    @FXML
+    private ComboBox<String> measurementUnitComboBox;
+    private List<String> ingredientUnits;
+
+    private FXMLLoader menuLoader;
     FXMLLoader viewLoader;
     FXMLLoader listLoader;
     FXMLLoader createLoader;
@@ -38,7 +44,6 @@ public class createRecipeController {
     List<RecipeIngredient> recipeIngredients;
     List<String> ingredientNames;
     List<BigDecimal> ingredientQtys;
-    List<String> ingredientUnits;
     List<InstructionStep> instructionSteps;
     List<String> descriptions;
     List<String> tagNames;
@@ -83,6 +88,9 @@ public class createRecipeController {
         this.viewLoader = viewLoader;
         viewRecipeController controller = this.viewLoader.getController();
     }
+    public void setMenuLoader(FXMLLoader menuLoader) {
+        this.menuLoader = menuLoader;
+    }
 
     public void setCreateLoader(FXMLLoader createLoader){
         this.createLoader = createLoader;
@@ -102,6 +110,20 @@ public class createRecipeController {
         imagePath = "";
         tagList = new ArrayList<>();
         tagsPlusClicked = false;
+
+        measurementUnitComboBox.getItems().addAll(
+                "grams",
+                "cups",
+                "tablespoons",
+                "teaspoons",
+                "ounces",
+                "pounds",
+                "milliliters",
+                "liters",
+                "pieces",
+                "pinch"
+        );
+        measurementUnitComboBox.setValue("grams"); // Default value
 
         databaseConnection = new DatabaseConnection();
         recipeRepository = new RecipeRepository(databaseConnection);
@@ -176,11 +198,34 @@ public class createRecipeController {
     }
 
     private void addAllTagsClick() {
+        // First check for any unsaved tag in the input field
+        if (!tagInput.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Unsaved Tag");
+            alert.setContentText("You have an unsaved tag. Would you like to add it before submitting?");
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            alert.showAndWait().ifPresent(response -> {
+                if (response == buttonTypeYes) {
+                    addSingleTagClick();
+                }
+            });
+        }
+
         if (!tagsPlusClicked) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Empty Tags Warning");
             alert.setContentText("You didn't click the '+' button to add any tags. Are you sure you want to submit without tags?");
+
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
             alert.showAndWait().ifPresent(response -> {
-                if (response == ButtonType.OK) {
+                if (response == buttonTypeYes) {
                     submitTags();
                 }
             });
@@ -211,65 +256,77 @@ public class createRecipeController {
     private void addSingleIngredientClick() throws SQLException {
         String ingredientName = ingredientNameInput.getText().trim();
         String ingredientQty = ingredientQtyInput.getText().trim();
-        BigDecimal qty = new BigDecimal(-1);
+        String unit = measurementUnitComboBox.getValue();
+
         if (ingredientName.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Ingredient name must not be empty, please enter a valid value.");
             alert.showAndWait();
+            return;
         }
-
         if (ingredientQty.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Ingredient quantity must not be empty, please enter a valid value.");
             alert.showAndWait();
+            return;
         }
 
         try {
-            qty = new BigDecimal(ingredientQty);
-            System.out.println("Ingredient Name: " + ingredientName + " Ingredient qty: " + qty);
+            BigDecimal qty = new BigDecimal(ingredientQty);
+            ingredientNames.add(ingredientName);
+            ingredientQtys.add(qty);
+            ingredientUnits.add(unit);
 
+            // Update display with unit
+            ingredientFxList.setText(ingredientFxList.getText() +
+                    ingredientQty + " " + unit + " " + ingredientName + "\n");
+
+            ingredientCount++;
+            ingredientNameInput.clear();
+            ingredientQtyInput.clear();
+            allIngredientsSubmit.setDisable(false);
         } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Ingredient quantity must be a valid integer.");
             alert.showAndWait();
             ingredientQtyInput.clear();
-            return;
         }
-
-        ingredientNames.add(ingredientName);
-        ingredientQtys.add(qty);
-        ingredientUnits.add("GRAMS");
-
-        //ingredientList.add(new Ingredient(ingredientName));
-        //need to add implementation for if the ingredient is already added to the inventory. if add just return the existing object.
-
-
-//        int ingredientID  =  ingredientsManager.addIngredient(ingredientName);
-//        Ingredient ingredient = ingredientsManager.getIngredientById(ingredientID);
-
-
-//        Ingredient ingredient = ingredientsManager.addIngredient(ingredientName);
-//        int ingredientID = ingredient.getIngredientId();
-//        ingredientList.add(ingredientID);
-//        RecipeIngredient recipeIngredient = new RecipeIngredient(ingredientID, "GRAMS", qty);
-//        recipeIngredients.add(recipeIngredient);
-        ingredientNameInput.clear();
-        ingredientQtyInput.clear();
-        allIngredientsSubmit.setDisable(false);
-        ingredientFxList.setText(ingredientFxList.getText() + ingredientQty + "g " + ingredientName + "\n");
-        ingredientCount++;
     }
 
     private void addAllIngredientsClick() throws SQLException {
-        if (ingredientCount < 6) {
-            if (!ingredientNameInput.getText().isEmpty() && !ingredientQtyInput.getText().isEmpty()) {
+        // Check if no ingredients have been added
+        if (ingredientCount == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No Ingredients");
+            alert.setHeaderText("Missing Ingredients");
+            alert.setContentText("Please add at least one ingredient before submitting.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Check for unsaved text in input fields
+        if (!ingredientNameInput.getText().trim().isEmpty() ||
+                !ingredientQtyInput.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Unsaved Changes");
+            alert.setHeaderText("Unsaved Ingredient");
+            alert.setContentText("You have unsaved ingredient details. Would you like to add them?");
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == buttonTypeYes) {
                 addSingleIngredientClick();
             }
         }
+
+        // Proceed with submission if validation passes
         ingredientNameInput.setDisable(true);
         ingredientQtyInput.setDisable(true);
         ingredientSubmit.setDisable(true);
         allIngredientsSubmit.setDisable(true);
+        measurementUnitComboBox.setDisable(true);
         System.out.println(recipeIngredients.toString());
         submitCounter++;
     }
@@ -299,13 +356,35 @@ public class createRecipeController {
     }
 
     private void addAllInstructionsClick() {
-        if (!instructionInput.getText().isEmpty()) {
-            addSingleInstructionClick();
+        // Check if no instructions have been added
+        if (instructionCount == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No Instructions");
+            alert.setHeaderText("Missing Instructions");
+            alert.setContentText("Please add at least one instruction before submitting.");
+            alert.showAndWait();
+            return;
         }
+
+        // Check for unsaved text in input field
+        if (!instructionInput.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Unsaved Changes");
+            alert.setHeaderText("Unsaved Instruction");
+            alert.setContentText("You have an unsaved instruction. Would you like to add it?");
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == buttonTypeYes) {
+                addSingleInstructionClick();
+            }
+        }
+
         instructionInput.setDisable(true);
         allInstructionsSubmit.setDisable(true);
         instructionSubmit.setDisable(true);
-        System.out.println(instructionSteps.toString());
         submitCounter++;
     }
     
@@ -391,7 +470,7 @@ public class createRecipeController {
                     servingSizeInput.clear();
                     return;
                 }
-                System.out.println("Serving size is: " + this.duration);
+                System.out.println("Serving size is: " + this.servingSize);
                 servingSizeInput.setDisable(true);
                 servingSizeSubmit.setDisable(true);
                 submitCounter++;
@@ -419,57 +498,147 @@ public class createRecipeController {
         }
     }
 
-    private void imagePathHelper(String imagePath){
-
-        if(imagePath.isEmpty()){
-
+    private void imagePathHelper(String imagePath) {
+        if (imagePath.isEmpty()) {
+            // Handle empty path case
+            this.imagePath = "";
+            imagePathInput.setDisable(true);
+            imagePathSubmit.setDisable(true);
+            submitCounter++;
+            return;
         }
-        else{
+
+        try {
             System.out.println("Image path: " + imagePath);
-            imagePath = imagePath.replace("\"","");
-            imagePath = imagePath.replace("\\","/");
+            imagePath = imagePath.replace("\"", "");
+            imagePath = imagePath.replace("\\", "/");
 
+            // Get the file name from the path
             int index = imagePath.indexOf("/");
-            String recipeName;
-            while(imagePath.indexOf("/",index + 1) != -1){
-                index = imagePath.indexOf("/",index + 1);
+            String fileName;
+            while (imagePath.indexOf("/", index + 1) != -1) {
+                index = imagePath.indexOf("/", index + 1);
             }
-            recipeName = imagePath.substring(index + 1);
+            fileName = imagePath.substring(index + 1);
 
-            File imageFile = new File(imagePath);
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //Need to add functionality to check if the file already exists with that name and handle it
-            File output = new File("src/main/resources/edu/metrostate/images/" + recipeName);
+            // Validate file extension
+            String lowercaseName = fileName.toLowerCase();
+            if (!lowercaseName.endsWith(".jpg") && !lowercaseName.endsWith(".jpeg") &&
+                    !lowercaseName.endsWith(".png")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Only JPG, JPEG, and PNG files are supported.");
+                alert.showAndWait();
+                imagePathInput.clear();
+                return;
+            }
+
             try {
-                Files.copy(imageFile.toPath(),output.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                new Image(new File(imagePath).toURI().toString());
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Image");
+                alert.setHeaderText("File Error");
+                alert.setContentText("The selected file is not a valid image file.");
+                alert.showAndWait();
+                imagePathInput.clear();
+                return;
             }
 
-            imagePath = output.toPath().toString().replace("\\","/");
-            imagePath = imagePath.substring(imagePath.indexOf("edu")-1);
-        }
+            // Create source and destination files
+            File imageFile = new File(imagePath);
+            if (!imageFile.exists()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Image file not found: " + imagePath);
+                alert.showAndWait();
+                imagePathInput.clear();
+                return;
+            }
 
-        this.imagePath = imagePath;
-        imagePathInput.setDisable(true);
-        imagePathSubmit.setDisable(true);
-        submitCounter++;
+            // Create resources directory if it doesn't exist
+            File resourceDir = new File("src/main/resources/edu/metrostate/images/");
+            if (!resourceDir.exists()) {
+                resourceDir.mkdirs();
+            }
+
+            File output = new File(resourceDir, fileName);
+
+            // Copy file with proper error handling
+            try {
+                Files.copy(imageFile.toPath(), output.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Image copied to: " + output.getPath());
+
+                // Update image path for database
+                this.imagePath = "/edu/metrostate/images/" + fileName;
+
+                imagePathInput.setDisable(true);
+                imagePathSubmit.setDisable(true);
+                submitCounter++;
+
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Error copying image file: " + e.getMessage());
+                alert.showAndWait();
+                imagePathInput.clear();
+                return;
+            }
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Error processing image: " + e.getMessage());
+            alert.showAndWait();
+            imagePathInput.clear();
+        }
     }
 
     private void createRecipe() throws SQLException {
+        // Check all required fields before allowing submission
+        if (recipeName == null || recipeName.trim().isEmpty()) {
+            showError("Recipe Name", "Please enter a recipe name.");
+            return;
+        }
+        if (ingredientCount == 0) {
+            showError("Ingredients", "Please add at least one ingredient.");
+            return;
+        }
+        if (instructionCount == 0) {
+            showError("Instructions", "Please add at least one instruction.");
+            return;
+        }
+        if (description == null || description.trim().isEmpty()) {
+            showError("Description", "Please enter a description.");
+            return;
+        }
+        if (duration <= 0) {
+            showError("Duration", "Please enter a valid duration.");
+            return;
+        }
+        if (servingSize <= 0) {
+            showError("Serving Size", "Please enter a valid serving size.");
+            return;
+        }
+
         System.out.print(submitCounter);
         if(submitCounter == 8){
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Do you want to view the recipe?",ButtonType.YES,ButtonType.NO);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Do you want to view the recipe?",
+                    ButtonType.YES,
+                    ButtonType.NO);
             Optional<ButtonType> result = alert.showAndWait();
 
-//            int recipeID = recipeManager.addRecipe(recipeName,1/*requires user implement*/,tagList,duration,servingSize,description,
-//                    imagePath,recipeIngredients,instructionSteps);
-//
+            // Create recipe and get ID first
+            int recipeID = recipeManager.addRecipe(recipeName, 1, servingSize,
+                    imagePath, description, duration);
 
+            if (recipeID == -1) {
+                Alert alert2 = new Alert(Alert.AlertType.ERROR);
+                alert2.setContentText("Failed to create recipe");
+                alert2.showAndWait();
+                return;
+            }
 
-            int recipeID = recipeManager.addRecipe(recipeName, 1, servingSize, imagePath, description, duration);
             System.err.println("RECIPE ID:" + recipeID);
+
+            // Add ingredients
             for (int i = 0; i < ingredientCount; i++) {
                 String ingredientName = ingredientNames.get(i);
                 BigDecimal ingredientQty = ingredientQtys.get(i);
@@ -477,10 +646,14 @@ public class createRecipeController {
                 int ingredientId = ingredientsManager.addIngredient(ingredientName);
                 recipeIngManager.addIngredient(ingredientId, recipeID, ingredientUnit, ingredientQty);
             }
+
+            // Add instructions
             for (int i = 0; i < descriptions.size(); i++) {
                 String description = descriptions.get(i);
                 instructionsManager.insertInstruction(recipeID, i+1, description);
             }
+
+            // Add tags
             for (int i = 0; i < tagNames.size(); i++) {
                 String tagName = tagNames.get(i);
                 int tagId = tagManager.addTag(tagName);
@@ -488,7 +661,6 @@ public class createRecipeController {
             }
 
             System.out.println(recipeManager.getRecipe(recipeID).toString());
-
             Recipe recipe = recipeManager.getRecipe(recipeID);
 
             if(result.get() == ButtonType.YES){
@@ -497,12 +669,18 @@ public class createRecipeController {
                 //Sets up the Recipe on the viewRecipe page.
                 viewRecipeController controller = viewLoader.getController();
                 controller.setRecipe(recipeID);
-
             }
             //Clears the create recipe page for additional creations
             clearRecipe();
         }
+    }
 
+    private void showError(String field, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Missing Information");
+        alert.setHeaderText("Missing " + field);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
