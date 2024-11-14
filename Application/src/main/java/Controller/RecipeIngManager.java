@@ -14,7 +14,7 @@ public class RecipeIngManager {
         this.recipeIngRepository = recipeIngRepository;
     }
 
-    public int addIngredient(int ingredientId, int recipeId, String measurementUnit, BigDecimal quantity) throws SQLException {
+    public int addIngredient(int ingredientId, int recipeId, String measurementUnit, BigDecimal quantity) {
         RecipeIngredient ingredient = new RecipeIngredient(ingredientId, recipeId, measurementUnit, quantity);
         int recipeIngId = recipeIngRepository.insertIngredient(ingredient);
         if (recipeIngId != -1) {
@@ -25,26 +25,28 @@ public class RecipeIngManager {
         return recipeIngId;
     }
 
-
-    public RecipeIngredient getIngredientById(int ingredientId) throws SQLException {
+    public RecipeIngredient getIngredientById(int ingredientId) {
         return recipeIngRepository.getIngredientById(ingredientId);
     }
 
-    public void updateIngredient(int ingredientId, String measurementUnit, BigDecimal quantity) throws SQLException {
+    public void updateIngredient(int ingredientId, String measurementUnit, BigDecimal quantity) {
         RecipeIngredient ingredient = recipeIngRepository.getIngredientById(ingredientId);
         ingredient.setMeasurementUnit(measurementUnit);
         ingredient.setQuantity(quantity);
         recipeIngRepository.updateIngredient(ingredient);
     }
 
-    public List<RecipeIngredient> getIngredients(List<Integer> ingredientList) throws SQLException {
+    public List<RecipeIngredient> getIngredients(List<Integer> ingredientList) {
         return recipeIngRepository.getAllIngredients();
     }
 
-    public List<RecipeIngredient> getIngredientsByRecipeId(int recipeId) throws SQLException {
+    public List<RecipeIngredient> getIngredientsByRecipeId(int recipeId){
         return recipeIngRepository.getIngredientsByRecipeId(recipeId);
     }
 
+    public void removeIngredient(int recIngID){
+        recipeIngRepository.deleteIngredient(recIngID);
+    }
 
     @Override
     public String toString() {

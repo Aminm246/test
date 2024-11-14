@@ -13,7 +13,7 @@ public class IngredientsManager {
         this.ingredientsRepository = ingredientsRepository;
     }
 
-    public int addIngredient(String ingredientName) throws SQLException {
+    public int addIngredient(String ingredientName){
         Ingredient ingredient = new Ingredient(ingredientName);
         int ingredientId = ingredientsRepository.insertIngredient(ingredient);
         if (ingredientId != -1) {
@@ -25,13 +25,13 @@ public class IngredientsManager {
     }
 
 
-    public Ingredient getIngredientById(int ingredientId) throws SQLException {
+    public Ingredient getIngredientById(int ingredientId){
         return ingredientsRepository.getIngredientsById(ingredientId);
     }
 
 
 
-    public List<Ingredient> getIngredients(List<Integer> ingredientList) throws SQLException {
+    public List<Ingredient> getIngredients(List<Integer> ingredientList){
         return ingredientsRepository.getAllIngredients();
     }
 }

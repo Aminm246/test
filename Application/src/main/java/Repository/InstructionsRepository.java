@@ -1,9 +1,6 @@
 package Repository;
 
-import Model.Ingredient;
 import Model.InstructionStep;
-import Model.RecipeIngredient;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +12,7 @@ public class InstructionsRepository {
         this.db = db;
     }
 
-    public void createTable() throws SQLException {
+    public void createTable()  {
         String createTable = "CREATE TABLE IF NOT EXISTS instructions (" +
                 "instructionStepID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "recipeID INTEGER, " +
@@ -25,26 +22,34 @@ public class InstructionsRepository {
         try (Connection connection = db.getConnection();
              Statement statement = connection.createStatement()) {
             statement.executeUpdate(createTable);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public int insertInstruction(InstructionStep instructionStep) throws SQLException {
-        Connection connection = db.getConnection();
-        String insert = "INSERT INTO instructions (recipeID, stepNum, stepDescription) VALUES (?, ?, ?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(insert); {
-            preparedStatement.setInt(1, instructionStep.getRecipeID());
-            preparedStatement.setInt(2, instructionStep.getStepNum());
-            preparedStatement.setString(3, instructionStep.getStepDescription());
-            preparedStatement.executeUpdate();
+    public int insertInstruction(InstructionStep instructionStep)  {
+        Connection connection = null;
+        try {
+            connection = db.getConnection();
+            String insert = "INSERT INTO instructions (recipeID, stepNum, stepDescription) VALUES (?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert); {
+                preparedStatement.setInt(1, instructionStep.getRecipeID());
+                preparedStatement.setInt(2, instructionStep.getStepNum());
+                preparedStatement.setString(3, instructionStep.getStepDescription());
+                preparedStatement.executeUpdate();
+            }
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            }
+            return -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            return generatedKeys.getInt(1);
-        }
-        return -1;
+
     }
 
-    public InstructionStep getInstructionById(int instructionId) throws SQLException {
+    public InstructionStep getInstructionById(int instructionId)  {
         String query = "SELECT * FROM instructions WHERE instructionStepID = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -58,11 +63,13 @@ public class InstructionsRepository {
                 instructionStep.setInstructionStepID(resultSet.getInt("instructionStepID"));
                 return instructionStep;
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
 
-    public List<InstructionStep> getInstructionsByRecipeId(int recipeId) throws SQLException {
+    public List<InstructionStep> getInstructionsByRecipeId(int recipeId)  {
         String query = "SELECT * FROM instructions WHERE recipeID = ?";
         List<InstructionStep> instructions = new ArrayList<>();
 
@@ -79,11 +86,13 @@ public class InstructionsRepository {
                 instructionStep.setInstructionStepID(resultSet.getInt("instructionStepID"));
                 instructions.add(instructionStep);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return instructions;
     }
 
-    public List<InstructionStep> getAllInstructions() throws SQLException {
+    public List<InstructionStep> getAllInstructions()  {
         String query = "SELECT * FROM instructions";
         List<InstructionStep> instructions = new ArrayList<>();
         try (Connection connection = db.getConnection();
@@ -96,11 +105,13 @@ public class InstructionsRepository {
                 instructionStep.setStepDescription(resultSet.getString("stepDescription"));
                 instructions.add(instructionStep);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return instructions;
     }
 
-    public void updateInstruction(InstructionStep instructionStep) throws SQLException {
+    public void updateInstruction(InstructionStep instructionStep)  {
         String update = "UPDATE instructions SET stepNum = ?, stepDescription = ?, recipeID = ? WHERE instructionStepID = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
@@ -122,12 +133,14 @@ public class InstructionsRepository {
         }
     }
 
-    public void deleteInstruction(int instructionID) throws SQLException {
+    public void deleteInstruction(int instructionID)  {
         String delete = "DELETE FROM instructions WHERE instructionStepID = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(delete)) {
             preparedStatement.setInt(1, instructionID);
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

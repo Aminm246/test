@@ -13,7 +13,7 @@ public class InstructionsManager {
         this.instructionsRepository = instructionsRepository;
     }
 
-    public InstructionStep getInstruction(int instructionStepID) throws SQLException {
+    public InstructionStep getInstruction(int instructionStepID)  {
         InstructionStep instructionStep = instructionsRepository.getInstructionById(instructionStepID);
         if (instructionStep != null) {
             System.out.println("Instruction found: " + instructionStep.getStepDescription());
@@ -23,8 +23,7 @@ public class InstructionsManager {
         return instructionStep;
     }
 
-    public int insertInstruction(int recipeID, int stepNum, String stepDescription) throws SQLException {
-
+    public int insertInstruction(int recipeID, int stepNum, String stepDescription)  {
         InstructionStep instructionStep = new InstructionStep(recipeID, stepNum, stepDescription);
         int instructionID = instructionsRepository.insertInstruction(instructionStep);
         if (instructionID != -1) {
@@ -35,7 +34,8 @@ public class InstructionsManager {
         return instructionID;
     }
 
-    public void updateInstruction(int instructionID, String stepDescription) throws SQLException {
+    public void updateInstruction(int instructionID, String stepDescription)  {
+        System.out.println(instructionID + "!!!!!!!!!!!!!!");
         InstructionStep instruction = instructionsRepository.getInstructionById(instructionID);
         System.out.println(":" + instructionID + ":");
         instruction.setStepDescription(stepDescription);
@@ -43,14 +43,17 @@ public class InstructionsManager {
 
     }
 
-    public List<InstructionStep> getInstructionsByRecipeId(int recipeId) throws SQLException {
+    public List<InstructionStep> getInstructionsByRecipeId(int recipeId)  {
         return instructionsRepository.getInstructionsByRecipeId(recipeId);
     }
 
-    public List<InstructionStep> getAllInstructions() throws SQLException {
+    public List<InstructionStep> getAllInstructions() {
         return instructionsRepository.getAllInstructions();
     }
 
+    public void removeInstruction(int instructionID){
+        instructionsRepository.deleteInstruction(instructionID);
+    }
 
     @Override
     public String toString() {

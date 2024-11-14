@@ -14,7 +14,7 @@ public class TagRepository {
         this.db = db;
     }
 
-    public void createTable() throws SQLException {
+    public void createTable()  {
         String createTable = "CREATE TABLE IF NOT EXISTS tags (" +
                 "tagId INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "tagName TEXT" +
@@ -22,24 +22,32 @@ public class TagRepository {
         try (Connection connection = db.getConnection();
              Statement statement = connection.createStatement()) {
             statement.executeUpdate(createTable);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public int insertTag(Tag tag) throws SQLException {
-        Connection connection = db.getConnection();
-        String insert = "INSERT INTO tags (tagName) VALUES (?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(insert); {
-            preparedStatement.setString(1, tag.getTagName());
-            preparedStatement.executeUpdate();
+    public int insertTag(Tag tag)  {
+        Connection connection = null;
+        try {
+            connection = db.getConnection();
+            String insert = "INSERT INTO tags (tagName) VALUES (?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert); {
+                preparedStatement.setString(1, tag.getTagName());
+                preparedStatement.executeUpdate();
+            }
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            }
+            return -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            return generatedKeys.getInt(1);
-        }
-        return -1;
+
     }
 
-    public Tag getTagById(int tagId) throws SQLException {
+    public Tag getTagById(int tagId)  {
         String query = "SELECT * FROM tags WHERE tagId = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -51,11 +59,13 @@ public class TagRepository {
                 tag.setTagName(resultSet.getString("tagName"));
                 return tag;
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
 
-    public List<Tag> getAllTags() throws SQLException {
+    public List<Tag> getAllTags()  {
         String query = "SELECT * FROM tags";
         List<Tag> tags = new ArrayList<>();
         try (Connection connection = db.getConnection();
@@ -67,11 +77,13 @@ public class TagRepository {
                 tag.setTagName(resultSet.getString("tagName"));
                 tags.add(tag);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return tags;
     }
 
-    public void updateTag(Tag tag) throws SQLException {
+    public void updateTag(Tag tag)  {
         String update = "UPDATE tags SET tagName = ? WHERE tagId = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
@@ -91,12 +103,14 @@ public class TagRepository {
         }
     }
 
-    public void deleteIngredient(int tagId) throws SQLException {
+    public void deleteIngredient(int tagId)  {
         String delete = "DELETE FROM tags WHERE tagId = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(delete)) {
             preparedStatement.setInt(1, tagId);
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

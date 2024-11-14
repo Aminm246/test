@@ -13,7 +13,7 @@ public class TagManager {
         this.tagRepository = tagRepository;
     }
 
-    public int addTag(String tagName) throws SQLException {
+    public int addTag(String tagName)  {
         Tag tag = new Tag(tagName);
         int tagId = tagRepository.insertTag(tag);
         if (tagId != -1) {
@@ -24,11 +24,11 @@ public class TagManager {
         return tagId;
     }
 
-    public Tag getTagById(int tagId) throws SQLException {
+    public Tag getTagById(int tagId)  {
         return tagRepository.getTagById(tagId);
     }
 
-    public List<Tag> getAllTags() throws SQLException {
+    public List<Tag> getAllTags()  {
         return tagRepository.getAllTags();
     }
 }
