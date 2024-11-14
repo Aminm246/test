@@ -2,20 +2,16 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="560.0" prefWidth="1437.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.updateRecipeController">
    <children>
-      <fx:include source="menuBar.fxml"/>
+      <fx:include source="menuBar.fxml" />
       <Text layoutX="21.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name:" wrappingWidth="120.13671875">
          <font>
             <Font size="14.0" />
@@ -47,12 +43,12 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="383.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration (min):" wrappingWidth="97.0">
+      <Text layoutX="384.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration (min):" wrappingWidth="97.0">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="388.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Serving size:" wrappingWidth="86.0">
+      <Text layoutX="389.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Serving size:" wrappingWidth="86.0">
          <font>
             <Font size="14.0" />
          </font>
@@ -66,16 +62,16 @@
       <Button fx:id="cancelButton" layoutX="128.0" layoutY="443.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="104.0" style="-fx-background-color: PINK;" text="Cancel Changes" />
       <Button fx:id="tagRemove" layoutX="1142.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Remove Tag" />
       <TextField fx:id="recipeNameInput" layoutX="112.0" layoutY="40.0" prefHeight="25.0" prefWidth="210.0" />
-      <TextField fx:id="ingredientNameInput" editable="false" layoutX="22.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
+      <TextField fx:id="ingredientNameInput" layoutX="22.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
       <TextField fx:id="ingredientQtyInput" layoutX="260.0" layoutY="123.0" prefHeight="25.0" prefWidth="210.0" />
       <TextArea fx:id="instructionInput" layoutX="719.0" layoutY="80.0" prefHeight="67.0" prefWidth="355.0" />
       <TextArea fx:id="recipeDescriptionInput" layoutX="714.0" layoutY="432.0" prefHeight="67.0" prefWidth="439.0" />
       <TextField fx:id="tagInput" layoutX="802.0" layoutY="314.0" prefHeight="25.0" prefWidth="210.0" />
-      <TextField fx:id="durationInput" layoutX="480.0" layoutY="171.0" prefHeight="25.0" prefWidth="104.0" />
-      <TextField fx:id="servingSizeInput" layoutX="480.0" layoutY="206.0" prefHeight="25.0" prefWidth="104.0" />
+      <TextField fx:id="durationInput" layoutX="487.0" layoutY="215.0" prefHeight="25.0" prefWidth="104.0" />
+      <TextField fx:id="servingSizeInput" layoutX="487.0" layoutY="244.0" prefHeight="25.0" prefWidth="104.0" />
       <TextField fx:id="imagePathInput" layoutX="106.0" layoutY="402.0" prefHeight="25.0" prefWidth="355.0" />
-      <Button fx:id="ingredientSubmit" layoutX="511.0" layoutY="124.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" text="Update Ingredient" />
-      <Button fx:id="instructionSubmit" layoutX="1135.0" layoutY="111.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Update Instruction" />
+      <Button fx:id="ingredientSubmit" layoutX="512.0" layoutY="123.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Update Ingredient" />
+      <Button fx:id="instructionSubmit" layoutX="1202.0" layoutY="80.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Update Instruction" />
       <TextArea fx:id="ingredientFxList" editable="false" layoutX="24.0" layoutY="162.0" prefHeight="148.0" prefWidth="355.0" wrapText="true">
          <effect>
             <ColorAdjust contrast="-0.15" />
@@ -92,9 +88,13 @@
          </effect>
       </TextArea>
       <ComboBox fx:id="ingredientNumPicker" layoutX="638.0" layoutY="92.0" prefHeight="25.0" prefWidth="65.0" promptText="ID" />
-      <ComboBox fx:id="instructionNumPicker" layoutX="1163.0" layoutY="79.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="instructionNumPicker" layoutX="1121.0" layoutY="80.0" prefHeight="25.0" prefWidth="65.0" />
       <ComboBox fx:id="tagNumPicker" layoutX="1274.0" layoutY="314.0" prefHeight="25.0" prefWidth="65.0" />
       <ComboBox fx:id="measurementPicker" layoutX="474.0" layoutY="92.0" prefHeight="25.0" prefWidth="146.0" promptText="Measurement Unit" />
       <Button fx:id="tagAdd" layoutX="1015.0" layoutY="312.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Add Tag" />
+      <Button fx:id="ingredientAdd" layoutX="470.0" layoutY="153.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" text="Add Ingredient" />
+      <Button fx:id="instructionAdd" layoutX="1093.0" layoutY="111.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Add Instruction" />
+      <Button fx:id="ingredientRemove" layoutX="577.0" layoutY="153.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Remove Ingredient" />
+      <Button fx:id="instructionRemove" layoutX="1219.0" layoutY="111.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Remove Instruction" />
    </children>
 </AnchorPane>

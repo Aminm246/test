@@ -13,7 +13,7 @@ public class RecipeTagManager {
         this.recipeTagRepository = recipeTagRepository;
     }
 
-    public int addTag(int recipeID, int tagID) throws SQLException {
+    public int addTag(int recipeID, int tagID)  {
         RecipeTag recipeTag = new RecipeTag(recipeID, tagID);
         int tagId = recipeTagRepository.insertTag(recipeTag);
         if (tagId != -1) {
@@ -24,22 +24,22 @@ public class RecipeTagManager {
         return tagId;
     }
 
-    public RecipeTag getTagById(int tagId) throws SQLException {
+    public RecipeTag getTagById(int tagId)  {
         return recipeTagRepository.getTagById(tagId);
     }
 
-    public void removeAllTags(int recipeID) throws SQLException {
+    public void removeAllTags(int recipeID)  {
         List<RecipeTag> tags = recipeTagRepository.getTagsByRecipeId(recipeID);
         for(RecipeTag recipeTag: tags){
             recipeTagRepository.deleteTag(recipeTag.getRecipeTagID());
         }
     }
 
-    public List<RecipeTag> getTagsByRecipeId(int recipeID) throws SQLException {
+    public List<RecipeTag> getTagsByRecipeId(int recipeID)  {
         return recipeTagRepository.getTagsByRecipeId(recipeID);
     }
 
-    public List<RecipeTag> getAllTags() throws SQLException {
+    public List<RecipeTag> getAllTags()  {
         return recipeTagRepository.getAllTags();
     }
 }

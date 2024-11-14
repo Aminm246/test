@@ -13,7 +13,7 @@ public class RecipeRepository {
         this.db = db;
     }
 
-   public void createTable() throws SQLException {
+   public void createTable()  {
             String createTable = "CREATE TABLE IF NOT EXISTS recipes (" +
                     "recipeId INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "recipeName TEXT, " +
@@ -26,34 +26,42 @@ public class RecipeRepository {
         try (Connection connection = db.getConnection();
              Statement statement = connection.createStatement()) {
             statement.executeUpdate(createTable);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+   }
+
+    public int insertRecipe(Recipe recipe)  {
+        Connection connection = null;
+        try {
+            connection = db.getConnection();
+            String insert = "INSERT INTO recipes (recipeName, createdBy, servingSize, imagePath, description, duration) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert); {
+                preparedStatement.setString(1, recipe.getRecipeName());
+                preparedStatement.setInt(2, recipe.getCreatedBy());
+                preparedStatement.setInt(3, recipe.getServingSize());
+                preparedStatement.setString(4, recipe.getImagePath());
+                preparedStatement.setString(5, recipe.getDescription());
+                preparedStatement.setInt(6, recipe.getDuration());
+                preparedStatement.executeUpdate();
+                System.out.println("Recipe Inserted");
+            }
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            }
+            return -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
-    public int insertRecipe(Recipe recipe) throws SQLException {
-        Connection connection = db.getConnection();
-        String insert = "INSERT INTO recipes (recipeName, createdBy, servingSize, imagePath, description, duration) VALUES (?, ?, ?, ?, ?, ?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(insert); {
-            preparedStatement.setString(1, recipe.getRecipeName());
-            preparedStatement.setInt(2, recipe.getCreatedBy());
-            preparedStatement.setInt(3, recipe.getServingSize());
-            preparedStatement.setString(4, recipe.getImagePath());
-            preparedStatement.setString(5, recipe.getDescription());
-            preparedStatement.setInt(6, recipe.getDuration());
-            preparedStatement.executeUpdate();
-            System.out.println("Recipe Inserted");
-        }
-        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            return generatedKeys.getInt(1);
-        }
-        return -1;
-    }
 
 
 
 
-
-    public Recipe getRecipeById(int recipeId) throws SQLException {
+    public Recipe getRecipeById(int recipeId)  {
         String query = "SELECT * FROM recipes WHERE recipeId = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -71,11 +79,13 @@ public class RecipeRepository {
 
                 return recipe;
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
 
-    public List<Recipe> getAllRecipes() throws SQLException {
+    public List<Recipe> getAllRecipes()  {
         String query = "SELECT * FROM recipes";
         List<Recipe> recipes = new ArrayList<>();
         try (Connection connection = db.getConnection();
@@ -93,11 +103,13 @@ public class RecipeRepository {
 
                 recipes.add(recipe);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return recipes;
     }
 
-    public void updateRecipe(Recipe recipe) throws SQLException {
+    public void updateRecipe(Recipe recipe)  {
         String update = "UPDATE recipes SET recipeName = ?, createdBy = ?, servingSize = ?, imagePath = ?, description = ?, duration = ? WHERE recipeId = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
@@ -123,12 +135,14 @@ public class RecipeRepository {
         }
     }
 
-    public void deleteRecipe(int recipeId) throws SQLException {
+    public void deleteRecipe(int recipeId)  {
         String delete = "DELETE FROM recipes WHERE recipeId = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(delete)) {
             preparedStatement.setInt(1, recipeId);
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

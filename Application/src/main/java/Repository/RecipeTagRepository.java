@@ -14,7 +14,7 @@ public class RecipeTagRepository {
         this.db = db;
     }
 
-    public void createTable() throws SQLException {
+    public void createTable()  {
         String createTable = "CREATE TABLE IF NOT EXISTS recipeTags (" +
                 "recipeTagID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "recipeID INTEGER, " +
@@ -23,25 +23,33 @@ public class RecipeTagRepository {
         try (Connection connection = db.getConnection();
              Statement statement = connection.createStatement()) {
             statement.executeUpdate(createTable);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public int insertTag(RecipeTag recipeTag) throws SQLException {
-        Connection connection = db.getConnection();
-        String insert = "INSERT INTO recipeTags (recipeID, tagID) VALUES (?, ?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(insert); {
-            preparedStatement.setInt(1, recipeTag.getRecipeID());
-            preparedStatement.setInt(2, recipeTag.getTagID());
-            preparedStatement.executeUpdate();
+    public int insertTag(RecipeTag recipeTag)  {
+        Connection connection = null;
+        try {
+            connection = db.getConnection();
+            String insert = "INSERT INTO recipeTags (recipeID, tagID) VALUES (?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert); {
+                preparedStatement.setInt(1, recipeTag.getRecipeID());
+                preparedStatement.setInt(2, recipeTag.getTagID());
+                preparedStatement.executeUpdate();
+            }
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            }
+            return -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            return generatedKeys.getInt(1);
-        }
-        return -1;
+
     }
 
-    public RecipeTag getTagById(int tagId) throws SQLException {
+    public RecipeTag getTagById(int tagId)  {
         String query = "SELECT * FROM recipeTags WHERE recipeTagID = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -54,11 +62,13 @@ public class RecipeTagRepository {
                 tag.setTagID(resultSet.getInt("tagID"));
                 return tag;
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
 
-    public List<RecipeTag> getTagsByRecipeId(int recipeID) throws SQLException {
+    public List<RecipeTag> getTagsByRecipeId(int recipeID)  {
         String query = "SELECT * FROM recipeTags WHERE recipeID = ?";
         List<RecipeTag> tags = new ArrayList<>();
 
@@ -74,12 +84,14 @@ public class RecipeTagRepository {
                 tag.setTagID(resultSet.getInt("tagID"));
                 tags.add(tag);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
         return tags;
     }
 
-    public List<RecipeTag> getAllTags() throws SQLException {
+    public List<RecipeTag> getAllTags()  {
         String query = "SELECT * FROM recipeTags";
         List<RecipeTag> tags = new ArrayList<>();
         try (Connection connection = db.getConnection();
@@ -92,11 +104,13 @@ public class RecipeTagRepository {
                 tag.setTagID(resultSet.getInt("tagID"));
                 tags.add(tag);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return tags;
     }
 
-    public void updateTag(RecipeTag tag) throws SQLException {
+    public void updateTag(RecipeTag tag)  {
         String update = "UPDATE recipeTags SET recipeID = ?, tagID = ? WHERE recipeTagID = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
@@ -117,12 +131,14 @@ public class RecipeTagRepository {
         }
     }
 
-    public void deleteTag(int tagId) throws SQLException {
+    public void deleteTag(int tagId)  {
         String delete = "DELETE FROM recipeTags WHERE recipeTagID = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(delete)) {
             preparedStatement.setInt(1, tagId);
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

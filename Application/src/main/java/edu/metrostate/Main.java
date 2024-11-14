@@ -18,7 +18,7 @@ public class Main extends Application {
 
     private Stage stage;
     private FXMLLoader menuLoader;
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args)  {
         launch(args);
         DatabaseConnection db = new DatabaseConnection();
         RecipeRepository recipeRepository = new RecipeRepository(db);
@@ -27,7 +27,13 @@ public class Main extends Application {
         InstructionsRepository instructionRepository = new InstructionsRepository(db);
         TagRepository tagRepository = new TagRepository(db);
         RecipeTagRepository recipeTagRepository = new RecipeTagRepository(db);
-        Connection connection = db.getConnection();
+
+        Connection connection = null;
+        try {
+            connection = db.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         if (connection != null) {
             try {
                 recipeRepository.createTable();

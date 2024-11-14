@@ -33,25 +33,31 @@ public class RecipeIngRepository {
         }
     }
 
-    public int insertIngredient(RecipeIngredient ingredient) throws SQLException {
-        Connection connection = db.getConnection();
-        String insert = "INSERT INTO recipeIng (ingredientID, recipeId, measurementUnit, quantity) VALUES (?, ?, ?, ?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(insert); {
-            preparedStatement.setInt(1, ingredient.getIngredientID());
-            preparedStatement.setInt(2, ingredient.getRecipeID());
-            preparedStatement.setString(3, ingredient.getMeasurementUnit());
-            preparedStatement.setString(4, ingredient.getQuantity().toPlainString());
-            preparedStatement.executeUpdate();
-            System.out.println("RecipeIngredient Inserted");
+    public int insertIngredient(RecipeIngredient ingredient){
+        Connection connection = null;
+        try {
+            connection = db.getConnection();
+            String insert = "INSERT INTO recipeIng (ingredientID, recipeId, measurementUnit, quantity) VALUES (?, ?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert); {
+                preparedStatement.setInt(1, ingredient.getIngredientID());
+                preparedStatement.setInt(2, ingredient.getRecipeID());
+                preparedStatement.setString(3, ingredient.getMeasurementUnit());
+                preparedStatement.setString(4, ingredient.getQuantity().toPlainString());
+                preparedStatement.executeUpdate();
+                System.out.println("RecipeIngredient Inserted");
+            }
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            }
+            return -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            return generatedKeys.getInt(1);
-        }
-        return -1;
+
     }
 
-    public RecipeIngredient getIngredientById(int ingredientId) throws SQLException {
+    public RecipeIngredient getIngredientById(int ingredientId){
         String query = "SELECT * FROM recipeIng WHERE recipeIngredientID = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -66,11 +72,13 @@ public class RecipeIngRepository {
                 ingredient.setQuantity(resultSet.getBigDecimal("quantity"));
                 return ingredient;
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
 
-    public List<RecipeIngredient> getAllIngredients() throws SQLException {
+    public List<RecipeIngredient> getAllIngredients(){
         String query = "SELECT * FROM recipeIng";
         List<RecipeIngredient> ingredients = new ArrayList<>();
         try (Connection connection = db.getConnection();
@@ -85,11 +93,13 @@ public class RecipeIngRepository {
                 ingredient.setQuantity(resultSet.getBigDecimal("quantity"));
                 ingredients.add(ingredient);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return ingredients;
     }
 
-    public List<RecipeIngredient> getIngredientsByRecipeId(int recipeId) throws SQLException {
+    public List<RecipeIngredient> getIngredientsByRecipeId(int recipeId) {
         String query = "SELECT * FROM recipeIng WHERE recipeID = ?";
         List<RecipeIngredient> ingredients = new ArrayList<>();
 
@@ -107,13 +117,15 @@ public class RecipeIngRepository {
                 ingredient.setQuantity(resultSet.getBigDecimal("quantity"));
                 ingredients.add(ingredient);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
         return ingredients;
     }
 
 
-    public void updateIngredient(RecipeIngredient ingredient) throws SQLException {
+    public void updateIngredient(RecipeIngredient ingredient){
         String update = "UPDATE recipeIng SET measurementUnit = ?, quantity = ? WHERE recipeIngredientID = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
@@ -135,12 +147,14 @@ public class RecipeIngRepository {
         }
     }
 
-    public void deleteIngredient(int ingredientId) throws SQLException {
+    public void deleteIngredient(int ingredientId) {
         String delete = "DELETE FROM recipeIng WHERE recipeIngredientID = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(delete)) {
             preparedStatement.setInt(1, ingredientId);
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

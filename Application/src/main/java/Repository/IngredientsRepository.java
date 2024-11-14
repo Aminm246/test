@@ -13,7 +13,7 @@ public class IngredientsRepository {
         this.db = db;
     }
 
-    public void createTable() throws SQLException {
+    public void createTable(){
         String createTable = "CREATE TABLE IF NOT EXISTS ingredients (" +
                 "ingredientId INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "ingredientName TEXT" +
@@ -21,25 +21,33 @@ public class IngredientsRepository {
         try (Connection connection = db.getConnection();
              Statement statement = connection.createStatement()) {
             statement.executeUpdate(createTable);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public int insertIngredient(Ingredient ingredient) throws SQLException {
-        Connection connection = db.getConnection();
-        String insert = "INSERT INTO ingredients (ingredientName) VALUES (?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(insert); {
-            preparedStatement.setString(1, ingredient.getIngredientName());
-            preparedStatement.executeUpdate();
-            System.out.println("Ingredient Inserted");
+    public int insertIngredient(Ingredient ingredient){
+        Connection connection = null;
+        try {
+            connection = db.getConnection();
+            String insert = "INSERT INTO ingredients (ingredientName) VALUES (?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insert); {
+                preparedStatement.setString(1, ingredient.getIngredientName());
+                preparedStatement.executeUpdate();
+                System.out.println("Ingredient Inserted");
+            }
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            }
+            return -1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            return generatedKeys.getInt(1);
-        }
-        return -1;
+
     }
 
-    public Ingredient getIngredientsById(int ingredientId) throws SQLException {
+    public Ingredient getIngredientsById(int ingredientId) {
         String query = "SELECT * FROM ingredients WHERE ingredientId = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -51,11 +59,13 @@ public class IngredientsRepository {
                 ingredient.setIngredientName(resultSet.getString("ingredientName"));
                 return ingredient;
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
 
-    public List<Ingredient> getAllIngredients() throws SQLException {
+    public List<Ingredient> getAllIngredients() {
         String query = "SELECT * FROM ingredients";
         List<Ingredient> ingredients = new ArrayList<>();
         try (Connection connection = db.getConnection();
@@ -68,11 +78,13 @@ public class IngredientsRepository {
 
                 ingredients.add(ingredient);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return ingredients;
     }
 
-    public void updateIngredient(Ingredient ingredient) throws SQLException {
+    public void updateIngredient(Ingredient ingredient) {
         String update = "UPDATE ingredients SET ingredientName = ? WHERE ingredientId = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(update)) {
@@ -92,12 +104,14 @@ public class IngredientsRepository {
         }
     }
 
-    public void deleteIngredient(int ingredientId) throws SQLException {
+    public void deleteIngredient(int ingredientId){
         String delete = "DELETE FROM ingredients WHERE ingredientId = ?";
         try (Connection connection = db.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(delete)) {
             preparedStatement.setInt(1, ingredientId);
             preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

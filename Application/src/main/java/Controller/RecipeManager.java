@@ -26,7 +26,7 @@ public class RecipeManager {
         instructionsManager = new InstructionsManager(instRepo);
     }
 
-    public Recipe getRecipe(int recipeID) throws SQLException {
+    public Recipe getRecipe(int recipeID)  {
         Recipe recipe = recipeRepository.getRecipeById(recipeID);
         if (recipe != null) {
             System.out.println("Recipe found: " + recipe.getRecipeName());
@@ -36,7 +36,7 @@ public class RecipeManager {
         return recipe;
     }
 
-    public int addRecipe(String recipeName, int createdBy, int servingSize, String imagePath, String description, int duration) throws SQLException {
+    public int addRecipe(String recipeName, int createdBy, int servingSize, String imagePath, String description, int duration)  {
 
         Recipe recipe = new Recipe(recipeName,createdBy,servingSize,imagePath,description,duration);
         int recipeId = recipeRepository.insertRecipe(recipe);
@@ -49,7 +49,7 @@ public class RecipeManager {
     }
 
     public int updateRecipe(int recipeID, String recipeName, int createdBy, int servingSize, String imagePath, String description,
-                            int duration, List<String> recipeIngredients,List<String> instructions,List<String> tags) throws SQLException {
+                            int duration, List<String> recipeIngredients,List<String> instructions,List<String> tags)  {
         Recipe recipe = recipeRepository.getRecipeById(recipeID);
 
         List<InstructionStep> instructionSteps = new ArrayList<>();
@@ -77,7 +77,7 @@ public class RecipeManager {
     }
 
 
-    public List<Recipe> getRecipes() throws SQLException {
+    public List<Recipe> getRecipes()  {
         return recipeRepository.getAllRecipes();
     }
 
