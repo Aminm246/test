@@ -246,6 +246,7 @@ public class updateRecipeController  {
         tagNumPicker.getItems().clear();
         ingredientNumPicker.getItems().clear();
         instructionNumPicker.getItems().clear();
+        measurementPicker.getSelectionModel().clearSelection();
         ingredientNameInput.clear();
         ingredientQtyInput.clear();
         instructionInput.clear();
