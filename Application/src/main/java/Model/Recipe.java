@@ -1,14 +1,12 @@
 package Model;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class Recipe {
     private int recipeId;
     private String recipeName;
-    private List<String> tagList;
+    private List<RecipeTag> tagList;
     private List<RecipeIngredient> recipeIngredients;
     private List<InstructionStep> instructions;
     private int createdBy;
@@ -17,7 +15,7 @@ public class Recipe {
     private String description;
     private int duration;
 
-    public Recipe(String recipeName, int createdBy, List<String> tagList, int duration, int servingSize, String description,
+    public Recipe(String recipeName, int createdBy, List<RecipeTag> tagList, int duration, int servingSize, String description,
                   String imagePath, List<RecipeIngredient> recipeIngredients, List<InstructionStep> instructions) {
         this.recipeId = -1;
         this.recipeName = recipeName;
@@ -31,7 +29,7 @@ public class Recipe {
         this.imagePath = imagePath;
     }
 
-    public Recipe(int recipeId, String recipeName, int createdBy, List<String> tagList, int duration, int servingSize, String description,
+    public Recipe(int recipeId, String recipeName, int createdBy, List<RecipeTag> tagList, int duration, int servingSize, String description,
                   String imagePath, List<RecipeIngredient> recipeIngredients, List<InstructionStep> instructions) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
@@ -69,7 +67,7 @@ public class Recipe {
         this.recipeId = recipeId;
     }
 
-    public void setTagList(List<String> tagList) {
+    public void setTagList(List<RecipeTag> tagList) {
         this.tagList = tagList;
     }
 
@@ -97,11 +95,11 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    public List<String> getTags() {
+    public List<RecipeTag> getTags() {
         return tagList;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(List<RecipeTag> tags) {
         this.tagList = tags;
     }
 
@@ -149,7 +147,7 @@ public class Recipe {
         return recipeName;
     }
 
-    public List<String> getTagList() {
+    public List<RecipeTag> getTagList() {
         return tagList;
     }
 

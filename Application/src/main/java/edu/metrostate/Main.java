@@ -2,6 +2,7 @@ package edu.metrostate;
 
 import Controller.createRecipeController;
 import Controller.recipeListController;
+import Controller.searchRecipeController;
 import Controller.viewRecipeController;
 import Controller.MenuBarController;
 import Repository.*;
@@ -97,14 +98,29 @@ public class Main extends Application {
         createController.setCreateLoader(createLoader);
         createController.setViewLoader(viewLoader);
         createController.setListLoader(listLoader);
+        FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("searchRecipeView.fxml"));
+        searchLoader.load();
+
+        createController.setViewLoader(viewLoader);
+        createController.setListLoader(listLoader);
+        createController.setListLoader(listLoader);
+        createController.setSearchLoader(searchLoader);
 
         viewController.setCreateLoader(createLoader);
         viewController.setListLoader(listLoader);
-        viewController.setUpdateLoader(updateLoader);
+        viewController.setSearchLoader(updateLoader);
+        viewController.setSearchLoader(searchLoader);
 
         listController.setCreateLoader(createLoader);
         listController.setViewLoader(viewLoader);
+        listController.setSearchLoader(searchLoader);
 
+        searchRecipeController searchController = searchLoader.getController();
+        searchController.setCreateLoader(createLoader);
+        searchController.setListLoader(listLoader);
+        searchController.setViewLoader(viewLoader);
         stage.show();
+        
+
     }
 }

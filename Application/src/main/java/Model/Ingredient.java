@@ -37,7 +37,7 @@ public class Ingredient {
     public String toString() {
         return "Ingredient{" +
                 "ingredientId=" + ingredientId +
-                ", ingredientName=" + ingredientName +
+                ", ingredientName='" + ingredientName + '\'' +
                 '}';
     }
 }

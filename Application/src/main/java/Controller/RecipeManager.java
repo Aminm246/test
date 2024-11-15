@@ -5,21 +5,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.*;
-import Repository.*;
+import Model.Recipe;
+import Repository.InstructionsRepository;
+import Repository.RecipeRepository;
 
 public class RecipeManager {
     private final RecipeRepository recipeRepository;
-    private final RecipeIngManager recipeIngManager;
-    private final InstructionsManager instructionsManager;
-    private final TagManager tagManager;
-    private final RecipeTagManager recipeTagManager;
+    private RecipeTagManager recipeTagManager;
+    private RecipeIngManager recipeIngManager;
+    private InstructionsRepository instructionsRepository;
 
-    public RecipeManager(RecipeRepository recipeRepository,DatabaseConnection databaseConnection) {
-        RecipeIngRepository repo = new RecipeIngRepository(databaseConnection);
-        this.recipeIngManager = new RecipeIngManager(repo);
-        this.tagManager = new TagManager(new TagRepository(databaseConnection));
-        recipeTagManager = new RecipeTagManager(new RecipeTagRepository(databaseConnection));
+    public RecipeManager(RecipeRepository recipeRepository, RecipeTagManager recipeTagManager, RecipeIngManager recipeIngManager, InstructionsRepository instructionsRepository) {
+        this.recipeTagManager = recipeTagManager;
+        this.recipeIngManager = recipeIngManager;
+        this.instructionsRepository = instructionsRepository;
         this.recipeRepository = recipeRepository;
 
         InstructionsRepository instRepo = new InstructionsRepository(databaseConnection);
@@ -28,11 +27,9 @@ public class RecipeManager {
 
     public Recipe getRecipe(int recipeID)  {
         Recipe recipe = recipeRepository.getRecipeById(recipeID);
-        if (recipe != null) {
-            System.out.println("Recipe found: " + recipe.getRecipeName());
-        } else {
-            System.out.println("Recipe with ID " + recipeID + " not found.");
-        }
+        recipe.setRecipeIngredients(recipeIngManager.getIngredientsByRecipeId(recipe.getRecipeID()));
+        recipe.setInstructions(instructionsRepository.getInstructionsByRecipeId(recipe.getRecipeID()));
+        recipe.setTagList(recipeTagManager.getTagsByRecipeId(recipe.getRecipeID()));
         return recipe;
     }
 
@@ -77,8 +74,14 @@ public class RecipeManager {
     }
 
 
-    public List<Recipe> getRecipes()  {
-        return recipeRepository.getAllRecipes();
+    public List<Recipe> getRecipes() throws SQLException {
+        List<Recipe> recipes = recipeRepository.getAllRecipes();
+        for (Recipe recipe : recipes) {
+            recipe.setRecipeIngredients(recipeIngManager.getIngredientsByRecipeId(recipe.getRecipeID()));
+            recipe.setInstructions(instructionsRepository.getInstructionsByRecipeId(recipe.getRecipeID()));
+            recipe.setTagList(recipeTagManager.getTagsByRecipeId(recipe.getRecipeID()));
+        }
+        return recipes;
     }
 
     @Override

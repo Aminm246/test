@@ -21,6 +21,7 @@ public class viewRecipeController {
     private FXMLLoader listLoader;
     private FXMLLoader updateLoader;
     private FXMLLoader menuLoader;
+    private FXMLLoader searchLoader;
 
     @FXML
     private Text recipeNameTag;
@@ -56,6 +57,10 @@ public class viewRecipeController {
     private TagRepository tagRepository;
     private RecipeTagRepository recipeTagRepository;
 
+    private RecipeManager recipeManager;
+    private RecipeTagManager recipeTagManager;
+    private RecipeIngManager recipeIngManager;
+
 
     @FXML
     public void initialize() {
@@ -66,36 +71,37 @@ public class viewRecipeController {
         instructionsRepository = new InstructionsRepository(databaseConnection);
         tagRepository = new TagRepository(databaseConnection);
         recipeTagRepository = new RecipeTagRepository(databaseConnection);
+        recipeTagManager = new RecipeTagManager(recipeTagRepository, tagRepository);
+        recipeIngManager = new RecipeIngManager(recipeIngRepository, ingredientsRepository);
+        recipeManager = new RecipeManager(recipeRepository, recipeTagManager, recipeIngManager, instructionsRepository);
 
     }
 
 
     public void setRecipe(int recipeID) throws SQLException {
-        Recipe recipe = recipeRepository.getRecipeById(recipeID);
+        Recipe recipe = recipeManager.getRecipe(recipeID);
         recipeNameLabel.setText(recipe.getRecipeName());
         List<String> ingredients = new ArrayList<>();
 
         List<String> instructions = new ArrayList<>();
-        for (InstructionStep instructionStep : instructionsRepository.getInstructionsByRecipeId(recipeID)) {
+        for (InstructionStep instructionStep : recipe.getInstructionSteps()) {
             String instruction = "Instruction " + instructionStep.getStepNum() + ": " + instructionStep.getStepDescription();
             instructions.add(instruction);
         }
 
         List<String> tags = new ArrayList<>();
-        for (RecipeTag recipeTag : recipeTagRepository.getTagsByRecipeId(recipeID)) {
-            int tagID = recipeTag.getTagID();
-            Tag tag = tagRepository.getTagById(tagID);
-            tags.add(tag.getTagName());
+        for (RecipeTag recipeTag : recipe.getTags()) {
+            tags.add(recipeTag.getTag().getTagName());
         }
 
         instructionsTextArea.setText(String.join("\n", instructions));
         tagsLabel.setText(String.join(", ", tags));
         descriptionLabel.setText(recipe.getDescription());
 
-        for (RecipeIngredient recipeIngredient : recipeIngRepository.getIngredientsByRecipeId(recipeID)) {
-            Ingredient ingredient = ingredientsRepository.getIngredientsById(recipeIngredient.getIngredientID());
-            ingredients.add(ingredient.getIngredientName() + " " + recipeIngredient.getQuantity() + " " + recipeIngredient.getMeasurementUnit());
+        for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
+            ingredients.add(recipeIngredient.getIngredient().getIngredientName() + " " + recipeIngredient.getQuantity() + " " + recipeIngredient.getMeasurementUnit());
         }
+
         ingredientsTextArea.setText(String.join("\n", ingredients));
 
         if (recipe.getImagePath() != null && !recipe.getImagePath().isEmpty()) {
@@ -131,6 +137,15 @@ public class viewRecipeController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 try {
+                    for (RecipeIngredient ingredient : recipe.getRecipeIngredients()) {
+                        recipeIngRepository.deleteIngredient(ingredient.getRecipeIngredientID());
+                    }
+                    for (RecipeTag tag : recipe.getTags()) {
+                        recipeTagRepository.deleteTag(tag.getRecipeTagID());
+                    }
+                    for (InstructionStep instructionStep : recipe.getInstructions()) {
+                        instructionsRepository.deleteInstruction(instructionStep.getInstructionStepID());
+                    }
                     recipeRepository.deleteRecipe(recipeID);
                     MenuBarController menuController = menuLoader.getController();
                     menuController.switchToRecipeList();
@@ -148,9 +163,25 @@ public class viewRecipeController {
     }
 
     private void recipeUpdatePage(int recipeID) throws SQLException {
-        recipeNameLabel.getScene().setRoot(updateLoader.getRoot());
-        updateRecipeController updateController = updateLoader.getController();
+        recipeNameLabel.getScene().setRoot(searchLoader.getRoot());
+        updateRecipeController updateController = searchLoader.getController();
         updateController.setRecipe(recipeID);
+    }
+
+    @FXML
+    private void switchToCreateRecipe(){
+        recipeNameLabel.getScene().setRoot(createLoader.getRoot());
+    }
+
+    @FXML
+    private void switchToSearch(){
+        recipeNameLabel.getScene().setRoot(searchLoader.getRoot());
+    }
+
+    public void switchToRecipeList() throws SQLException {
+        recipeNameLabel.getScene().setRoot(listLoader.getRoot());
+        recipeListController listController = listLoader.getController();
+        listController.populateList();
     }
 
     public void setCreateLoader(FXMLLoader createLoader) {
@@ -161,8 +192,8 @@ public class viewRecipeController {
         this.listLoader = listLoader;
     }
 
-    public void setUpdateLoader(FXMLLoader updateLoader){
-        this.updateLoader = updateLoader;
+    public void setSearchLoader(FXMLLoader searchLoader){
+        this.searchLoader = searchLoader;
     }
 
     public void setMenuLoader(FXMLLoader menuLoader) {

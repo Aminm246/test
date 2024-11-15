@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="1500.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.searchRecipeController">
+
+    <children>
+    <MenuBar VBox.vgrow="NEVER">
+        <menus>
+            <Menu mnemonicParsing="false" text="Recipes">
+                <items>
+                    <MenuItem mnemonicParsing="false" onAction="#switchToCreateRecipe" text="Create Recipe" />
+                    <MenuItem mnemonicParsing="false" onAction="#switchToRecipeList" text="View All Recipes" />
+                    <MenuItem mnemonicParsing="false" text="Search Recipes" />
+                    <!--<MenuItem mnemonicParsing="false" text="View Suggestions" />
+                    <MenuItem mnemonicParsing="false" text="Open Calorie Tracker" />-->
+                </items></Menu>
+            <Menu mnemonicParsing="false" text="Ingredients">
+                <items>
+                    <!--<MenuItem mnemonicParsing="false" text="View Ingredients" />
+                    <MenuItem mnemonicParsing="false" text="Create Ingredient" />-->
+                </items></Menu>
+            <Menu mnemonicParsing="false" text="Favorites">
+                <items>
+                    <!--<MenuItem mnemonicParsing="false" text="Add Favorite" />
+                    <MenuItem mnemonicParsing="false" text="View Favorites" />-->
+                </items></Menu>
+        </menus>
+    </MenuBar>
+      <TextField fx:id="recipeNameInput" layoutX="117.0" layoutY="40.0" prefHeight="13.0" prefWidth="163.0" />
+      <Button fx:id="nameSubmitButton" layoutX="294.0" layoutY="40.0" mnemonicParsing="false" text="Submit name" />
+      <Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recipe Name:" wrappingWidth="81.13671875" />
+      <Text layoutX="14.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredient Name:" wrappingWidth="103.13671875" />
+      <TextField fx:id="ingredientNameInput" layoutX="117.0" layoutY="93.0" prefHeight="13.0" prefWidth="163.0" />
+      <Button fx:id="ingredientSubmit" layoutX="294.0" layoutY="93.0" mnemonicParsing="false" text="Add ingredient name" />
+      <Button fx:id="allIngredientsSubmit" layoutX="436.0" layoutY="93.0" mnemonicParsing="false" text="Complete ingredient names" />
+      <TextArea fx:id="ingredientFxList" layoutX="24.0" layoutY="128.0" prefHeight="134.0" prefWidth="371.0" />
+      <Text layoutX="639.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tag Name:" wrappingWidth="103.13671875" />
+      <TextField fx:id="tagNameInput" layoutX="743.0" layoutY="92.0" prefHeight="13.0" prefWidth="163.0" />
+      <Button fx:id="addTagButton" layoutX="918.0" layoutY="92.0" mnemonicParsing="false" text="Add tag name" />
+      <Button fx:id="submitTagsButton" layoutX="1021.0" layoutY="92.0" mnemonicParsing="false" text="Complete tag names" />
+      <TextArea fx:id="tagFxList" layoutX="639.0" layoutY="128.0" prefHeight="134.0" prefWidth="371.0" />
+      <ListView fx:id="recipeListView" layoutX="22.0" layoutY="323.0" prefHeight="527.0" prefWidth="1153.0" />
+      <Button fx:id="searchSubmit" layoutX="22.0" layoutY="277.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="81.0" text="Search" />
+      <Button fx:id="clearButton" layoutX="117.0" layoutY="277.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="73.0" text="Clear" />
+    </children>
+</AnchorPane>

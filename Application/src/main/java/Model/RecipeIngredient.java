@@ -3,16 +3,18 @@ package Model;
 import java.math.BigDecimal;
 
 public class RecipeIngredient {
-    int recipeIngredientID;
-    int recipeID;
-    int ingredientID;
-    String measurementUnit;
-    BigDecimal quantity;
+    private int recipeIngredientID;
+    private int recipeID;
+    private int ingredientID;
+    private String measurementUnit;
+    private BigDecimal quantity;
+    private Ingredient ingredient;
 
-    public RecipeIngredient(int recipeIngredientID, int recipeID, int ingredientID, String measurementUnit, BigDecimal quantity) {
+    public RecipeIngredient(int recipeIngredientID, int recipeID, Ingredient ingredient, String measurementUnit, BigDecimal quantity) {
         this.recipeIngredientID = recipeIngredientID;
         this.recipeID = recipeID;
-        this.ingredientID = ingredientID;
+        this.ingredient = ingredient;
+        this.ingredientID = ingredient.getIngredientId();
         this.measurementUnit = measurementUnit;
         this.quantity = quantity;
     }
@@ -26,6 +28,14 @@ public class RecipeIngredient {
 
     public RecipeIngredient() {
 
+    }
+
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
     }
 
     public int getRecipeIngredientID() {
@@ -73,9 +83,10 @@ public class RecipeIngredient {
         return "RecipeIngredient{" +
                 "recipeIngredientID=" + recipeIngredientID +
                 ", recipeID=" + recipeID +
-                ", ingredient=" + ingredientID +
-                ", measurementUnit=" + measurementUnit +
+                ", ingredientID=" + ingredientID +
+                ", measurementUnit='" + measurementUnit + '\'' +
                 ", quantity=" + quantity +
+                ", ingredient=" + ingredient +
                 '}';
     }
 }
