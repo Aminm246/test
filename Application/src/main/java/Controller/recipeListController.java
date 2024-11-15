@@ -80,12 +80,8 @@ public class recipeListController implements Initializable {
 
                 if(!recipeName.isEmpty()){
                     int recipeID = Integer.parseInt(recipeName.substring(recipeName.indexOf("(") + 1,recipeName.indexOf(")")));
+                    switchToViewRecipe(recipeID);
 
-                    try {
-                        switchToViewRecipe(recipeID);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
                 }
 
             }
@@ -97,7 +93,7 @@ public class recipeListController implements Initializable {
     }
 
     @FXML
-    public void populateList() throws SQLException {
+    public void populateList(){
         recipes.clear();
         for (Recipe recipe : recipeManager.getRecipes()) {
             recipes.add(recipe.getRecipeName() + " (" + recipe.getRecipeID() + ")");
@@ -110,7 +106,7 @@ public class recipeListController implements Initializable {
         myLabel.getScene().setRoot(searchLoader.getRoot());
     }
 
-    public void setRecipeManager(RecipeManager recipeManager) throws SQLException {
+    public void setRecipeManager(RecipeManager recipeManager) {
         this.recipeManager = recipeManager;
 
         for (Recipe recipe : recipeManager.getRecipes()) {
@@ -127,7 +123,7 @@ public class recipeListController implements Initializable {
         this.createLoader = createLoader;
     }
 
-    public void switchToViewRecipe(int recipeID) throws SQLException {
+    public void switchToViewRecipe(int recipeID){
         recipeListView.getScene().setRoot(viewLoader.getRoot());
         viewRecipeController controller = viewLoader.getController();
         controller.setRecipe(recipeID);

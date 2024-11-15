@@ -32,7 +32,7 @@ public class RecipeTagManager {
         return tagId;
     }
 
-    public List<RecipeTag> getTagsByRecipeId(int recipeID) throws SQLException {
+    public List<RecipeTag> getTagsByRecipeId(int recipeID) {
         List<RecipeTag> tags = recipeTagRepository.getTagsByRecipeId(recipeID);
         for (RecipeTag recipeTag : tags) {
             Tag tag = tagRepository.getTagById(recipeTag.getTagID());
@@ -41,13 +41,21 @@ public class RecipeTagManager {
         return tags;
     }
 
-    public RecipeTag getTagById(int tagId) throws SQLException {
+
+    public void removeAllTags(int recipeID)  {
+        List<RecipeTag> tags = recipeTagRepository.getTagsByRecipeId(recipeID);
+        for(RecipeTag recipeTag: tags){
+            recipeTagRepository.deleteTag(recipeTag.getRecipeTagID());
+        }
+    }
+
+    public RecipeTag getTagById(int tagId) {
         RecipeTag recipeTag = recipeTagRepository.getTagById(tagId);
         recipeTag.setTag(tagRepository.getTagById(recipeTag.getTagID()));
         return recipeTag;
     }
 
-    public List<RecipeTag> getAllTags() throws SQLException {
+    public List<RecipeTag> getAllTags()  {
         List<RecipeTag> tags = recipeTagRepository.getAllTags();
         for (RecipeTag tag : tags) {
             tag.setTag(tagRepository.getTagById(tag.getTagID()));

@@ -40,11 +40,11 @@ public class updateRecipeController  {
     void initialize() {
         databaseConnection = new DatabaseConnection();
         recipeRepository = new RecipeRepository(databaseConnection);
-        recipeIngManager = new RecipeIngManager(new RecipeIngRepository(databaseConnection));
+        recipeIngManager = new RecipeIngManager(new RecipeIngRepository(databaseConnection),new IngredientsRepository(databaseConnection));
         instructionsManager = new InstructionsManager(new InstructionsRepository(databaseConnection));
         ingredientsManager = new IngredientsManager(new IngredientsRepository(databaseConnection));
         tagManager = new TagManager(new TagRepository(databaseConnection));
-        recipeTagManager =new RecipeTagManager(new RecipeTagRepository(databaseConnection));
+        recipeTagManager =new RecipeTagManager(new RecipeTagRepository(databaseConnection),new TagRepository(databaseConnection));
 
         measurementPicker.getItems().addAll(
                 "grams",
@@ -236,7 +236,7 @@ public class updateRecipeController  {
         }
     }
     private void saveRecipe()  {
-        RecipeManager recipeManager = new RecipeManager(recipeRepository,databaseConnection);
+        RecipeManager recipeManager = new RecipeManager(recipeRepository,recipeTagManager,recipeIngManager,new InstructionsRepository(databaseConnection));
         recipeManager.updateRecipe(recipeID,recipeNameInput.getText(),1,Integer.parseInt(servingSizeInput.getText())
                 ,imagePathInput.getText(),recipeDescriptionInput.getText(),Integer.parseInt(durationInput.getText()),ingredients,instructions,tags);
 
@@ -246,6 +246,7 @@ public class updateRecipeController  {
         tagNumPicker.getItems().clear();
         ingredientNumPicker.getItems().clear();
         instructionNumPicker.getItems().clear();
+        measurementPicker.getSelectionModel().clearSelection();
         ingredientNameInput.clear();
         ingredientQtyInput.clear();
         instructionInput.clear();

@@ -78,7 +78,7 @@ public class viewRecipeController {
     }
 
 
-    public void setRecipe(int recipeID) throws SQLException {
+    public void setRecipe(int recipeID) {
         Recipe recipe = recipeManager.getRecipe(recipeID);
         recipeNameLabel.setText(recipe.getRecipeName());
         List<String> ingredients = new ArrayList<>();
@@ -122,13 +122,8 @@ public class viewRecipeController {
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg")));
             recipeImageView.setImage(image);
         }
-        recipeUpdate.setOnAction(event -> {
-            try {
-                recipeUpdatePage(recipe.getRecipeID());
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        recipeUpdate.setOnAction(event -> recipeUpdatePage(recipe.getRecipeID()));
+
         recipeDelete.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Delete Confirmation");
@@ -156,15 +151,15 @@ public class viewRecipeController {
         });
     }
     @FXML
-    public void switchToRecipeList() throws SQLException {
+    public void switchToRecipeList(){
         recipeNameLabel.getScene().setRoot(listLoader.getRoot());
         recipeListController listController = listLoader.getController();
         listController.populateList();
     }
 
-    private void recipeUpdatePage(int recipeID) throws SQLException {
-        recipeNameLabel.getScene().setRoot(searchLoader.getRoot());
-        updateRecipeController updateController = searchLoader.getController();
+    private void recipeUpdatePage(int recipeID) {
+        recipeNameLabel.getScene().setRoot(updateLoader.getRoot());
+        updateRecipeController updateController = updateLoader.getController();
         updateController.setRecipe(recipeID);
     }
 
@@ -177,13 +172,9 @@ public class viewRecipeController {
     private void switchToSearch(){
         recipeNameLabel.getScene().setRoot(searchLoader.getRoot());
     }
-
-    public void switchToRecipeList() throws SQLException {
-        recipeNameLabel.getScene().setRoot(listLoader.getRoot());
-        recipeListController listController = listLoader.getController();
-        listController.populateList();
+    public void setUpdateLoader(FXMLLoader updateLoader){
+        this.updateLoader = updateLoader;
     }
-
     public void setCreateLoader(FXMLLoader createLoader) {
         this.createLoader = createLoader;
     }

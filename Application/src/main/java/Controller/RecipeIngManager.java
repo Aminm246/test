@@ -29,7 +29,7 @@ public class RecipeIngManager {
     }
 
 
-    public RecipeIngredient getIngredientById(int ingredientId) throws SQLException {
+    public RecipeIngredient getIngredientById(int ingredientId) {
         RecipeIngredient recipeIngredient = recipeIngRepository.getIngredientById(ingredientId);
         recipeIngredient.setIngredient(ingredientsRepository.getIngredientsById(recipeIngredient.getIngredientID()));
         return recipeIngredient;
@@ -43,7 +43,7 @@ public class RecipeIngManager {
     }
 
 
-    public List<RecipeIngredient> getIngredients(List<Integer> ingredientList) throws SQLException {
+    public List<RecipeIngredient> getIngredients(List<Integer> ingredientList) {
         List<RecipeIngredient> recipeIngredientList = recipeIngRepository.getAllIngredients();
         for (RecipeIngredient recipeIngredient : recipeIngredientList) {
             recipeIngredient.setIngredient(ingredientsRepository.getIngredientsById(recipeIngredient.getIngredientID()));
@@ -51,7 +51,7 @@ public class RecipeIngManager {
         return recipeIngredientList;
     }
 
-    public List<RecipeIngredient> getIngredientsByRecipeId(int recipeId) throws SQLException {
+    public List<RecipeIngredient> getIngredientsByRecipeId(int recipeId) {
         List<RecipeIngredient> ingredients = recipeIngRepository.getIngredientsByRecipeId(recipeId);
         for (RecipeIngredient ingredient : ingredients) {
             ingredient.setIngredient(ingredientsRepository.getIngredientsById(ingredient.getIngredientID()));

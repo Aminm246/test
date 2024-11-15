@@ -103,13 +103,12 @@ public class Main extends Application {
 
         createController.setViewLoader(viewLoader);
         createController.setListLoader(listLoader);
-        createController.setListLoader(listLoader);
         createController.setSearchLoader(searchLoader);
 
         viewController.setCreateLoader(createLoader);
         viewController.setListLoader(listLoader);
-        viewController.setSearchLoader(updateLoader);
         viewController.setSearchLoader(searchLoader);
+        viewController.setUpdateLoader(updateLoader);
 
         listController.setCreateLoader(createLoader);
         listController.setViewLoader(viewLoader);

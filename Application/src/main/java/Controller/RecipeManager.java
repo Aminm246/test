@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Model.InstructionStep;
 import Model.Recipe;
 import Repository.InstructionsRepository;
 import Repository.RecipeRepository;
@@ -13,22 +14,19 @@ public class RecipeManager {
     private final RecipeRepository recipeRepository;
     private RecipeTagManager recipeTagManager;
     private RecipeIngManager recipeIngManager;
-    private InstructionsRepository instructionsRepository;
+    private InstructionsManager instructionsManager;
 
     public RecipeManager(RecipeRepository recipeRepository, RecipeTagManager recipeTagManager, RecipeIngManager recipeIngManager, InstructionsRepository instructionsRepository) {
         this.recipeTagManager = recipeTagManager;
         this.recipeIngManager = recipeIngManager;
-        this.instructionsRepository = instructionsRepository;
         this.recipeRepository = recipeRepository;
-
-        InstructionsRepository instRepo = new InstructionsRepository(databaseConnection);
-        instructionsManager = new InstructionsManager(instRepo);
+        instructionsManager = new InstructionsManager(instructionsRepository);
     }
 
     public Recipe getRecipe(int recipeID)  {
         Recipe recipe = recipeRepository.getRecipeById(recipeID);
         recipe.setRecipeIngredients(recipeIngManager.getIngredientsByRecipeId(recipe.getRecipeID()));
-        recipe.setInstructions(instructionsRepository.getInstructionsByRecipeId(recipe.getRecipeID()));
+        recipe.setInstructions(instructionsManager.getInstructionsByRecipeId(recipe.getRecipeID()));
         recipe.setTagList(recipeTagManager.getTagsByRecipeId(recipe.getRecipeID()));
         return recipe;
     }
@@ -74,11 +72,11 @@ public class RecipeManager {
     }
 
 
-    public List<Recipe> getRecipes() throws SQLException {
+    public List<Recipe> getRecipes() {
         List<Recipe> recipes = recipeRepository.getAllRecipes();
         for (Recipe recipe : recipes) {
             recipe.setRecipeIngredients(recipeIngManager.getIngredientsByRecipeId(recipe.getRecipeID()));
-            recipe.setInstructions(instructionsRepository.getInstructionsByRecipeId(recipe.getRecipeID()));
+            recipe.setInstructions(instructionsManager.getInstructionsByRecipeId(recipe.getRecipeID()));
             recipe.setTagList(recipeTagManager.getTagsByRecipeId(recipe.getRecipeID()));
         }
         return recipes;

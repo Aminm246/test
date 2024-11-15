@@ -140,8 +140,8 @@ public class createRecipeController {
         recipeTagRepository = new RecipeTagRepository(databaseConnection);
 
         ingredientsManager = new IngredientsManager(ingredientsRepository);
-        recipeIngManager = new RecipeIngManager(recipeIngRepository);
-        recipeManager = new RecipeManager(recipeRepository,databaseConnection);
+        recipeIngManager = new RecipeIngManager(recipeIngRepository, ingredientsRepository);
+        recipeManager = new RecipeManager(recipeRepository,recipeTagManager,recipeIngManager,instructionsRepository);
         instructionsManager = new InstructionsManager(instructionsRepository);
         tagManager = new TagManager(tagRepository);
         recipeTagManager = new RecipeTagManager(recipeTagRepository, tagRepository);
