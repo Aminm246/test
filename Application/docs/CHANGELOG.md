@@ -26,3 +26,5 @@
 - [Nick Reiss] Added functionality to Create and Clear buttons.
 - [Hanad Musse] Worked on UI design structure and java code for create recipe and view recipe functions. 
 
+# Milestone 5
+- [Hanad Musse] Implemented SQLite database for CRUD operations, including setting up database connectivity and developing java classes for database operations.
