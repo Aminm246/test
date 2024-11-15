@@ -72,13 +72,15 @@ public class Main extends Application {
         FXMLLoader updateLoader = new FXMLLoader(getClass().getResource("updateRecipeView.fxml"));
         updateLoader.load();
 
+        FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("searchRecipeView.fxml"));
+        searchLoader.load();
 
         // Initialize MenuBar
         // Initialize MenuBar
         menuLoader = new FXMLLoader(getClass().getResource("menuBar.fxml"));
         menuLoader.load();
         MenuBarController menuController = menuLoader.getController();
-        menuController.setLoaders(createLoader, listLoader, viewLoader,updateLoader);
+        menuController.setLoaders(createLoader, listLoader,searchLoader);
 
         // Set up scene
         Scene scene = new Scene(root);
@@ -98,8 +100,7 @@ public class Main extends Application {
         createController.setCreateLoader(createLoader);
         createController.setViewLoader(viewLoader);
         createController.setListLoader(listLoader);
-        FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("searchRecipeView.fxml"));
-        searchLoader.load();
+
 
         createController.setViewLoader(viewLoader);
         createController.setListLoader(listLoader);

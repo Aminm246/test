@@ -9,6 +9,7 @@
             <items>
                 <MenuItem text="Create Recipe" onAction="#switchToCreateRecipe"/>
                 <MenuItem text="View Recipes" onAction="#switchToRecipeList"/>
+                <MenuItem mnemonicParsing="false" onAction="#switchToSearch" text="Search Recipes" />
             </items>
         </Menu>
         <Menu text="Ingredients">
