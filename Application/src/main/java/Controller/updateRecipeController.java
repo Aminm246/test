@@ -2,7 +2,6 @@ package Controller;
 
 import Model.*;
 import Repository.*;
-import javafx.collections.ObservableArray;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.ComboBox;
@@ -10,9 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class updateRecipeController  {
@@ -108,8 +105,6 @@ public class updateRecipeController  {
         instructionNumPicker.getItems().remove(instructionNumPicker.getSelectionModel().getSelectedItem());
         instructionNumPicker.getSelectionModel().clearSelection();
         instructionInput.clear();
-        //instructionNumPicker.getSelectionModel().clearSelection();
-
         setInstructions();
     }
 
@@ -131,7 +126,6 @@ public class updateRecipeController  {
         ingredientNameInput.clear();
         ingredientQtyInput.clear();
         measurementPicker.getSelectionModel().clearSelection();
-        //ingredientNumPicker.getSelectionModel().clearSelection();
         setIngredients();
     }
 
