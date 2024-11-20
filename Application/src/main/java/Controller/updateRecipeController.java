@@ -2,6 +2,7 @@ package Controller;
 
 import Model.*;
 import Repository.*;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.ComboBox;
@@ -26,7 +27,7 @@ public class updateRecipeController  {
     @FXML TextField imagePathInput,recipeNameInput, durationInput,servingSizeInput, ingredientNameInput, ingredientQtyInput, tagInput;
     @FXML TextArea instructionFxList,tagFxList,recipeDescriptionInput,ingredientFxList, instructionInput;
 
-    @FXML ComboBox ingredientNumPicker, instructionNumPicker, tagNumPicker, measurementPicker;
+    @FXML ComboBox<String> ingredientNumPicker, instructionNumPicker, tagNumPicker, measurementPicker;
     @FXML Button ingredientSubmit, ingredientAdd, ingredientRemove, instructionSubmit, instructionAdd, instructionRemove,
             tagRemove,tagAdd, recipeSubmit, cancelButton;
 
@@ -58,20 +59,20 @@ public class updateRecipeController  {
 
         instructionNumPicker.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             if(newValue != null) {
-                setInstruction(Integer.parseInt(newValue.toString()));
+                setInstruction(Integer.parseInt(newValue));
             }
             System.out.println(newValue);
         });
 
         tagNumPicker.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             if(newValue != null){
-                setTag(Integer.parseInt(newValue.toString()));
+                setTag(Integer.parseInt(newValue));
             }
         });
 
         ingredientNumPicker.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             if(newValue != null){
-                loadIngredient(Integer.parseInt(newValue.toString()));
+                loadIngredient(Integer.parseInt(newValue));
             }
         });
 
@@ -88,7 +89,7 @@ public class updateRecipeController  {
 
     private void removeInstruction() {
         //Prompt if sure.
-        int instructionID = (int) instructionNumPicker.getSelectionModel().getSelectedItem();
+        int instructionID = Integer.parseInt(instructionNumPicker.getSelectionModel().getSelectedItem());
         System.out.println("Removing instruction with id: " + instructionID);
         instructionsManager.removeInstruction(instructionID);
 
@@ -110,7 +111,7 @@ public class updateRecipeController  {
 
     private void removeIngredient() {
         //Prompt if sure
-        int ingredientID = (int) ingredientNumPicker.getSelectionModel().getSelectedItem();
+        int ingredientID = Integer.parseInt(ingredientNumPicker.getSelectionModel().getSelectedItem());
         recipeIngManager.removeIngredient(ingredientID);
         int i =0;
 
@@ -179,7 +180,7 @@ public class updateRecipeController  {
             String ingredientToString = ("(" + recIngID + ") [" + ingredientsManager.getIngredientById(ingredientID).getIngredientName() + "] {" +
                     qty + "} " + measurementType);
             ingredients.add(ingredientToString);
-            ingredientNumPicker.getItems().add(recIngID);
+            ingredientNumPicker.getItems().add(String.valueOf(recIngID));
             ingredientNameInput.clear();
             ingredientQtyInput.clear();
             ingredientNumPicker.getSelectionModel().clearSelection();
@@ -189,12 +190,12 @@ public class updateRecipeController  {
     }
     private void addInstruction(){
         if(!instructionInput.getText().isEmpty()) {
-            int instructionID = (int) instructionNumPicker.getItems().get(instructionNumPicker.getItems().size() - 1);
+            int instructionID = Integer.parseInt(instructionNumPicker.getItems().get(instructionNumPicker.getItems().size() - 1));
             int stepNum = instructionsManager.getInstruction(instructionID).getStepNum() + 1;
 
             instructionID = instructionsManager.insertInstruction(recipeID,stepNum,instructionInput.getText());
             instructions.add(instructionID + ":" + instructionInput.getText());
-            instructionNumPicker.getItems().add(instructionID);
+            instructionNumPicker.getItems().add(String.valueOf(instructionID));
             instructionInput.clear();
             instructionNumPicker.getSelectionModel().clearSelection();
         }
@@ -202,7 +203,7 @@ public class updateRecipeController  {
     }
     private void removeTag(){
         if(!tagInput.getText().isEmpty()){
-            int tagID = Integer.parseInt(tagNumPicker.getSelectionModel().getSelectedItem().toString());
+            int tagID = Integer.parseInt(tagNumPicker.getSelectionModel().getSelectedItem());
             int i = 0;
 
             for(String tagParse: tags){
@@ -223,7 +224,7 @@ public class updateRecipeController  {
             Tag tag = tagManager.getTagById(tagid);
             String string = "(" + tag.getTagId() + ") " + tag.getTagName();
             tags.add(string);
-            tagNumPicker.getItems().add(tag.getTagId());
+            tagNumPicker.getItems().add(String.valueOf(tag.getTagId()));
             tagInput.clear();
             tagNumPicker.getSelectionModel().clearSelection();
             setTags();
@@ -254,7 +255,7 @@ public class updateRecipeController  {
         tags = new ArrayList<>();
 
         for (InstructionStep instructionStep : instructionsManager.getInstructionsByRecipeId(recipeID)) {
-            instructionNumPicker.getItems().add(instructionStep.getInstructionStepID());
+            instructionNumPicker.getItems().add(String.valueOf(instructionStep.getInstructionStepID()));
             String instruction = instructionStep.getInstructionStepID() + ": " + instructionStep.getStepDescription();
             instructions.add(instruction);
         }
@@ -262,12 +263,12 @@ public class updateRecipeController  {
         for (RecipeTag recipeTag : recipeTagManager.getTagsByRecipeId(recipeID)) {
             int tagID = recipeTag.getTagID();
             Tag tag = tagManager.getTagById(tagID);
-            tagNumPicker.getItems().add(tag.getTagId());
+            tagNumPicker.getItems().add(String.valueOf(tag.getTagId()));
             tags.add("(" + tag.getTagId() + ") " + tag.getTagName());
         }
 
         for (RecipeIngredient ingredient : recipeIngManager.getIngredientsByRecipeId(recipeID)) {
-            ingredientNumPicker.getItems().add(ingredient.getRecipeIngredientID());
+            ingredientNumPicker.getItems().add(String.valueOf(ingredient.getRecipeIngredientID()));
             ingredients.add("(" + ingredient.getRecipeIngredientID() + ") [" + ingredientsManager.getIngredientById(ingredient.getIngredientID()).getIngredientName() +
                     "] {" + ingredient.getQuantity() + "} " + ingredient.getMeasurementUnit());
         }
