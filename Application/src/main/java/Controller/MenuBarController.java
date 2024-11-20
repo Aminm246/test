@@ -1,5 +1,6 @@
 package Controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.MenuBar;
@@ -11,15 +12,14 @@ public class MenuBarController {
 
     private static FXMLLoader createLoader;
     private static FXMLLoader listLoader;
-    private static FXMLLoader viewLoader;
-    private static FXMLLoader updateLoader;
+    private static FXMLLoader searchLoader;
 
     public void setLoaders(FXMLLoader createLoader, FXMLLoader listLoader,
-                           FXMLLoader viewLoader, FXMLLoader updateLoader) {
+                           FXMLLoader searchLoader) {
         MenuBarController.createLoader = createLoader;
         MenuBarController.listLoader = listLoader;
-        MenuBarController.viewLoader = viewLoader;
-        MenuBarController.updateLoader = updateLoader;
+
+        this.searchLoader = searchLoader;
     }
 
     @FXML
@@ -38,11 +38,9 @@ public class MenuBarController {
         }
     }
 
-    public void switchToViewRecipe(int recipeID) throws SQLException {
-        if (viewLoader != null && menuBar != null && menuBar.getScene() != null) {
-            menuBar.getScene().setRoot(viewLoader.getRoot());
-            viewRecipeController controller = viewLoader.getController();
-            controller.setRecipe(recipeID);
-        }
+    @FXML
+    private void switchToSearch(){
+        menuBar.getScene().setRoot(searchLoader.getRoot());
     }
+
 }

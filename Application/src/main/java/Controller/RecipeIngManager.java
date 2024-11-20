@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.RecipeIngredient;
+import Repository.IngredientsRepository;
 import Repository.RecipeIngRepository;
 
 import java.math.BigDecimal;
@@ -9,9 +10,11 @@ import java.util.List;
 
 public class RecipeIngManager {
     private final RecipeIngRepository recipeIngRepository;
+    private IngredientsRepository ingredientsRepository;
 
-    public RecipeIngManager(RecipeIngRepository recipeIngRepository) {
+    public RecipeIngManager(RecipeIngRepository recipeIngRepository, IngredientsRepository ingredientsRepository) {
         this.recipeIngRepository = recipeIngRepository;
+        this.ingredientsRepository = ingredientsRepository;
     }
 
     public int addIngredient(int ingredientId, int recipeId, String measurementUnit, BigDecimal quantity) {
@@ -25,8 +28,11 @@ public class RecipeIngManager {
         return recipeIngId;
     }
 
+
     public RecipeIngredient getIngredientById(int ingredientId) {
-        return recipeIngRepository.getIngredientById(ingredientId);
+        RecipeIngredient recipeIngredient = recipeIngRepository.getIngredientById(ingredientId);
+        recipeIngredient.setIngredient(ingredientsRepository.getIngredientsById(recipeIngredient.getIngredientID()));
+        return recipeIngredient;
     }
 
     public void updateIngredient(int ingredientId, String measurementUnit, BigDecimal quantity) {
@@ -36,17 +42,28 @@ public class RecipeIngManager {
         recipeIngRepository.updateIngredient(ingredient);
     }
 
+
     public List<RecipeIngredient> getIngredients(List<Integer> ingredientList) {
-        return recipeIngRepository.getAllIngredients();
+        List<RecipeIngredient> recipeIngredientList = recipeIngRepository.getAllIngredients();
+        for (RecipeIngredient recipeIngredient : recipeIngredientList) {
+            recipeIngredient.setIngredient(ingredientsRepository.getIngredientsById(recipeIngredient.getIngredientID()));
+        }
+        return recipeIngredientList;
     }
 
-    public List<RecipeIngredient> getIngredientsByRecipeId(int recipeId){
-        return recipeIngRepository.getIngredientsByRecipeId(recipeId);
+    public List<RecipeIngredient> getIngredientsByRecipeId(int recipeId) {
+        List<RecipeIngredient> ingredients = recipeIngRepository.getIngredientsByRecipeId(recipeId);
+        for (RecipeIngredient ingredient : ingredients) {
+            ingredient.setIngredient(ingredientsRepository.getIngredientsById(ingredient.getIngredientID()));
+        }
+        return ingredients;
     }
 
     public void removeIngredient(int recIngID){
         recipeIngRepository.deleteIngredient(recIngID);
     }
+
+
 
     @Override
     public String toString() {

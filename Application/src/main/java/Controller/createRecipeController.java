@@ -38,6 +38,7 @@ public class createRecipeController {
     FXMLLoader viewLoader;
     FXMLLoader listLoader;
     FXMLLoader createLoader;
+    FXMLLoader searchLoader;
 
     String recipeName;
 
@@ -92,6 +93,11 @@ public class createRecipeController {
         this.menuLoader = menuLoader;
     }
 
+    public void setSearchLoader(FXMLLoader searchLoader){
+        this.searchLoader = searchLoader;
+        searchRecipeController controller = this.searchLoader.getController();
+    }
+
     public void setCreateLoader(FXMLLoader createLoader){
         this.createLoader = createLoader;
     }
@@ -134,11 +140,13 @@ public class createRecipeController {
         recipeTagRepository = new RecipeTagRepository(databaseConnection);
 
         ingredientsManager = new IngredientsManager(ingredientsRepository);
-        recipeIngManager = new RecipeIngManager(recipeIngRepository);
-        recipeManager = new RecipeManager(recipeRepository,databaseConnection);
+        recipeIngManager = new RecipeIngManager(recipeIngRepository, ingredientsRepository);
+        recipeManager = new RecipeManager(recipeRepository,recipeTagManager,recipeIngManager,instructionsRepository);
         instructionsManager = new InstructionsManager(instructionsRepository);
         tagManager = new TagManager(tagRepository);
-        recipeTagManager = new RecipeTagManager(recipeTagRepository);
+        recipeTagManager = new RecipeTagManager(recipeTagRepository, tagRepository);
+        recipeManager = new RecipeManager(recipeRepository, recipeTagManager, recipeIngManager, instructionsRepository);
+
 
         tagSubmit.setOnAction(event -> addSingleTagClick());
         tagsSubmit.setOnAction(event -> addAllTagsClick());
@@ -714,4 +722,11 @@ public class createRecipeController {
         recipeListController listController = listLoader.getController();
         listController.populateList();
     }
+
+    @FXML
+    private void switchToSearch(){
+        ingredientSubmit.getScene().setRoot(searchLoader.getRoot());
+        searchRecipeController controller = this.searchLoader.getController();
+    }
+
 }

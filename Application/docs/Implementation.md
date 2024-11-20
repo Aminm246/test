@@ -15,3 +15,9 @@
     the page is populated with the recipe information they entered earlier.
 
     Submit a filled recipe and click Yes to view the recipe.
+
+# Phase 2
+
+## Delete Recipe
+    
+## Update Recipe

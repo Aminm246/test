@@ -2,6 +2,7 @@ package edu.metrostate;
 
 import Controller.createRecipeController;
 import Controller.recipeListController;
+import Controller.searchRecipeController;
 import Controller.viewRecipeController;
 import Controller.MenuBarController;
 import Repository.*;
@@ -71,13 +72,15 @@ public class Main extends Application {
         FXMLLoader updateLoader = new FXMLLoader(getClass().getResource("updateRecipeView.fxml"));
         updateLoader.load();
 
+        FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("searchRecipeView.fxml"));
+        searchLoader.load();
 
         // Initialize MenuBar
         // Initialize MenuBar
         menuLoader = new FXMLLoader(getClass().getResource("menuBar.fxml"));
         menuLoader.load();
         MenuBarController menuController = menuLoader.getController();
-        menuController.setLoaders(createLoader, listLoader, viewLoader,updateLoader);
+        menuController.setLoaders(createLoader, listLoader,searchLoader);
 
         // Set up scene
         Scene scene = new Scene(root);
@@ -98,13 +101,26 @@ public class Main extends Application {
         createController.setViewLoader(viewLoader);
         createController.setListLoader(listLoader);
 
+
+        createController.setViewLoader(viewLoader);
+        createController.setListLoader(listLoader);
+        createController.setSearchLoader(searchLoader);
+
         viewController.setCreateLoader(createLoader);
         viewController.setListLoader(listLoader);
+        viewController.setSearchLoader(searchLoader);
         viewController.setUpdateLoader(updateLoader);
 
         listController.setCreateLoader(createLoader);
         listController.setViewLoader(viewLoader);
+        listController.setSearchLoader(searchLoader);
 
+        searchRecipeController searchController = searchLoader.getController();
+        searchController.setCreateLoader(createLoader);
+        searchController.setListLoader(listLoader);
+        searchController.setViewLoader(viewLoader);
         stage.show();
+        
+
     }
 }
