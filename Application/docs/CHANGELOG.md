@@ -28,3 +28,4 @@
 
 # Milestone 5
 - [Hanad Musse] Implemented SQLite database for CRUD operations, including setting up database connectivity and developing java classes for database operations.
+- [Hanad Musse] Implemented both UI design structure and java code for search and delete functions.
