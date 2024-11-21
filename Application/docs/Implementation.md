@@ -19,5 +19,12 @@
 # Phase 2
 
 ## Delete Recipe
+    This functional requirement allows the user to delete a particular recipe. The user must select the top left menu bar item 
+    titled "Recipe", and then select "View Recipes", which will give the user a list of the created recipes. The user can then 
+    select a particular recipe and be sent to a page which will show the details of the recipe. To delete the recipe, the user 
+    must select delete button on the left side of the page. This will delete the recipe from the database and remove the associated 
+    data for the recipe in terms of recipeIngredients, recipeTags, and the instructions for the recipe. This can be tested through viewing 
+    the list of recipes to confirm deletion, as well as checking the database to confirm that associated data for the recipe has been
+    removed from the database. 
     
 ## Update Recipe
