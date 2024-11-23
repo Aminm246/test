@@ -28,3 +28,10 @@
     removed from the database. 
     
 ## Update Recipe
+    The update recipe functional requirement, was one that would allow the user to take an existing recipe
+    and make changes or additions to it. In the program you can view a recipe by navigating to the view recipes
+    tab in the menubar under recipes. Then after selecting a recipe, the user can select Update Recipe on the
+    left hand side. They are then brought to a new page that looks similar to the create recipe page, but it is
+    prefilled with the selected recipes information. Then they can edit the overall Name, Description or Image Path.
+    Then for the tags, ingredients, and instructions the user can select a specific one and edit or delete it. They
+    can also add new ones if necessary.
