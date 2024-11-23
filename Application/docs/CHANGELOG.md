@@ -29,3 +29,8 @@
 # Milestone 5
 - [Hanad Musse] Implemented SQLite database for CRUD operations, including setting up database connectivity and developing java classes for database operations.
 - [Hanad Musse] Implemented UI button and java code for delete function to enable the deletion of recipe data from the database.   
+- [Nick Reiss] Implemented Button for the change to update recipe page. Created the FXML for Update Recipe as well as the controller.
+- Fully implemented these as well as tied them into new Repository and database. 
+- Updated managing of SQLException to manage within the Repositories instead of having thrown errors in very class.
+- Modified the switching of views between different FXML files. Integrated existing code with the database.
+- Finished the implementation of the Recipe List classes. 

@@ -243,17 +243,6 @@ public class createRecipeController {
     }
 
     private void submitTags() {
-        /* //This should be implemented in the tag functions
-        String lastTag = tagInputs.get(tagInputs.size() - 1).getText().trim();
-        if (!lastTag.isEmpty() && !tagList.contains(lastTag)) {
-            alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("You have an unsubmitted tag. Do you want to add it before creating the recipe?");
-            alert.showAndWait().ifPresent(response -> {
-                if (response == ButtonType.OK) {
-                    addSingleTagClick();
-                }
-            });
-        }*/
         tagSubmit.setDisable(true);
         tagsSubmit.setDisable(true);
         tagInput.setDisable(true);
