@@ -89,4 +89,8 @@ public class RecipeIngredient {
                 ", ingredient=" + ingredient +
                 '}';
     }
+
+    public String parseIngredient(){
+        return ingredient.getIngredientName() + ": " + quantity + " " + measurementUnit;
+    }
 }
