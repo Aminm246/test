@@ -33,4 +33,11 @@
 - Fully implemented these as well as tied them into new Repository and database. 
 - Updated managing of SQLException to manage within the Repositories instead of having thrown errors in very class.
 - Modified the switching of views between different FXML files. Integrated existing code with the database.
-- Finished the implementation of the Recipe List classes. 
+- Finished the implementation of the Recipe List classes.
+-[Amin Mohamed] Added ingredient measurement unit to create recipe page
+- Changed menubar to have it's own function or FXML in some way, so we don't need to change multiple files for one change.
+- Implemented type checking for uploaded files to ensure they are images.
+- Added field validation for createRecipeView to check text before submission.
+- Moved unsubmitted tags prompt from createRecipe function into the tags creation functions.
+- Changed Empty Tags Warning to use yes/no button type.
+
