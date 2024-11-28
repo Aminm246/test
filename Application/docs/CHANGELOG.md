@@ -41,3 +41,5 @@
 - Moved unsubmitted tags prompt from createRecipe function into the tags creation functions.
 - Changed Empty Tags Warning to use yes/no button type.
 
+# Milestone 6
+- [Nick Reiss] Implemented generate grocery list function in recipelist page.

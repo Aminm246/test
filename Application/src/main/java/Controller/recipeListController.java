@@ -98,7 +98,7 @@ public class recipeListController implements Initializable {
         for(String ingredient: ingredientList){
             listText = listText.concat(ingredient + "\n");
         }
-        
+
         dialog.setContentText(listText);
         dialog.getDialogPane().getButtonTypes().add(new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE));
         dialog.showAndWait();
