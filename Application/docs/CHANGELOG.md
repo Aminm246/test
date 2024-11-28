@@ -31,7 +31,7 @@
 - [Hanad Musse] Implemented UI button and java code for delete function to enable the deletion of recipe data from the database.   
 - [Nick Reiss] Implemented Button for the change to update recipe page. Created the FXML for Update Recipe as well as the controller.
 - Fully implemented these as well as tied them into new Repository and database. 
-- Updated managing of SQLException to manage within the Repositories instead of having thrown errors in very class.
+- Updated managing of SQLException to manage within the Repositories instead of having thrown errors in every class.
 - Modified the switching of views between different FXML files. Integrated existing code with the database.
 - Finished the implementation of the Recipe List classes.
 - [Amin Mohamed] Added ingredient measurement unit to create recipe page
