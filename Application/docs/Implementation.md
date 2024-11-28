@@ -35,3 +35,14 @@
     prefilled with the selected recipes information. Then they can edit the overall Name, Description or Image Path.
     Then for the tags, ingredients, and instructions the user can select a specific one and edit or delete it. They
     can also add new ones if necessary.
+
+# Phase 3
+
+## Search Recipe
+    This functional requirement allows a user to search for a particular recipe. The search function can be found
+    by selecting the "Recipes" and then "Search Recipes" on menu bar. The user can search for a recipe
+    using the criteria of recipe name, ingredient names, and tag names. In order to perform the search at least
+    one criteria of the three must be filled. After inputting the search criteria, the user the has the option 
+    to either perform the search or clear and start over. If user selects search, the results of search will show 
+    on the bottom. If recipes are found from search they will be displayed, otherwise system will indicate no results
+    were found.

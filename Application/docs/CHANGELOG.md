@@ -34,3 +34,6 @@
 - Updated managing of SQLException to manage within the Repositories instead of having thrown errors in very class.
 - Modified the switching of views between different FXML files. Integrated existing code with the database.
 - Finished the implementation of the Recipe List classes. 
+
+# Milestone 6
+- [Hanad Musse] Implemented UI page and java code for search function. 
