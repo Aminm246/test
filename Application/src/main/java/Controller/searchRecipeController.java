@@ -195,7 +195,13 @@ public class searchRecipeController implements Initializable  {
             text.setDisable(false);
             text.setText("");
         }
+
+        recipeName = null;
+        ingredientNames.clear();
+        tagNames.clear();
+
         recipes.clear();
+        recipeListView.setItems(recipes);
         initialize(this.location, this.resources);
 
     }
