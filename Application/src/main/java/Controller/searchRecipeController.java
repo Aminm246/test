@@ -138,7 +138,7 @@ public class searchRecipeController implements Initializable  {
         recipes.clear();
         for (Recipe recipe : recipeManager.getRecipes()) {
             if (recipeName != null && !recipeName.isEmpty()) {
-                if (!recipe.getRecipeName().toLowerCase().contains(recipeName.toLowerCase())) {
+                if (!recipe.getRecipeName().equalsIgnoreCase(recipeName)) {
                     continue;
                 }
             }
