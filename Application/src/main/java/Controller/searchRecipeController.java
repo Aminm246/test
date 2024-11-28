@@ -138,16 +138,12 @@ public class searchRecipeController implements Initializable  {
         recipes.clear();
         for (Recipe recipe : recipeManager.getRecipes()) {
             if (recipeName != null && !recipeName.isEmpty()) {
-                System.err.println("inside recipe name");
                 if (!recipe.getRecipeName().toLowerCase().contains(recipeName.toLowerCase())) {
                     continue;
                 }
             }
 
             if (!tagNames.isEmpty()) {
-                System.err.println("inside tag names");
-                System.err.println("Tag names: " + tagNames);
-                System.err.println("Tags empty: " + tagNames.isEmpty());
                 boolean tagMatchFound = false;
                 for (RecipeTag recipeTag : recipe.getTags()) {
                     String recipeTagName = recipeTag.getTag().getTagName().toLowerCase();
@@ -163,8 +159,6 @@ public class searchRecipeController implements Initializable  {
 
             if (!ingredientNames.isEmpty()) {
                 boolean ingredientMatchFound = false;
-                System.err.println("inside ingredient names");
-                System.err.println("Tag names: " + ingredientNames);
                 for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
                     String recipeIngredientName = recipeIngredient.getIngredient().getIngredientName().toLowerCase();
                     if (ingredientNames.stream().map(String::toLowerCase).anyMatch(recipeIngredientName::equals)) {
