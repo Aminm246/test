@@ -1,9 +1,9 @@
 package Controller;
 
 import Model.RecipeIngredient;
+import Repository.DatabaseConnection;
 import Repository.IngredientsRepository;
 import Repository.RecipeIngRepository;
-
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
@@ -12,9 +12,9 @@ public class RecipeIngManager {
     private final RecipeIngRepository recipeIngRepository;
     private IngredientsRepository ingredientsRepository;
 
-    public RecipeIngManager(RecipeIngRepository recipeIngRepository, IngredientsRepository ingredientsRepository) {
-        this.recipeIngRepository = recipeIngRepository;
-        this.ingredientsRepository = ingredientsRepository;
+    public RecipeIngManager(DatabaseConnection databaseConnection) {
+        this.recipeIngRepository = new RecipeIngRepository(databaseConnection);
+        this.ingredientsRepository = new IngredientsRepository(databaseConnection);
     }
 
     public int addIngredient(int ingredientId, int recipeId, String measurementUnit, BigDecimal quantity) {

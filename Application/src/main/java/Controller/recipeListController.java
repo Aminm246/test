@@ -18,62 +18,27 @@ import java.util.ResourceBundle;
 
 public class recipeListController implements Initializable {
 
-    private FXMLLoader createLoader;
     private FXMLLoader viewLoader;
-    private FXMLLoader listLoader;
-    private FXMLLoader searchLoader;
 
     @FXML
     private ListView<String> recipeListView;
 
     @FXML
-    private Label myLabel;
-
-    @FXML
     private Button groceryListButton,viewRecipeButton;
-    private FXMLLoader menuLoader;
     private RecipeManager recipeManager;
-    private RecipeTagManager recipeTagManager;
-    private RecipeIngManager recipeIngManager;
-    private InstructionsManager instructionsManager;
-    private TagManager tagManager;
-    private IngredientsManager ingredientsManager;
-
-    private DatabaseConnection databaseConnection;
-    private RecipeRepository recipeRepository;
-    private RecipeTagRepository recipeTagRepository;
-    private RecipeIngRepository recipeIngRepository;
-    private InstructionsRepository instructionsRepository;
-    private TagRepository tagRepository;
-    private IngredientsRepository ingredientsRepository;
-
 
     ObservableList<String> recipes;
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        databaseConnection = new DatabaseConnection();
-        recipeRepository = new RecipeRepository(databaseConnection);
-        recipeTagRepository = new RecipeTagRepository(databaseConnection);
-        recipeIngRepository = new RecipeIngRepository(databaseConnection);
-        instructionsRepository = new InstructionsRepository(databaseConnection);
-        tagRepository = new TagRepository(databaseConnection);
-        ingredientsRepository = new IngredientsRepository(databaseConnection);
+        DatabaseConnection databaseConnection = new DatabaseConnection();
 
-        tagManager = new TagManager(tagRepository);
-        ingredientsManager = new IngredientsManager(ingredientsRepository);
-        recipeTagManager = new RecipeTagManager(recipeTagRepository, tagRepository);
-        recipeIngManager = new RecipeIngManager(recipeIngRepository, ingredientsRepository);
-        instructionsManager = new InstructionsManager(instructionsRepository);
+        recipeManager = new RecipeManager(databaseConnection,new RecipeTagManager(databaseConnection),
+                new RecipeIngManager(databaseConnection),new InstructionsManager(databaseConnection));
 
-
-        recipeManager = new RecipeManager(recipeRepository, recipeTagManager, recipeIngManager, instructionsRepository);
         recipes = FXCollections.observableArrayList();
         viewRecipeButton.setOnAction(event -> {
             String recipeName = recipeListView.getSelectionModel().getSelectedItem();
-
             if(!recipeName.isEmpty()){
                 int recipeID = Integer.parseInt(recipeName.substring(recipeName.indexOf("(") + 1,recipeName.indexOf(")")));
                 switchToViewRecipe(recipeID);
@@ -124,10 +89,6 @@ public class recipeListController implements Initializable {
         }
     }
 
-    public void setMenuLoader(FXMLLoader menuLoader) {
-        this.menuLoader = menuLoader;
-    }
-
     @FXML
     public void populateList(){
         recipes.clear();
@@ -138,11 +99,6 @@ public class recipeListController implements Initializable {
         recipeListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-
-    public void switchToSearch(){
-        myLabel.getScene().setRoot(searchLoader.getRoot());
-    }
-
     public void setRecipeManager(RecipeManager recipeManager) {
         this.recipeManager = recipeManager;
 
@@ -151,25 +107,13 @@ public class recipeListController implements Initializable {
         }
     }
 
-    public void setCreateLoader(FXMLLoader createLoader) {
-        this.createLoader = createLoader;
-    }
-
     public void switchToViewRecipe(int recipeID){
         recipeListView.getScene().setRoot(viewLoader.getRoot());
         viewRecipeController controller = viewLoader.getController();
         controller.setRecipe(recipeID);
     }
 
-    public void setListLoader(FXMLLoader listLoader) {
-        this.listLoader = listLoader;
-    }
-
     public void setViewLoader(FXMLLoader viewLoader){
         this.viewLoader = viewLoader;
-    }
-
-    public void setSearchLoader(FXMLLoader searchLoader) {
-        this.searchLoader = searchLoader;
     }
 }
