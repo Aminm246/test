@@ -48,4 +48,4 @@
 - Removed unnecessary code throughout project.
 - Further removal of SQLExceptions that were missed in milestone 5.
 - Removed the usage of direct Repository access outside of the repository managers.
-- 
+- Added removal prompts in update recipe
