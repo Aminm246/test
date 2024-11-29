@@ -26,7 +26,13 @@ public class DatabaseConnection {
     }
 
 
-    public Connection getConnection() throws SQLException {return DriverManager.getConnection(url);}
+    public Connection getConnection(){
+        try {
+            return DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     public void closeConnection() {

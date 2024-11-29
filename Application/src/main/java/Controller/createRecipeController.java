@@ -9,7 +9,6 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +23,6 @@ public class createRecipeController {
     @FXML
     private TextArea instructionInput, recipeDescriptionInput,instructionFxList,ingredientFxList,tagFxList;
 
-
     @FXML
     private Button ingredientSubmit, recipeNameSubmit, descriptionSubmit, tagSubmit, instructionSubmit,
             allInstructionsSubmit, durationSubmit, servingSizeSubmit, imagePathSubmit,
@@ -34,11 +32,7 @@ public class createRecipeController {
     private ComboBox<String> measurementUnitComboBox;
     private List<String> ingredientUnits;
 
-    private FXMLLoader menuLoader;
-    FXMLLoader viewLoader;
-    FXMLLoader listLoader;
-    FXMLLoader createLoader;
-    FXMLLoader searchLoader;
+    private FXMLLoader viewLoader;
 
     String recipeName;
 
@@ -55,20 +49,12 @@ public class createRecipeController {
     int servingSize;
     String imagePath;
 
-
     IngredientsManager ingredientsManager;
     RecipeManager recipeManager;
     RecipeIngManager recipeIngManager;
     InstructionsManager instructionsManager;
     TagManager tagManager;
     RecipeTagManager recipeTagManager;
-
-    RecipeIngRepository recipeIngRepository;
-    RecipeRepository recipeRepository;
-    IngredientsRepository ingredientsRepository;
-    InstructionsRepository instructionsRepository;
-    TagRepository tagRepository;
-    RecipeTagRepository recipeTagRepository;
 
     DatabaseConnection databaseConnection;
 
@@ -79,38 +65,20 @@ public class createRecipeController {
     List<String> tagList;
     boolean tagsPlusClicked;
 
-    public void setListLoader(FXMLLoader listLoader) throws SQLException {
-        this.listLoader = listLoader;
-        recipeListController controller = this.listLoader.getController();
-        controller.setRecipeManager(recipeManager);
-    }
-
     public void setViewLoader(FXMLLoader viewLoader){
         this.viewLoader = viewLoader;
-        viewRecipeController controller = this.viewLoader.getController();
-    }
-    public void setMenuLoader(FXMLLoader menuLoader) {
-        this.menuLoader = menuLoader;
     }
 
-    public void setSearchLoader(FXMLLoader searchLoader){
-        this.searchLoader = searchLoader;
-        searchRecipeController controller = this.searchLoader.getController();
-    }
-
-    public void setCreateLoader(FXMLLoader createLoader){
-        this.createLoader = createLoader;
-    }
     @FXML
     public void initialize() {
         ingredientCount = 0;
         submitCounter = 0;
         instructionCount = 0;
-        ingredientNames = new ArrayList<String>();
-        ingredientQtys = new ArrayList<BigDecimal>();
-        ingredientUnits = new ArrayList<String>();
+        ingredientNames = new ArrayList<>();
+        ingredientQtys = new ArrayList<>();
+        ingredientUnits = new ArrayList<>();
         recipeIngredients = new ArrayList<>();
-        instructionSteps = new ArrayList<InstructionStep>();
+        instructionSteps = new ArrayList<>();
         tagNames = new ArrayList<>();
         descriptions = new ArrayList<>();
         imagePath = "";
@@ -118,70 +86,22 @@ public class createRecipeController {
         tagsPlusClicked = false;
 
         measurementUnitComboBox.getItems().addAll(
-                "grams",
-                "cups",
-                "tablespoons",
-                "teaspoons",
-                "ounces",
-                "pounds",
-                "milliliters",
-                "liters",
-                "pieces",
-                "pinch"
+                MeasurementUnits.getAll()
         );
         measurementUnitComboBox.setValue("grams"); // Default value
 
         databaseConnection = new DatabaseConnection();
-        recipeRepository = new RecipeRepository(databaseConnection);
-        ingredientsRepository = new IngredientsRepository(databaseConnection);
-        recipeIngRepository = new RecipeIngRepository(databaseConnection);
-        instructionsRepository = new InstructionsRepository(databaseConnection);
-        tagRepository = new TagRepository(databaseConnection);
-        recipeTagRepository = new RecipeTagRepository(databaseConnection);
 
-        ingredientsManager = new IngredientsManager(ingredientsRepository);
-        recipeIngManager = new RecipeIngManager(recipeIngRepository, ingredientsRepository);
-        recipeManager = new RecipeManager(recipeRepository,recipeTagManager,recipeIngManager,instructionsRepository);
-        instructionsManager = new InstructionsManager(instructionsRepository);
-        tagManager = new TagManager(tagRepository);
-        recipeTagManager = new RecipeTagManager(recipeTagRepository, tagRepository);
-        recipeManager = new RecipeManager(recipeRepository, recipeTagManager, recipeIngManager, instructionsRepository);
-
-
-        tagSubmit.setOnAction(event -> addSingleTagClick());
-        tagsSubmit.setOnAction(event -> addAllTagsClick());
-        recipeNameSubmit.setOnAction(event -> addRecipeNameClick());
-        ingredientSubmit.setOnAction(event -> {
-            try {
-                addSingleIngredientClick();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        allIngredientsSubmit.setOnAction(event -> {
-            try {
-                addAllIngredientsClick();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        durationSubmit.setOnAction(event -> addRecipeDuration());
-        descriptionSubmit.setOnAction(event -> addRecipeDescription());
-        servingSizeSubmit.setOnAction(event -> addRecipeServingSize());
-        imagePathSubmit.setOnAction(event -> addRecipeImagePath());
-        recipeSubmit.setOnAction(event -> {
-            try {
-                createRecipe();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        instructionSubmit.setOnAction(event -> addSingleInstructionClick());
-        allInstructionsSubmit.setOnAction(event -> addAllInstructionsClick());
-        clearRecipeButton.setOnAction(event -> clearRecipe());
+        ingredientsManager = new IngredientsManager(databaseConnection);
+        recipeIngManager = new RecipeIngManager(databaseConnection);
+        instructionsManager = new InstructionsManager(databaseConnection);
+        tagManager = new TagManager(databaseConnection);
+        recipeTagManager = new RecipeTagManager(databaseConnection);
+        recipeManager = new RecipeManager(databaseConnection,recipeTagManager,recipeIngManager,instructionsManager);
 
     }
 
+    @FXML
     private void addSingleTagClick() {
         String tag = tagInput.getText().trim();
         if (tag.isEmpty()) {
@@ -205,6 +125,7 @@ public class createRecipeController {
         }
     }
 
+    @FXML
     private void addAllTagsClick() {
         // First check for any unsaved tag in the input field
         if (!tagInput.getText().trim().isEmpty()) {
@@ -250,7 +171,8 @@ public class createRecipeController {
         System.out.println("All tags: " + tagFxList.getText());
     }
 
-    private void addSingleIngredientClick() throws SQLException {
+    @FXML
+    private void addSingleIngredientClick(){
         String ingredientName = ingredientNameInput.getText().trim();
         String ingredientQty = ingredientQtyInput.getText().trim();
         String unit = measurementUnitComboBox.getValue();
@@ -290,7 +212,8 @@ public class createRecipeController {
         }
     }
 
-    private void addAllIngredientsClick() throws SQLException {
+    @FXML
+    private void addAllIngredientsClick() {
         // Check if no ingredients have been added
         if (ingredientCount == 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -328,6 +251,7 @@ public class createRecipeController {
         submitCounter++;
     }
 
+    @FXML
     private void addSingleInstructionClick() {
         String instructionStepString = instructionInput.getText().trim();
 
@@ -352,6 +276,7 @@ public class createRecipeController {
 
     }
 
+    @FXML
     private void addAllInstructionsClick() {
         // Check if no instructions have been added
         if (instructionCount == 0) {
@@ -385,6 +310,7 @@ public class createRecipeController {
         submitCounter++;
     }
     
+    @FXML
     private void addRecipeNameClick() {
         String recipeName = recipeNameInput.getText().trim();
 
@@ -403,6 +329,7 @@ public class createRecipeController {
         }
     }
 
+    @FXML
     private void addRecipeDescription(){
         String description = recipeDescriptionInput.getText().trim();
         if(description.isEmpty()){
@@ -419,6 +346,7 @@ public class createRecipeController {
         }
     }
 
+    @FXML
     private void addRecipeDuration(){
         String duration = durationInput.getText().trim();
         if(duration.isEmpty()){
@@ -450,6 +378,7 @@ public class createRecipeController {
         }
     }
 
+    @FXML
     private void addRecipeServingSize(){
         String servingSize = servingSizeInput.getText().trim();
         if(servingSize.isEmpty()){
@@ -481,6 +410,7 @@ public class createRecipeController {
         }
     }
 
+    @FXML
     private void addRecipeImagePath(){
         String imagePath = imagePathInput.getText().trim();
         if(imagePath.isEmpty()){
@@ -587,7 +517,8 @@ public class createRecipeController {
         }
     }
 
-    private void createRecipe() throws SQLException {
+    @FXML
+    private void createRecipe() {
         // Check all required fields before allowing submission
         if (recipeName == null || recipeName.trim().isEmpty()) {
             showError("Recipe Name", "Please enter a recipe name.");
@@ -704,18 +635,6 @@ public class createRecipeController {
         }
 
         initialize();
-    }
-
-    public void switchToRecipeList() throws SQLException {
-        ingredientSubmit.getScene().setRoot(listLoader.getRoot());
-        recipeListController listController = listLoader.getController();
-        listController.populateList();
-    }
-
-    @FXML
-    private void switchToSearch(){
-        ingredientSubmit.getScene().setRoot(searchLoader.getRoot());
-        searchRecipeController controller = this.searchLoader.getController();
     }
 
 }

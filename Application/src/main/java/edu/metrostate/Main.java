@@ -17,8 +17,6 @@ import java.sql.SQLException;
 
 public class Main extends Application {
 
-    private Stage stage;
-    private FXMLLoader menuLoader;
     public static void main(String[] args)  {
         launch(args);
         DatabaseConnection db = new DatabaseConnection();
@@ -30,25 +28,15 @@ public class Main extends Application {
         RecipeTagRepository recipeTagRepository = new RecipeTagRepository(db);
 
         Connection connection = null;
-        try {
-            connection = db.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        connection = db.getConnection();
+
         if (connection != null) {
-            try {
                 recipeRepository.createTable();
                 ingredientRepository.createTable();
                 recipeIngRepository.createTable();
                 instructionRepository.createTable();
                 tagRepository.createTable();
                 recipeTagRepository.createTable();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-//            } finally {
-//                db.closeConnection();
-//            }
         }
         else {
             System.out.println("Connection failed.");
@@ -75,9 +63,7 @@ public class Main extends Application {
         FXMLLoader searchLoader = new FXMLLoader(getClass().getResource("searchRecipeView.fxml"));
         searchLoader.load();
 
-        // Initialize MenuBar
-        // Initialize MenuBar
-        menuLoader = new FXMLLoader(getClass().getResource("menuBar.fxml"));
+        FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menuBar.fxml"));
         menuLoader.load();
         MenuBarController menuController = menuLoader.getController();
         menuController.setLoaders(createLoader, listLoader,searchLoader);
@@ -87,40 +73,14 @@ public class Main extends Application {
         stage.setScene(scene);
 
         // Set up controllers
-        createRecipeController createController = createLoader.getController();
+        ((createRecipeController)createLoader.getController()).setViewLoader(viewLoader);
+        ((recipeListController)listLoader.getController()).setViewLoader(viewLoader);
+        ((searchRecipeController)searchLoader.getController()).setViewLoader(viewLoader);
+
         viewRecipeController viewController = viewLoader.getController();
-        recipeListController listController = listLoader.getController();
-
-        // Set MenuLoader for all controllers
-        createController.setMenuLoader(menuLoader);
         viewController.setMenuLoader(menuLoader);
-        listController.setMenuLoader(menuLoader);
-
-        // Set up other loaders
-        createController.setCreateLoader(createLoader);
-        createController.setViewLoader(viewLoader);
-        createController.setListLoader(listLoader);
-
-
-        createController.setViewLoader(viewLoader);
-        createController.setListLoader(listLoader);
-        createController.setSearchLoader(searchLoader);
-
-        viewController.setCreateLoader(createLoader);
-        viewController.setListLoader(listLoader);
-        viewController.setSearchLoader(searchLoader);
         viewController.setUpdateLoader(updateLoader);
 
-        listController.setCreateLoader(createLoader);
-        listController.setViewLoader(viewLoader);
-        listController.setSearchLoader(searchLoader);
-
-        searchRecipeController searchController = searchLoader.getController();
-        searchController.setCreateLoader(createLoader);
-        searchController.setListLoader(listLoader);
-        searchController.setViewLoader(viewLoader);
         stage.show();
-        
-
     }
 }

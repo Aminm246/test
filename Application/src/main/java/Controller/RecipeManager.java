@@ -1,26 +1,25 @@
 package Controller;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import Model.InstructionStep;
 import Model.Recipe;
-import Repository.InstructionsRepository;
+import Repository.DatabaseConnection;
 import Repository.RecipeRepository;
 
 public class RecipeManager {
     private final RecipeRepository recipeRepository;
-    private RecipeTagManager recipeTagManager;
-    private RecipeIngManager recipeIngManager;
-    private InstructionsManager instructionsManager;
+    private final RecipeTagManager recipeTagManager;
+    private final RecipeIngManager recipeIngManager;
+    private final InstructionsManager instructionsManager;
 
-    public RecipeManager(RecipeRepository recipeRepository, RecipeTagManager recipeTagManager, RecipeIngManager recipeIngManager, InstructionsRepository instructionsRepository) {
+    public RecipeManager(DatabaseConnection databaseConnection, RecipeTagManager recipeTagManager, RecipeIngManager recipeIngManager, InstructionsManager instructionsManager) {
+        this.recipeRepository = new RecipeRepository(databaseConnection);
         this.recipeTagManager = recipeTagManager;
         this.recipeIngManager = recipeIngManager;
-        this.recipeRepository = recipeRepository;
-        instructionsManager = new InstructionsManager(instructionsRepository);
+        this.instructionsManager = instructionsManager;
     }
 
     public Recipe getRecipe(int recipeID)  {
@@ -59,6 +58,7 @@ public class RecipeManager {
             recipeTagManager.addTag(recipeID,tagID);
         }
 
+
         for(String ingredient : recipeIngredients){
             int ingredientID = Integer.parseInt(ingredient.substring(ingredient.indexOf("(") + 1,ingredient.indexOf(")")));
             String measurementUnit = ingredient.substring(ingredient.indexOf("}") + 2);
@@ -71,6 +71,9 @@ public class RecipeManager {
         return 0;
     }
 
+    public void removeRecipe(int recipeID){
+        recipeRepository.deleteRecipe(recipeID);
+    }
 
     public List<Recipe> getRecipes() {
         List<Recipe> recipes = recipeRepository.getAllRecipes();

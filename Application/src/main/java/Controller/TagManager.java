@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Tag;
+import Repository.DatabaseConnection;
 import Repository.TagRepository;
 
 import java.sql.SQLException;
@@ -9,8 +10,8 @@ import java.util.List;
 public class TagManager {
     private final TagRepository tagRepository;
 
-    public TagManager(TagRepository tagRepository) {
-        this.tagRepository = tagRepository;
+    public TagManager(DatabaseConnection databaseConnection) {
+        this.tagRepository = new TagRepository(databaseConnection);
     }
 
     public int addTag(String tagName)  {

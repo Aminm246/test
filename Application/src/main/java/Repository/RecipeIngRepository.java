@@ -15,7 +15,7 @@ public class RecipeIngRepository {
         this.db = db;
     }
 
-    public void createTable() throws SQLException {
+    public void createTable(){
         String createTable = "CREATE TABLE IF NOT EXISTS recipeIng (" +
                 "recipeIngredientID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "recipeID INTEGER, " +

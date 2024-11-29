@@ -35,3 +35,11 @@
     prefilled with the selected recipes information. Then they can edit the overall Name, Description or Image Path.
     Then for the tags, ingredients, and instructions the user can select a specific one and edit or delete it. They
     can also add new ones if necessary.
+
+# Phase 3
+## Search Recipe
+
+## Grocery List
+    When selecting a recipe in recipelist, the user can use CTRL + Click to select multiple at one time.
+    This then allows the user the click generate grocery list, which will then display the conbined ingredients in a 
+    single list.
