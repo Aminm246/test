@@ -33,7 +33,7 @@
 - Fully implemented these as well as tied them into new Repository and database. 
 - Updated managing of SQLException to manage within the Repositories instead of having thrown errors in every class.
 - Modified the switching of views between different FXML files. Integrated existing code with the database.
-- Finished the implementation of the Recipe List classes.
+- Finished the implementation of the Recipe List classes. 
 - [Amin Mohamed] Added ingredient measurement unit to create recipe page
 - Changed menubar to have it's own function or FXML in some way, so we don't need to change multiple files for one change.
 - Implemented type checking for uploaded files to ensure they are images.
@@ -42,4 +42,10 @@
 - Changed Empty Tags Warning to use yes/no button type.
 
 # Milestone 6
+- [Hanad Musse] Implemented UI page and java code for search function. 
+- Finished the implementation of the Recipe List classes.
 - [Nick Reiss] Implemented generate grocery list function in recipelist page.
+- Removed unnecessary code throughout project.
+- Further removal of SQLExceptions that were missed in milestone 5.
+- Removed the usage of direct Repository access outside of the repository managers.
+- Added removal prompts in update recipe

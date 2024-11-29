@@ -6,13 +6,6 @@ public class RecipeTag {
     private int tagID;
     private Tag tag;
 
-
-    public RecipeTag(int recipeTagID, int recipeID, Tag tag) {
-        this.recipeTagID = recipeTagID;
-        this.recipeID = recipeID;
-        this.tag = tag;
-        this.tagID = tag.getTagId();
-    }
     public RecipeTag(int recipeID, int tagID) {
         this.recipeID = recipeID;
         this.tagID = tagID;

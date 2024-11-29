@@ -76,45 +76,68 @@ public class updateRecipeController  {
     }
 
     private void removeInstruction() {
-        //Prompt if sure. ADD ALERT!!!
-        int instructionID = Integer.parseInt(instructionNumPicker.getSelectionModel().getSelectedItem());
-        System.out.println("Removing instruction with id: " + instructionID);
-        instructionsManager.removeInstruction(instructionID);
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Are You Sure");
+        alert.setHeaderText("Remove Instruction");
+        alert.setContentText("Are you sure you want to remove this instruction?");
+        ButtonType buttonTypeYes = new ButtonType("Yes");
+        ButtonType buttonTypeNo = new ButtonType("No");
+        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+        alert.showAndWait().ifPresent(response -> {
+            if (response == buttonTypeYes) {
+                int instructionID = Integer.parseInt(instructionNumPicker.getSelectionModel().getSelectedItem());
+                System.out.println("Removing instruction with id: " + instructionID);
+                instructionsManager.removeInstruction(instructionID);
 
-        int i = 0;
-        for(String instruction: instructions){
-            if(instruction.substring(0, instruction.indexOf(":")).equals(Integer.toString(instructionID))){
-                System.out.println("REMOVING " + instruction);
-                instructions.remove(i);
-                break;
+                int i = 0;
+                for(String instruction: instructions){
+                    if(instruction.substring(0, instruction.indexOf(":")).equals(Integer.toString(instructionID))){
+                        System.out.println("REMOVING " + instruction);
+                        instructions.remove(i);
+                        break;
+                    }
+                    i++;
+                }
+                instructionNumPicker.getItems().remove(instructionNumPicker.getSelectionModel().getSelectedItem());
+                instructionNumPicker.getSelectionModel().clearSelection();
+                instructionInput.clear();
+                setInstructions();
             }
-            i++;
-        }
-        instructionNumPicker.getItems().remove(instructionNumPicker.getSelectionModel().getSelectedItem());
-        instructionNumPicker.getSelectionModel().clearSelection();
-        instructionInput.clear();
-        setInstructions();
+        });
+
+
     }
 
     private void removeIngredient() {
-        //Prompt if sure. ALERT ADD HERE!!!
-        int ingredientID = Integer.parseInt(ingredientNumPicker.getSelectionModel().getSelectedItem());
-        recipeIngManager.removeIngredient(ingredientID);
-        int i =0;
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Are You Sure");
+        alert.setHeaderText("Remove Ingredient");
+        alert.setContentText("Are you sure you want to remove this ingredient?");
+        ButtonType buttonTypeYes = new ButtonType("Yes");
+        ButtonType buttonTypeNo = new ButtonType("No");
+        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+        alert.showAndWait().ifPresent(response -> {
+            if (response == buttonTypeYes) {
+                int ingredientID = Integer.parseInt(ingredientNumPicker.getSelectionModel().getSelectedItem());
+                recipeIngManager.removeIngredient(ingredientID);
+                int i =0;
 
-        for(String ingredient: ingredients){
-            if(ingredient.contains("(" + ingredientID + ")")){
-                ingredients.remove(i);
-                break;
+                for(String ingredient: ingredients){
+                    if(ingredient.contains("(" + ingredientID + ")")){
+                        ingredients.remove(i);
+                        break;
+                    }
+                    i++;
+                }
+                ingredientNumPicker.getItems().remove(ingredientNumPicker.getSelectionModel().getSelectedItem());
+                ingredientNumPicker.getSelectionModel().clearSelection();
+                ingredientNameInput.clear();
+                ingredientQtyInput.clear();
+                measurementPicker.getSelectionModel().clearSelection();
+                setIngredients();
             }
-            i++;
-        }
-        ingredientNumPicker.getItems().remove(ingredientNumPicker.getSelectionModel().getSelectedItem());
-        ingredientNumPicker.getSelectionModel().clearSelection();
-        ingredientNameInput.clear();
-        ingredientQtyInput.clear();
-        measurementPicker.getSelectionModel().clearSelection();
-        setIngredients();
+        });
+
     }
 
     private void saveIngredient() {
