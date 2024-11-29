@@ -2,6 +2,7 @@ package Controller;
 
 import Model.RecipeTag;
 import Model.Tag;
+import Repository.DatabaseConnection;
 import Repository.RecipeTagRepository;
 import Repository.TagRepository;
 
@@ -16,9 +17,9 @@ public class RecipeTagManager {
     private final RecipeTagRepository recipeTagRepository;
     private TagRepository tagRepository;
 
-    public RecipeTagManager(RecipeTagRepository recipeTagRepository, TagRepository tagRepository) {
-        this.recipeTagRepository = recipeTagRepository;
-        this.tagRepository = tagRepository;
+    public RecipeTagManager(DatabaseConnection databaseConnection) {
+        this.recipeTagRepository = new RecipeTagRepository(databaseConnection);
+        this.tagRepository = new TagRepository(databaseConnection);
     }
 
     public int addTag(int recipeID, int tagID)  {
@@ -41,7 +42,9 @@ public class RecipeTagManager {
         return tags;
     }
 
-
+    public void removeTag(int tagID){
+        recipeTagRepository.deleteTag(tagID);
+    }
     public void removeAllTags(int recipeID)  {
         List<RecipeTag> tags = recipeTagRepository.getTagsByRecipeId(recipeID);
         for(RecipeTag recipeTag: tags){

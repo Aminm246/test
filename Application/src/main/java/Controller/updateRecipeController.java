@@ -23,7 +23,6 @@ public class updateRecipeController  {
     private IngredientsManager ingredientsManager;
     private RecipeTagManager recipeTagManager;
 
-
     @FXML TextField imagePathInput,recipeNameInput, durationInput,servingSizeInput, ingredientNameInput, ingredientQtyInput, tagInput;
     @FXML TextArea instructionFxList,tagFxList,recipeDescriptionInput,ingredientFxList, instructionInput;
 
@@ -31,30 +30,19 @@ public class updateRecipeController  {
     @FXML Button ingredientSubmit, ingredientAdd, ingredientRemove, instructionSubmit, instructionAdd, instructionRemove,
             tagRemove,tagAdd, recipeSubmit, cancelButton;
 
-    List<String> ingredients;
-    List<String> instructions;
-    List<String> tags;
+    List<String> ingredients, instructions, tags;
     @FXML
     void initialize() {
         databaseConnection = new DatabaseConnection();
         recipeRepository = new RecipeRepository(databaseConnection);
-        recipeIngManager = new RecipeIngManager(new RecipeIngRepository(databaseConnection),new IngredientsRepository(databaseConnection));
-        instructionsManager = new InstructionsManager(new InstructionsRepository(databaseConnection));
-        ingredientsManager = new IngredientsManager(new IngredientsRepository(databaseConnection));
-        tagManager = new TagManager(new TagRepository(databaseConnection));
-        recipeTagManager =new RecipeTagManager(new RecipeTagRepository(databaseConnection),new TagRepository(databaseConnection));
+        recipeIngManager = new RecipeIngManager(databaseConnection);
+        instructionsManager = new InstructionsManager(databaseConnection);
+        ingredientsManager = new IngredientsManager(databaseConnection);
+        tagManager = new TagManager(databaseConnection);
+        recipeTagManager =new RecipeTagManager(databaseConnection);
 
         measurementPicker.getItems().addAll(
-                "grams",
-                "cups",
-                "tablespoons",
-                "teaspoons",
-                "ounces",
-                "pounds",
-                "milliliters",
-                "liters",
-                "pieces",
-                "pinch"
+                MeasurementUnits.getAll()
         );
 
         instructionNumPicker.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
@@ -88,11 +76,10 @@ public class updateRecipeController  {
     }
 
     private void removeInstruction() {
-        //Prompt if sure.
+        //Prompt if sure. ADD ALERT!!!
         int instructionID = Integer.parseInt(instructionNumPicker.getSelectionModel().getSelectedItem());
         System.out.println("Removing instruction with id: " + instructionID);
         instructionsManager.removeInstruction(instructionID);
-
 
         int i = 0;
         for(String instruction: instructions){
@@ -110,7 +97,7 @@ public class updateRecipeController  {
     }
 
     private void removeIngredient() {
-        //Prompt if sure
+        //Prompt if sure. ALERT ADD HERE!!!
         int ingredientID = Integer.parseInt(ingredientNumPicker.getSelectionModel().getSelectedItem());
         recipeIngManager.removeIngredient(ingredientID);
         int i =0;
@@ -130,7 +117,6 @@ public class updateRecipeController  {
         setIngredients();
     }
 
-
     private void saveIngredient() {
         if(!ingredientNameInput.getText().isEmpty()){
             String ingredientName = ingredientNameInput.getText();
@@ -149,6 +135,7 @@ public class updateRecipeController  {
             System.out.println(ingredientName + " : " + ingredientQuantity + " : " + ingredientID);
         }
     }
+
     private void saveInstruction()  {
         if(!instructionInput.getText().isEmpty()) {
             String instruction = instructionInput.getText();
@@ -170,7 +157,7 @@ public class updateRecipeController  {
 
     private void addIngredient(){
         if(ingredientNameInput.getText().isEmpty() || ingredientQtyInput.getText().isEmpty() || measurementPicker.getSelectionModel().isEmpty()){
-            //Please fill out ingredient before trying to add
+            //Please fill out ingredient before trying to add. ADD ALERT!!!
         }
         else {
             int ingredientID = ingredientsManager.addIngredient(ingredientNameInput.getText());
@@ -188,6 +175,7 @@ public class updateRecipeController  {
         }
         setIngredients();
     }
+
     private void addInstruction(){
         if(!instructionInput.getText().isEmpty()) {
             int instructionID = Integer.parseInt(instructionNumPicker.getItems().get(instructionNumPicker.getItems().size() - 1));
@@ -201,6 +189,7 @@ public class updateRecipeController  {
         }
         setInstructions();
     }
+
     private void removeTag(){
         if(!tagInput.getText().isEmpty()){
             int tagID = Integer.parseInt(tagNumPicker.getSelectionModel().getSelectedItem());
@@ -230,11 +219,11 @@ public class updateRecipeController  {
             setTags();
         }
     }
+
     private void saveRecipe()  {
-        RecipeManager recipeManager = new RecipeManager(recipeRepository,recipeTagManager,recipeIngManager,new InstructionsRepository(databaseConnection));
+        RecipeManager recipeManager = new RecipeManager(databaseConnection,recipeTagManager,recipeIngManager,instructionsManager);
         recipeManager.updateRecipe(recipeID,recipeNameInput.getText(),1,Integer.parseInt(servingSizeInput.getText())
                 ,imagePathInput.getText(),recipeDescriptionInput.getText(),Integer.parseInt(durationInput.getText()),ingredients,instructions,tags);
-
     }
 
     public void setRecipe(int recipeID)  {
@@ -284,10 +273,12 @@ public class updateRecipeController  {
     private void setIngredients() {
         ingredientFxList.setText(String.join("\n", ingredients));
     }
+
     private void setInstructions(){
         System.out.println(instructions.toString());
         instructionFxList.setText(String.join("\n", instructions));
     }
+
     private void setTags(){
         tagFxList.setText(String.join(", ", tags));
     }
@@ -295,9 +286,11 @@ public class updateRecipeController  {
     private void setInstruction(int id)  {
         instructionInput.setText(instructionsManager.getInstruction(id).getStepDescription());
     }
+
     private void setTag(int tagID)  {
         tagInput.setText(tagManager.getTagById(tagID).getTagName());
     }
+
     private void loadIngredient(int recipeIngID)  {
             RecipeIngredient ingredient = recipeIngManager.getIngredientById(recipeIngID);
             ingredientNameInput.setText(ingredientsManager.getIngredientById(ingredient.getIngredientID()).getIngredientName());

@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class searchRecipeController implements Initializable  {
-    private FXMLLoader listLoader;
-    private FXMLLoader createLoader;
     private FXMLLoader viewLoader;
 
     @FXML
@@ -41,9 +39,7 @@ public class searchRecipeController implements Initializable  {
     private ObservableList<String> recipes;
 
     private String recipeName;
-    private String ingredientName;
     private List<String> ingredientNames;
-    private String tagName;
     private List<String> tagNames;
 
     RecipeManager recipeManager;
@@ -53,14 +49,7 @@ public class searchRecipeController implements Initializable  {
     RecipeIngManager recipeIngManager;
     InstructionsManager instructionsManager;
 
-
     DatabaseConnection databaseConnection;
-    RecipeRepository recipeRepository;
-    IngredientsRepository ingredientsRepository;
-    RecipeTagRepository recipeTagRepository;
-    TagRepository tagRepository;
-    RecipeIngRepository recipeIngRepository;
-    InstructionsRepository instructionsRepository;
 
     private URL location;
     private ResourceBundle resources;
@@ -71,20 +60,13 @@ public class searchRecipeController implements Initializable  {
         this.location = location;
         this.resources = resources;
         databaseConnection = new DatabaseConnection();
-        recipeRepository = new RecipeRepository(databaseConnection);
-        ingredientsRepository = new IngredientsRepository(databaseConnection);
-        recipeTagRepository = new RecipeTagRepository(databaseConnection);
-        tagRepository = new TagRepository(databaseConnection);
-        recipeIngRepository = new RecipeIngRepository(databaseConnection);
-        instructionsRepository = new InstructionsRepository(databaseConnection);
 
-        ingredientsManager = new IngredientsManager(ingredientsRepository);
-        recipeTagManager = new RecipeTagManager(recipeTagRepository, tagRepository);
-        tagManager = new TagManager(tagRepository);
-        recipeIngManager = new RecipeIngManager(recipeIngRepository, ingredientsRepository);
-        instructionsManager = new InstructionsManager(instructionsRepository);
-        recipeManager = new RecipeManager(recipeRepository, recipeTagManager, recipeIngManager, instructionsRepository);
-
+        ingredientsManager = new IngredientsManager(databaseConnection);
+        recipeTagManager = new RecipeTagManager(databaseConnection);
+        tagManager = new TagManager(databaseConnection);
+        recipeIngManager = new RecipeIngManager(databaseConnection);
+        instructionsManager = new InstructionsManager(databaseConnection);
+        recipeManager = new RecipeManager(databaseConnection,recipeTagManager,recipeIngManager,instructionsManager);
 
         nameSubmitButton.setOnAction(event -> addRecipeNameClick());
         ingredientSubmit.setOnAction(event -> addIngredientNameClick());
@@ -92,39 +74,27 @@ public class searchRecipeController implements Initializable  {
         addTagButton.setOnAction(event -> addSingleTagClick());
         submitTagsButton.setOnAction(event -> addAllTagsClick());
         clearButton.setOnAction(event -> clearButtonClick());
-        searchSubmit.setOnAction(event -> {
-            try {
-                searchButtonClick();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        searchSubmit.setOnAction(event -> searchButtonClick());
 
         ingredientNames = new ArrayList<>();
         tagNames = new ArrayList<>();
         searchSubmit.setDisable(true);
         recipes = FXCollections.observableArrayList();
         recipeListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
             @Override
             public void handle(MouseEvent event) {
                 String recipeName = recipeListView.getSelectionModel().getSelectedItem();
                 if(!recipeName.isEmpty()){
                     int recipeID = Integer.parseInt(recipeName.substring(recipeName.indexOf("(") + 1,recipeName.indexOf(")")));
-                    try {
-                        switchToViewRecipe(recipeID);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    switchToViewRecipe(recipeID);
                 }
 
             }
         });
     }
 
-
     @FXML
-    private void searchButtonClick() throws SQLException {
+    private void searchButtonClick() {
         if (!recipeNameInput.isDisable()) recipeNameInput.setDisable(true);
         if (!ingredientNameInput.isDisable()) ingredientNameInput.setDisable(true);
         if (!tagNameInput.isDisable()) tagNameInput.setDisable(true);
@@ -229,8 +199,6 @@ public class searchRecipeController implements Initializable  {
         makeSearchable();
     }
 
-
-
     private void addAllIngredientsClick() {
         addIngredientNameClick();
         ingredientFxList.setDisable(true);
@@ -250,7 +218,6 @@ public class searchRecipeController implements Initializable  {
 
     }
 
-
     private void addRecipeNameClick() {
         this.recipeName = recipeNameInput.getText().trim().toLowerCase();
         recipeNameInput.setDisable(true);
@@ -264,33 +231,12 @@ public class searchRecipeController implements Initializable  {
         }
     }
 
-    public void setListLoader(FXMLLoader listLoader) throws SQLException {
-        this.listLoader = listLoader;
-        recipeListController controller = this.listLoader.getController();
-        controller.setRecipeManager(recipeManager);
-    }
-
-    public void setCreateLoader(FXMLLoader createLoader){
-        this.createLoader = createLoader;
-    }
-
-    public void switchToRecipeList() throws SQLException {
-        ingredientSubmit.getScene().setRoot(listLoader.getRoot());
-        recipeListController listController = listLoader.getController();
-        listController.populateList();
-    }
-
-    @FXML
-    private void switchToCreateRecipe(){
-        ingredientSubmit.getScene().setRoot(createLoader.getRoot());
-    }
-
     public void setViewLoader(FXMLLoader viewLoader){
         this.viewLoader = viewLoader;
     }
 
     @FXML
-    private void switchToViewRecipe(int recipeID) throws SQLException {
+    private void switchToViewRecipe(int recipeID) {
         ingredientSubmit.getScene().setRoot(viewLoader.getRoot());
         viewRecipeController controller = viewLoader.getController();
         controller.setRecipe(recipeID);

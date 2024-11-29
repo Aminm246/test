@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.InstructionStep;
+import Repository.DatabaseConnection;
 import Repository.InstructionsRepository;
 
 import java.sql.SQLException;
@@ -9,8 +10,8 @@ import java.util.List;
 public class InstructionsManager {
     private final InstructionsRepository instructionsRepository;
 
-    public InstructionsManager(InstructionsRepository instructionsRepository) {
-        this.instructionsRepository = instructionsRepository;
+    public InstructionsManager(DatabaseConnection databaseConnection) {
+        this.instructionsRepository = new InstructionsRepository(databaseConnection);
     }
 
     public InstructionStep getInstruction(int instructionStepID)  {

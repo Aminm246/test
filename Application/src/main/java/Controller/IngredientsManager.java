@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Ingredient;
+import Repository.DatabaseConnection;
 import Repository.IngredientsRepository;
 
 import java.sql.SQLException;
@@ -9,8 +10,8 @@ import java.util.List;
 public class IngredientsManager {
     private final IngredientsRepository ingredientsRepository;
 
-    public IngredientsManager(IngredientsRepository ingredientsRepository) {
-        this.ingredientsRepository = ingredientsRepository;
+    public IngredientsManager(DatabaseConnection databaseConnection) {
+        this.ingredientsRepository = new IngredientsRepository(databaseConnection);
     }
 
     public int addIngredient(String ingredientName){

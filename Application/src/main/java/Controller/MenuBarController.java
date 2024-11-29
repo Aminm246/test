@@ -10,20 +10,16 @@ public class MenuBarController {
     @FXML
     private MenuBar menuBar;
 
-    private static FXMLLoader createLoader;
-    private static FXMLLoader listLoader;
-    private static FXMLLoader searchLoader;
+    private static FXMLLoader createLoader, listLoader, searchLoader;
 
-    public void setLoaders(FXMLLoader createLoader, FXMLLoader listLoader,
-                           FXMLLoader searchLoader) {
+    public void setLoaders(FXMLLoader createLoader, FXMLLoader listLoader, FXMLLoader searchLoader) {
         MenuBarController.createLoader = createLoader;
         MenuBarController.listLoader = listLoader;
-
-        this.searchLoader = searchLoader;
+        MenuBarController.searchLoader = searchLoader;
     }
 
     @FXML
-    public void switchToRecipeList() throws SQLException {
+    public void switchToRecipeList() {
         if (listLoader != null && menuBar != null && menuBar.getScene() != null) {
             menuBar.getScene().setRoot(listLoader.getRoot());
             recipeListController listController = listLoader.getController();

@@ -46,3 +46,8 @@
     to either perform the search or clear and start over. If user selects search, the results of search will show 
     on the bottom. If recipes are found from search they will be displayed, otherwise system will indicate no results
     were found.
+    
+## Grocery List
+    When selecting a recipe in recipelist, the user can use CTRL + Click to select multiple at one time.
+    This then allows the user the click generate grocery list, which will then display the conbined ingredients in a 
+    single list.

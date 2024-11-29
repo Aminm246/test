@@ -31,9 +31,17 @@
 - [Hanad Musse] Implemented UI button and java code for delete function to enable the deletion of recipe data from the database.   
 - [Nick Reiss] Implemented Button for the change to update recipe page. Created the FXML for Update Recipe as well as the controller.
 - Fully implemented these as well as tied them into new Repository and database. 
-- Updated managing of SQLException to manage within the Repositories instead of having thrown errors in very class.
+- Updated managing of SQLException to manage within the Repositories instead of having thrown errors in every class.
 - Modified the switching of views between different FXML files. Integrated existing code with the database.
 - Finished the implementation of the Recipe List classes. 
+- [Amin Mohamed] Added ingredient measurement unit to create recipe page
+- Changed menubar to have it's own function or FXML in some way, so we don't need to change multiple files for one change.
+- Implemented type checking for uploaded files to ensure they are images.
+- Added field validation for createRecipeView to check text before submission.
+- Moved unsubmitted tags prompt from createRecipe function into the tags creation functions.
+- Changed Empty Tags Warning to use yes/no button type.
 
 # Milestone 6
 - [Hanad Musse] Implemented UI page and java code for search function. 
+- Finished the implementation of the Recipe List classes.
+- [Nick Reiss] Implemented generate grocery list function in recipelist page.
