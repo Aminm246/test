@@ -45,3 +45,7 @@
 - [Hanad Musse] Implemented UI page and java code for search function. 
 - Finished the implementation of the Recipe List classes.
 - [Nick Reiss] Implemented generate grocery list function in recipelist page.
+- Removed unnecessary code throughout project.
+- Further removal of SQLExceptions that were missed in milestone 5.
+- Removed the usage of direct Repository access outside of the repository managers.
+- 
