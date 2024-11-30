@@ -49,3 +49,8 @@
 - Further removal of SQLExceptions that were missed in milestone 5.
 - Removed the usage of direct Repository access outside of the repository managers.
 - Added removal prompts in update recipe
+- [Amin Mohamed] Implemented duplicate checking logic for tags to prevent duplicate entries in the database.
+- Added case-insensitive comparison for tag names.
+- Improved error handling in tag-related operations.
+- Added UNIQUE constraint to tags table to maintain data consistency.
+- Implemented proper transaction handling for tag operations.
