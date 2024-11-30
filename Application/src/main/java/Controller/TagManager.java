@@ -14,14 +14,16 @@ public class TagManager {
         this.tagRepository = new TagRepository(databaseConnection);
     }
 
-    public int addTag(String tagName)  {
+    public int addTag(String tagName) throws SQLException {
+        if (tagRepository.tagExists(tagName)) {
+            Tag existingTag = tagRepository.getTagByName(tagName);
+            System.out.println("Using existing tag with ID: " + existingTag.getTagId());
+            return existingTag.getTagId();
+        }
+
         Tag tag = new Tag(tagName);
         int tagId = tagRepository.insertTag(tag);
-        if (tagId != -1) {
-            System.out.println("Tag created with ID: " + tagId);
-        } else {
-            System.out.println("Failed to create tag.");
-        }
+        System.out.println("Created new tag with ID: " + tagId);
         return tagId;
     }
 
