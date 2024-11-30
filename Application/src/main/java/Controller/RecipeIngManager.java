@@ -5,7 +5,6 @@ import Repository.DatabaseConnection;
 import Repository.IngredientsRepository;
 import Repository.RecipeIngRepository;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.List;
 
 public class RecipeIngManager {

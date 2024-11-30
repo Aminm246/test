@@ -1,8 +1,6 @@
 package Repository;
 
-import Model.Ingredient;
 import Model.Tag;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,7 @@ public class TagRepository {
         this.db = db;
     }
 
-    public boolean tagExists(String tagName) throws SQLException {
+    public boolean tagExists(String tagName) {
         String sql = "SELECT COUNT(*) FROM tags WHERE LOWER(tagName) = LOWER(?)";
         try (Connection connection = db.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -23,14 +21,16 @@ public class TagRepository {
             if (rs.next()) {
                 return rs.getInt(1) > 0;
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return false;
     }
 
-    public Tag getTagByName(String tagName) throws SQLException {
+    public Tag getTagByName(String tagName) {
         String query = "SELECT * FROM tags WHERE LOWER(tagName) = LOWER(?)";
         try (Connection connection = db.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, tagName.trim());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -39,6 +39,8 @@ public class TagRepository {
                 tag.setTagName(resultSet.getString("tagName"));
                 return tag;
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }

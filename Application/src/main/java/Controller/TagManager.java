@@ -3,8 +3,6 @@ package Controller;
 import Model.Tag;
 import Repository.DatabaseConnection;
 import Repository.TagRepository;
-
-import java.sql.SQLException;
 import java.util.List;
 
 public class TagManager {
@@ -14,7 +12,7 @@ public class TagManager {
         this.tagRepository = new TagRepository(databaseConnection);
     }
 
-    public int addTag(String tagName) throws SQLException {
+    public int addTag(String tagName){
         if (tagRepository.tagExists(tagName)) {
             Tag existingTag = tagRepository.getTagByName(tagName);
             System.out.println("Using existing tag with ID: " + existingTag.getTagId());
