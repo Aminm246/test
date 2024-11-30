@@ -170,11 +170,7 @@ public class createRecipeController {
         servingSizeSubmit.setOnAction(event -> addRecipeServingSize());
         imagePathSubmit.setOnAction(event -> addRecipeImagePath());
         recipeSubmit.setOnAction(event -> {
-            try {
-                createRecipe();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            createRecipe();
         });
         instructionSubmit.setOnAction(event -> addSingleInstructionClick());
         allInstructionsSubmit.setOnAction(event -> addAllInstructionsClick());
@@ -587,7 +583,8 @@ public class createRecipeController {
         }
     }
 
-    private void createRecipe() throws SQLException {
+    @FXML
+    private void createRecipe() {
         // Check all required fields before allowing submission
         if (recipeName == null || recipeName.trim().isEmpty()) {
             showError("Recipe Name", "Please enter a recipe name.");
@@ -614,61 +611,58 @@ public class createRecipeController {
             return;
         }
 
-        System.out.print(submitCounter);
-        if(submitCounter == 8){
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                    "Do you want to view the recipe?",
-                    ButtonType.YES,
-                    ButtonType.NO);
+        if(submitCounter == 8) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to view the recipe?", ButtonType.YES, ButtonType.NO);
             Optional<ButtonType> result = alert.showAndWait();
 
-            // Create recipe and get ID first
-            int recipeID = recipeManager.addRecipe(recipeName, 1, servingSize,
-                    imagePath, description, duration);
+            try {
+                // Create recipe and get ID first
+                int recipeID = recipeManager.addRecipe(recipeName, 1, servingSize, imagePath, description, duration);
+                if (recipeID == -1) {
+                    Alert alert2 = new Alert(Alert.AlertType.ERROR);
+                    alert2.setContentText("Failed to create recipe");
+                    alert2.showAndWait();
+                    return;
+                }
 
-            if (recipeID == -1) {
+                // Add ingredients
+                for (int i = 0; i < ingredientCount; i++) {
+                    String ingredientName = ingredientNames.get(i);
+                    BigDecimal ingredientQty = ingredientQtys.get(i);
+                    String ingredientUnit = ingredientUnits.get(i);
+                    int ingredientId = ingredientsManager.addIngredient(ingredientName);
+                    recipeIngManager.addIngredient(ingredientId, recipeID, ingredientUnit, ingredientQty);
+                }
+
+                // Add instructions
+                for (int i = 0; i < descriptions.size(); i++) {
+                    String description = descriptions.get(i);
+                    instructionsManager.insertInstruction(recipeID, i+1, description);
+                }
+
+                // Add tags
+                for (int i = 0; i < tagNames.size(); i++) {
+                    String tagName = tagNames.get(i);
+                    int tagId = tagManager.addTag(tagName);
+                    recipeTagManager.addTag(recipeID, tagId);
+                }
+
+                Recipe recipe = recipeManager.getRecipe(recipeID);
+                if(result.get() == ButtonType.YES) {
+                    //Changes scene to viewRecipe
+                    ingredientSubmit.getScene().setRoot(viewLoader.getRoot());
+                    //Sets up the Recipe on the viewRecipe page
+                    viewRecipeController controller = viewLoader.getController();
+                    controller.setRecipe(recipeID);
+                }
+                //Clears the create recipe page for additional creations
+                clearRecipe();
+
+            } catch (SQLException e) {
                 Alert alert2 = new Alert(Alert.AlertType.ERROR);
-                alert2.setContentText("Failed to create recipe");
+                alert2.setContentText("Database error: " + e.getMessage());
                 alert2.showAndWait();
-                return;
             }
-
-            System.err.println("RECIPE ID:" + recipeID);
-
-            // Add ingredients
-            for (int i = 0; i < ingredientCount; i++) {
-                String ingredientName = ingredientNames.get(i);
-                BigDecimal ingredientQty = ingredientQtys.get(i);
-                String ingredientUnit = ingredientUnits.get(i);
-                int ingredientId = ingredientsManager.addIngredient(ingredientName);
-                recipeIngManager.addIngredient(ingredientId, recipeID, ingredientUnit, ingredientQty);
-            }
-
-            // Add instructions
-            for (int i = 0; i < descriptions.size(); i++) {
-                String description = descriptions.get(i);
-                instructionsManager.insertInstruction(recipeID, i+1, description);
-            }
-
-            // Add tags
-            for (int i = 0; i < tagNames.size(); i++) {
-                String tagName = tagNames.get(i);
-                int tagId = tagManager.addTag(tagName);
-                recipeTagManager.addTag(recipeID, tagId);
-            }
-
-            System.out.println(recipeManager.getRecipe(recipeID).toString());
-            Recipe recipe = recipeManager.getRecipe(recipeID);
-
-            if(result.get() == ButtonType.YES){
-                //Changes scene to viewRecipe
-                ingredientSubmit.getScene().setRoot(viewLoader.getRoot());
-                //Sets up the Recipe on the viewRecipe page.
-                viewRecipeController controller = viewLoader.getController();
-                controller.setRecipe(recipeID);
-            }
-            //Clears the create recipe page for additional creations
-            clearRecipe();
         }
     }
 
