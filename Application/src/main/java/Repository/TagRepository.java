@@ -14,10 +14,39 @@ public class TagRepository {
         this.db = db;
     }
 
-    public void createTable()  {
+    public boolean tagExists(String tagName) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM tags WHERE LOWER(tagName) = LOWER(?)";
+        try (Connection connection = db.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, tagName.trim());
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
+
+    public Tag getTagByName(String tagName) throws SQLException {
+        String query = "SELECT * FROM tags WHERE LOWER(tagName) = LOWER(?)";
+        try (Connection connection = db.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, tagName.trim());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Tag tag = new Tag();
+                tag.setTagId(resultSet.getInt("tagId"));
+                tag.setTagName(resultSet.getString("tagName"));
+                return tag;
+            }
+        }
+        return null;
+    }
+
+    public void createTable() {
         String createTable = "CREATE TABLE IF NOT EXISTS tags (" +
                 "tagId INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "tagName TEXT" +
+                "tagName TEXT UNIQUE COLLATE NOCASE" +
                 ")";
         try (Connection connection = db.getConnection();
              Statement statement = connection.createStatement()) {
@@ -27,15 +56,14 @@ public class TagRepository {
         }
     }
 
-    public int insertTag(Tag tag)  {
-        Connection connection = null;
-        try {
-            connection = db.getConnection();
-            String insert = "INSERT INTO tags (tagName) VALUES (?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(insert); {
-                preparedStatement.setString(1, tag.getTagName());
-                preparedStatement.executeUpdate();
-            }
+    public int insertTag(Tag tag) {
+        try (Connection connection = db.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "INSERT INTO tags (tagName) VALUES (?)",
+                     Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, tag.getTagName().trim());
+            preparedStatement.executeUpdate();
+
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 return generatedKeys.getInt(1);
@@ -44,7 +72,6 @@ public class TagRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public Tag getTagById(int tagId)  {
