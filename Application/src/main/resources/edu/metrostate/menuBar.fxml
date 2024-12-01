@@ -12,13 +12,5 @@
                 <MenuItem mnemonicParsing="false" onAction="#switchToSearch" text="Search Recipes" />
             </items>
         </Menu>
-        <Menu text="Ingredients">
-            <items>
-            </items>
-        </Menu>
-        <Menu text="Favorites">
-            <items>
-            </items>
-        </Menu>
     </menus>
 </MenuBar>

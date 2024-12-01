@@ -102,5 +102,6 @@
             <ColorAdjust contrast="-0.15" />
          </effect>
       </TextArea>
+      <Text layoutX="189.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(Leave blank if image is unavailable)" />
    </children>
 </AnchorPane>
