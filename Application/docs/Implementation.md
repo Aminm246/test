@@ -1,4 +1,4 @@
-# Phase 1
+# Phase 1 [October 23rd]
 
 ## Create Recipe
     When the program is ran you are greeted with the create recipe page. This can 
@@ -16,7 +16,7 @@
 
     Submit a filled recipe and click Yes to view the recipe.
 
-# Phase 2
+# Phase 2 [November 28th]
 
 ## Delete Recipe
     This functional requirement allows the user to delete a particular recipe. The user must select the top left menu bar item 
@@ -36,7 +36,7 @@
     Then for the tags, ingredients, and instructions the user can select a specific one and edit or delete it. They
     can also add new ones if necessary.
 
-# Phase 3
+# Phase 3 [November 30th]
 
 ## Search Recipe
     This functional requirement allows a user to search for a particular recipe. The search function can be found

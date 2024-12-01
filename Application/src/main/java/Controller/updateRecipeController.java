@@ -233,21 +233,14 @@ public class updateRecipeController  {
 
     private void addTag() {
         if (!tagInput.getText().isEmpty()) {
-            try {
-                int tagid = tagManager.addTag(tagInput.getText());
-                Tag tag = tagManager.getTagById(tagid);
-                String string = "(" + tag.getTagId() + ") " + tag.getTagName();
-                tags.add(string);
-                tagNumPicker.getItems().add(String.valueOf(tag.getTagId()));
-                tagInput.clear();
-                tagNumPicker.getSelectionModel().clearSelection();
-                setTags();
-            } catch (SQLException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Database error: " + e.getMessage());
-                alert.showAndWait();
-                tagInput.clear();
-            }
+            int tagid = tagManager.addTag(tagInput.getText());
+            Tag tag = tagManager.getTagById(tagid);
+            String string = "(" + tag.getTagId() + ") " + tag.getTagName();
+            tags.add(string);
+            tagNumPicker.getItems().add(String.valueOf(tag.getTagId()));
+            tagInput.clear();
+            tagNumPicker.getSelectionModel().clearSelection();
+            setTags();
         }
     }
 
