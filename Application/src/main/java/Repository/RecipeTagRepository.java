@@ -1,6 +1,5 @@
 package Repository;
 
-import Model.RecipeIngredient;
 import Model.RecipeTag;
 
 import java.sql.*;
