@@ -40,7 +40,7 @@ public class createRecipeController {
     List<String> ingredientNames;
     List<BigDecimal> ingredientQtys;
     List<InstructionStep> instructionSteps;
-    List<String> descriptions;
+    List<String> instructions;
     List<String> tagNames;
 
     int ingredientCount;
@@ -80,7 +80,7 @@ public class createRecipeController {
         recipeIngredients = new ArrayList<>();
         instructionSteps = new ArrayList<>();
         tagNames = new ArrayList<>();
-        descriptions = new ArrayList<>();
+        instructions = new ArrayList<>();
         imagePath = "";
         tagList = new ArrayList<>();
         tagsPlusClicked = false;
@@ -263,11 +263,11 @@ public class createRecipeController {
 
         else {
 //            InstructionStep instructionStep = new InstructionStep(instructionCount + 1, instructionStepString);
-            descriptions.add(instructionStepString);
+            instructions.add(instructionStepString);
 
 //            System.out.println(instructionStep);
 //            instructionSteps.add(instructionStep);
-            instructionFxList.setText(instructionFxList.getText() + "Instruction " + descriptions.size() + ": " + instructionStepString + "\n");
+            instructionFxList.setText(instructionFxList.getText() + "Instruction " + instructions.size() + ": " + instructionStepString + "\n");
             instructionInput.clear();
             instructionCount++;
             allInstructionsSubmit.setDisable(false);
@@ -567,8 +567,8 @@ public class createRecipeController {
             }
 
             // Add instructions
-            for (int i = 0; i < descriptions.size(); i++) {
-                String description = descriptions.get(i);
+            for (int i = 0; i < instructions.size(); i++) {
+                String description = instructions.get(i);
                 instructionsManager.insertInstruction(recipeID, i+1, description);
             }
 
