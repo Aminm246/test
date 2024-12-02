@@ -75,6 +75,46 @@ public class RecipeManager {
         recipeRepository.deleteRecipe(recipeID);
     }
 
+    public void importRecipe(String recipe) {
+        String[] recipeParts = recipe.split("/");
+        int recipeID = addRecipe(recipeParts[0],Integer.parseInt(recipeParts[4]),Integer.parseInt(recipeParts[5]),
+                recipeParts[6],recipeParts[7],Integer.parseInt(recipeParts[8]));
+        String[] instructions = parseString(recipeParts[3]);
+        int stepNum = 0;
+        for(String instruction : instructions){
+            instructionsManager.insertInstruction(recipeID,stepNum,instruction);
+            stepNum++;
+        }
+
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        TagManager tagManager = new TagManager(databaseConnection);
+        String[] tags = parseString(recipeParts[1]);
+        for(String tag : tags){
+            int tagID = tagManager.addTag(tag);
+            recipeTagManager.addTag(recipeID,tagID);
+        }
+
+        IngredientsManager ingredientsManager = new IngredientsManager(databaseConnection);
+        String[] Ingredients = parseString(recipeParts[2]);
+        for(String ingredientToParse : Ingredients){
+            String[] ingredientParts = ingredientToParse.split(":");
+
+            int ingredientID = ingredientsManager.addIngredient(ingredientParts[0]);
+            double qty = Double.parseDouble(ingredientParts[1]);
+            String measurement = ingredientParts[2];
+            BigDecimal quantity = BigDecimal.valueOf(qty);
+
+            recipeIngManager.addIngredient(ingredientID,recipeID,measurement,quantity);
+        }
+
+        databaseConnection.closeConnection();
+
+    }
+
+    public String[] parseString(String string){
+        return string.replace("[","").replace("]","").split(",");
+    }
+
     public List<Recipe> getRecipes() {
         List<Recipe> recipes = recipeRepository.getAllRecipes();
         for (Recipe recipe : recipes) {

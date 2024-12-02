@@ -34,6 +34,8 @@ public class viewRecipeController {
     private RecipeTagManager recipeTagManager;
     private RecipeIngManager recipeIngManager;
 
+    private int recipeID;
+
     @FXML
     public void initialize() {
         DatabaseConnection databaseConnection = new DatabaseConnection();
@@ -44,8 +46,11 @@ public class viewRecipeController {
         recipeManager = new RecipeManager(databaseConnection, recipeTagManager, recipeIngManager,instructionsManager);
 
     }
-
+    public int getRecipeID(){
+        return recipeID;
+    }
     public void setRecipe(int recipeID) {
+        this.recipeID = recipeID;
         Recipe recipe = recipeManager.getRecipe(recipeID);
         recipeNameLabel.setText(recipe.getRecipeName());
         List<String> ingredients = new ArrayList<>();

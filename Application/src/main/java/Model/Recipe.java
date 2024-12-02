@@ -176,6 +176,31 @@ public class Recipe {
                 '}';
     }
 
+    public String toCleanString(){
+        List <String> cleanedTags = new ArrayList<>();
+        List <String> cleanedInstructions = new ArrayList<>();
+        List <String> cleanedRecipeIngredients = new ArrayList<>();
+
+        for(RecipeTag tag : tagList){
+            cleanedTags.add(tag.getTag().getTagName());
+        }
+        for(InstructionStep instruction : instructions){
+            cleanedInstructions.add(instruction.getStepDescription());
+        }
+        for(RecipeIngredient ingredient : recipeIngredients){
+            cleanedRecipeIngredients.add(ingredient.getIngredient().getIngredientName() + ":" + ingredient.getQuantity() + ":" + ingredient.getMeasurementUnit());
+        }
+        return  recipeName +
+                "/" + cleanedTags +
+                "/" + cleanedRecipeIngredients +
+                "/" + cleanedInstructions +
+                "/" + createdBy +
+                "/" + servingSize +
+                "/" + imagePath  +
+                "/" + description +
+                "/" + duration;
+    }
+
     public void setAll(String recipeName, int createdBy, int servingSize, String imagePath, String description,
                        int duration) {
         List<RecipeIngredient> recipeIngredients = new ArrayList<>();

@@ -66,7 +66,7 @@ public class Main extends Application {
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menuBar.fxml"));
         menuLoader.load();
         MenuBarController menuController = menuLoader.getController();
-        menuController.setLoaders(createLoader, listLoader,searchLoader);
+        menuController.setLoaders(createLoader, listLoader,searchLoader,viewLoader);
 
         // Set up scene
         Scene scene = new Scene(root);
