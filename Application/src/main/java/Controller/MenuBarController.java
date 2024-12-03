@@ -3,9 +3,11 @@ package Controller;
 import Repository.DatabaseConnection;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Control;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextInputDialog;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 public class MenuBarController {
@@ -31,6 +33,14 @@ public class MenuBarController {
         }
     }
 
+    public void switchToRecipeList(Control x) {
+        if (listLoader != null && menuBar != null && x.getScene() != null) {
+            x.getScene().setRoot(listLoader.getRoot());
+            recipeListController listController = listLoader.getController();
+            listController.populateList();
+        }
+    }
+
     @FXML
     public void switchToCreateRecipe() {
         if (createLoader != null && menuBar != null && menuBar.getScene() != null) {
@@ -51,6 +61,11 @@ public class MenuBarController {
         int recipeID = ((viewRecipeController) viewLoader.getController()).getRecipeID();
         if(recipeID != 0){
             System.out.println(recipeManager.getRecipe(recipeID).toCleanString());
+            TextInputDialog prompt = new TextInputDialog(recipeManager.getRecipe(recipeID).toCleanString());
+            prompt.setHeaderText("Recipe Export");
+            prompt.setHeight(200);
+            prompt.setWidth(500);
+            prompt.showAndWait();
         }
 
         databaseConnection.closeConnection();
@@ -63,6 +78,8 @@ public class MenuBarController {
 
         TextInputDialog prompt = new TextInputDialog("Paste recipe here to import");
         prompt.setHeaderText("Recipe Import");
+        prompt.setHeight(200);
+        prompt.setWidth(500);
         Optional<String> result = prompt.showAndWait();
         if (result.isPresent()) {
             System.out.println(result.get());

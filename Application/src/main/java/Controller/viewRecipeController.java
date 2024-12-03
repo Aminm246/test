@@ -114,7 +114,7 @@ public class viewRecipeController {
                 }
                 recipeManager.removeRecipe(recipeID);
                 MenuBarController menuController = menuLoader.getController();
-                menuController.switchToRecipeList();
+                menuController.switchToRecipeList(recipeNameLabel);
             }
         });
     }

@@ -12,10 +12,10 @@ public enum MeasurementUnits {
     pieces,
     pinch;
 
-    public static String getAll(){
-        return grams.toString() + ", " + cups.toString() + ", " + tablespoons.toString() + ", " + teaspoons.toString()+ ", " +
-                ounces.toString() + ", " + pounds.toString() + ", " + milliliters.toString() + ", " + liters.toString() + ", " +
-                pieces.toString() + ", " + pinch.toString();
+    public static String[] getAll(){
+        return (grams.toString() + "," + cups.toString() + "," + tablespoons.toString() + "," + teaspoons.toString()+ "," +
+                ounces.toString() + "," + pounds.toString() + "," + milliliters.toString() + "," + liters.toString() + "," +
+                pieces.toString() + "," + pinch.toString()).split(",");
     }
 }
 

@@ -177,33 +177,38 @@ public class Recipe {
     }
 
     public String toCleanString(){
-        List <String> cleanedTags = new ArrayList<>();
-        List <String> cleanedInstructions = new ArrayList<>();
-        List <String> cleanedRecipeIngredients = new ArrayList<>();
+        String cleanedTags = "[";
+        String cleanedInstructions = "[";
+        String cleanedRecipeIngredients = "[";
 
         for(RecipeTag tag : tagList){
-            cleanedTags.add(tag.getTag().getTagName());
+            cleanedTags = cleanedTags.concat(tag.getTag().getTagName() + "`");
         }
+        cleanedTags = cleanedTags.substring(0, cleanedTags.lastIndexOf("`")).concat("]");
+
         for(InstructionStep instruction : instructions){
-            cleanedInstructions.add(instruction.getStepDescription());
+            cleanedInstructions = cleanedInstructions.concat(instruction.getStepDescription() + "`");
         }
+        cleanedInstructions = cleanedInstructions.substring(0, cleanedInstructions.lastIndexOf("`")).concat("]");
+
         for(RecipeIngredient ingredient : recipeIngredients){
-            cleanedRecipeIngredients.add(ingredient.getIngredient().getIngredientName() + ":" + ingredient.getQuantity() + ":" + ingredient.getMeasurementUnit());
+            cleanedRecipeIngredients = cleanedRecipeIngredients.concat(ingredient.getIngredient().getIngredientName() +
+                    ":" + ingredient.getQuantity() + ":" + ingredient.getMeasurementUnit() + "`");
         }
+        cleanedRecipeIngredients = cleanedRecipeIngredients.substring(0, cleanedRecipeIngredients.lastIndexOf("`")).concat("]");
         return  recipeName +
-                "/" + cleanedTags +
-                "/" + cleanedRecipeIngredients +
-                "/" + cleanedInstructions +
-                "/" + createdBy +
-                "/" + servingSize +
-                "/" + imagePath  +
-                "/" + description +
-                "/" + duration;
+                "//" + cleanedTags +
+                "//" + cleanedRecipeIngredients +
+                "//" + cleanedInstructions +
+                "//" + createdBy +
+                "//" + servingSize +
+                "//" + imagePath  +
+                "//" + description +
+                "//" + duration;
     }
 
     public void setAll(String recipeName, int createdBy, int servingSize, String imagePath, String description,
                        int duration) {
-        List<RecipeIngredient> recipeIngredients = new ArrayList<>();
         setRecipeName(recipeName);
         setCreatedBy(createdBy);
         setServingSize(servingSize);

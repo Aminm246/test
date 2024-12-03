@@ -76,7 +76,7 @@ public class RecipeManager {
     }
 
     public void importRecipe(String recipe) {
-        String[] recipeParts = recipe.split("/");
+        String[] recipeParts = recipe.split("//");
         int recipeID = addRecipe(recipeParts[0],Integer.parseInt(recipeParts[4]),Integer.parseInt(recipeParts[5]),
                 recipeParts[6],recipeParts[7],Integer.parseInt(recipeParts[8]));
         String[] instructions = parseString(recipeParts[3]);
@@ -112,7 +112,7 @@ public class RecipeManager {
     }
 
     public String[] parseString(String string){
-        return string.replace("[","").replace("]","").split(",");
+        return string.replace("[","").replace("]","").split("`");
     }
 
     public List<Recipe> getRecipes() {
