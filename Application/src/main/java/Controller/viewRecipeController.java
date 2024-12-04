@@ -18,7 +18,7 @@ public class viewRecipeController {
     private FXMLLoader updateLoader, menuLoader;
 
     @FXML
-    private Label recipeNameLabel, tagsLabel, descriptionLabel;
+    private Label recipeNameLabel, tagsLabel, descriptionLabel, servingsLabel, durationLabel;
 
     @FXML
     private Button recipeUpdate, recipeDelete;
@@ -53,6 +53,9 @@ public class viewRecipeController {
         this.recipeID = recipeID;
         Recipe recipe = recipeManager.getRecipe(recipeID);
         recipeNameLabel.setText(recipe.getRecipeName());
+        servingsLabel.setText(String.valueOf(recipe.getServingSize()));
+        durationLabel.setText(String.valueOf(recipe.getDuration()));
+
         List<String> ingredients = new ArrayList<>();
 
         List<String> instructions = new ArrayList<>();
@@ -81,17 +84,21 @@ public class viewRecipeController {
                 File imageFile = new File("src/main/resources" + recipe.getImagePath());
                 if (imageFile.exists()) {
                     Image image = new Image(imageFile.toURI().toString());
+                    System.err.println("Image exists");
                     recipeImageView.setImage(image);
                 } else {
                     Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg")));
+                    System.err.println("Image does not exist 1");
                     recipeImageView.setImage(image);
                 }
             } catch (Exception e) {
                 Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg")));
+                System.err.println("Image does not exist 2");
                 recipeImageView.setImage(image);
             }
         } else {
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/edu/metrostate/images/temp_photo.jpeg")));
+            System.err.println("Image does not exist 3");
             recipeImageView.setImage(image);
         }
         recipeUpdate.setOnAction(event -> recipeUpdatePage(recipe.getRecipeID()));

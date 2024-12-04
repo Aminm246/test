@@ -263,6 +263,7 @@ public class updateRecipeController  {
         Recipe recipe = recipeRepository.getRecipeById(recipeID);
         this.recipeID = recipeID;
         recipeNameInput.setText(recipe.getRecipeName());
+        imagePathInput.setText(recipe.getImagePath());
         instructions = new ArrayList<>();
         ingredients = new ArrayList<>();
         tags = new ArrayList<>();
