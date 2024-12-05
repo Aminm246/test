@@ -12,7 +12,7 @@
          <font>
             <Font size="18.0" />
          </font></Text>
-      <Text layoutX="196.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags" wrappingWidth="73.13671875">
+      <Text layoutX="196.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tags" wrappingWidth="73.13671875">
          <font>
             <Font size="18.0" />
          </font></Text>
@@ -26,7 +26,7 @@
             <Font size="18.0" />
          </font></Text>
       <ImageView fx:id="recipeImageView" fitHeight="211.0" fitWidth="170.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
-      <Text layoutX="198.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="103.13672065734863">
+      <Text layoutX="198.0" layoutY="504.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="103.13672065734863">
          <font>
             <Font size="18.0" />
          </font></Text>
@@ -34,7 +34,7 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label fx:id="tagsLabel" layoutX="305.0" layoutY="206.0" prefHeight="27.0" prefWidth="628.0" wrapText="true">
+      <Label fx:id="tagsLabel" layoutX="303.0" layoutY="233.0" prefHeight="27.0" prefWidth="628.0" wrapText="true">
          <font>
             <Font size="18.0" />
          </font></Label>
@@ -42,7 +42,7 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <TextArea fx:id="ingredientsTextArea" editable="false" layoutX="303.0" layoutY="75.0" prefHeight="120.0" prefWidth="628.0" wrapText="true">
+      <TextArea fx:id="ingredientsTextArea" editable="false" layoutX="303.0" layoutY="75.0" prefHeight="155.0" prefWidth="628.0" wrapText="true">
          <font>
             <Font size="18.0" />
          </font></TextArea>
@@ -52,22 +52,22 @@
          </font></TextArea>
       <Button fx:id="recipeUpdate" layoutX="52.0" layoutY="260.0" mnemonicParsing="false" text="Update Recipe" />
       <Button fx:id="recipeDelete" layoutX="52.0" layoutY="297.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Delete Recipe" />
-      <Text layoutX="198.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Serving size" wrappingWidth="103.13672065734863">
+      <Text layoutX="198.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Serving size" wrappingWidth="103.13672065734863">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Label fx:id="servingsLabel" layoutX="305.0" layoutY="247.0" prefHeight="27.0" prefWidth="628.0" wrapText="true">
+      <Label fx:id="servingsLabel" layoutX="305.0" layoutY="272.0" prefHeight="27.0" prefWidth="194.0" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Text layoutX="198.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration" wrappingWidth="103.13672065734863">
+      <Text layoutX="608.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration" wrappingWidth="103.13672065734863">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Label fx:id="durationLabel" layoutX="307.0" layoutY="284.0" prefHeight="27.0" prefWidth="628.0" wrapText="true">
+      <Label fx:id="durationLabel" layoutX="690.0" layoutY="272.0" prefHeight="27.0" prefWidth="235.0" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>
